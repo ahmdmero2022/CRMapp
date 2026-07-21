@@ -17,7 +17,8 @@ jobs:
       - uses: dart-lang/setup-dart@v1
       - run: dart pub get
       - run: dart analyze
-      - run: dart test
+      # No tests exist yet (see CLAUDE.md); `dart test` exits non-zero with
+      # no test/ directory, so it's omitted until a test suite is added.
 
   frontend:
     name: Frontend (Flutter web)
@@ -29,7 +30,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
-          channel: stable
+          flutter-version: "3.24.5"
       - run: flutter pub get
       - run: flutter analyze
       - run: flutter build web --release --web-renderer html

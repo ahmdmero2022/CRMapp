@@ -59,7 +59,8 @@ Environment variables (all optional):
 |---------------|----------------------|---------------------------------------|
 | `PORT`        | `8080`               | HTTP port                             |
 | `DB_PATH`     | `data/crm.db`         | SQLite file location                  |
-| `JWT_SECRET`  | dev default           | HMAC signing secret — **set this in production** |
+| `JWT_SECRET`  | random per boot        | HMAC signing secret — **set this in production** (otherwise sessions are invalidated on every restart) |
+| `ALLOWED_ORIGIN` | `*`                 | CORS origin allowed to call the API — restrict this if the API is ever exposed cross-origin |
 | `WEB_ROOT`    | `../frontend/build/web` | Directory of the built frontend to serve |
 
 ### 2. Run the frontend against that API (live-reload development)

@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
@@ -23,9 +25,18 @@ import 'package:backend/src/utils/responses.dart';
 Future<void> main(List<String> args) async {
   final port = int.tryParse(Platform.environment['PORT'] ?? '8080') ?? 8080;
   final dbPath = Platform.environment['DB_PATH'] ?? 'data/crm.db';
-  final jwtSecret = Platform.environment['JWT_SECRET'] ??
-      'dev-secret-change-me-in-production';
   final webRoot = Platform.environment['WEB_ROOT'] ?? '../frontend/build/web';
+
+  final envSecret = Platform.environment['JWT_SECRET'];
+  final jwtSecret = (envSecret == null || envSecret.isEmpty)
+      ? _generateRandomSecret()
+      : envSecret;
+  if (envSecret == null || envSecret.isEmpty) {
+    stderr.writeln(
+        'WARNING: JWT_SECRET is not set. Generated a random secret for this '
+        'process — existing sessions will be invalidated on every restart. '
+        'Set JWT_SECRET explicitly in production.');
+  }
 
   final appDb = AppDatabase.open(dbPath);
   final auth = AuthService(jwtSecret);
@@ -60,7 +71,8 @@ Future<void> main(List<String> args) async {
       : null;
 
   final handler = const Pipeline()
-      .addMiddleware(corsMiddleware())
+      .addMiddleware(corsMiddleware(
+          allowedOrigin: Platform.environment['ALLOWED_ORIGIN'] ?? '*'))
       .addMiddleware(logRequests())
       .addHandler((Request request) async {
     if (request.url.path.startsWith('api/')) {
@@ -81,4 +93,9 @@ Future<void> main(List<String> args) async {
   if (staticHandler == null) {
     print('Note: frontend build not found at $webRoot (API-only mode).');
   }
+}
+
+String _generateRandomSecret() {
+  final bytes = List<int>.generate(32, (_) => Random.secure().nextInt(256));
+  return base64Url.encode(bytes);
 }

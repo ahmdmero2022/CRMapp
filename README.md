@@ -6,7 +6,7 @@ A full-stack CRM (Customer Relationship Management) application built entirely i
 
 Click **Code → Codespaces → Create codespace on main** on this repo. The devcontainer (`.devcontainer/devcontainer.json`) comes with Flutter/Dart preinstalled, builds the frontend and starts the backend automatically, and forwards port `8080` — open that forwarded port and the app is live, database included. No local setup needed.
 
-CI (`.github/workflows/ci.yml`) runs `dart analyze`/`dart test` for the backend and `flutter analyze`/`flutter build web` for the frontend on every push and pull request.
+CI (`.github/workflows/ci.yml`) runs `dart analyze` for the backend and `flutter analyze`/`flutter build web` for the frontend on every push and pull request.
 
 ## Features
 

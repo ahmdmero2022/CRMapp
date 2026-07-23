@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/models/company.dart';
 import '../../core/models/contact.dart';
 import '../../core/providers/companies_provider.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 class ContactFormResult {
   ContactFormResult(this.body);
@@ -63,9 +64,10 @@ class _ContactFormDialogState extends ConsumerState<ContactFormDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final companiesAsync = ref.watch(companiesControllerProvider);
     return AlertDialog(
-      title: Text(widget.existing == null ? 'Add Contact' : 'Edit Contact'),
+      title: Text(widget.existing == null ? l10n.addContact : l10n.editContact),
       content: SizedBox(
         width: 420,
         child: Form(
@@ -79,18 +81,18 @@ class _ContactFormDialogState extends ConsumerState<ContactFormDialog> {
                     Expanded(
                       child: TextFormField(
                         controller: _firstName,
-                        decoration: const InputDecoration(labelText: 'First name'),
+                        decoration: InputDecoration(labelText: l10n.firstNameLabel),
                         validator: (v) =>
-                            (v == null || v.trim().isEmpty) ? 'Required' : null,
+                            (v == null || v.trim().isEmpty) ? l10n.requiredField : null,
                       ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: TextFormField(
                         controller: _lastName,
-                        decoration: const InputDecoration(labelText: 'Last name'),
+                        decoration: InputDecoration(labelText: l10n.lastNameLabel),
                         validator: (v) =>
-                            (v == null || v.trim().isEmpty) ? 'Required' : null,
+                            (v == null || v.trim().isEmpty) ? l10n.requiredField : null,
                       ),
                     ),
                   ],
@@ -98,26 +100,26 @@ class _ContactFormDialogState extends ConsumerState<ContactFormDialog> {
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: _email,
-                  decoration: const InputDecoration(labelText: 'Email'),
+                  decoration: InputDecoration(labelText: l10n.emailLabel),
                   keyboardType: TextInputType.emailAddress,
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: _phone,
-                  decoration: const InputDecoration(labelText: 'Phone'),
+                  decoration: InputDecoration(labelText: l10n.phoneLabel),
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: _jobTitle,
-                  decoration: const InputDecoration(labelText: 'Job title'),
+                  decoration: InputDecoration(labelText: l10n.jobTitleLabel),
                 ),
                 const SizedBox(height: 12),
                 companiesAsync.when(
                   data: (companies) => DropdownButtonFormField<String?>(
                     value: companies.any((c) => c.id == _companyId) ? _companyId : null,
-                    decoration: const InputDecoration(labelText: 'Company'),
+                    decoration: InputDecoration(labelText: l10n.companyLabel),
                     items: [
-                      const DropdownMenuItem<String?>(value: null, child: Text('None')),
+                      DropdownMenuItem<String?>(value: null, child: Text(l10n.none)),
                       for (final Company c in companies)
                         DropdownMenuItem<String?>(value: c.id, child: Text(c.name)),
                     ],
@@ -129,7 +131,7 @@ class _ContactFormDialogState extends ConsumerState<ContactFormDialog> {
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: _notes,
-                  decoration: const InputDecoration(labelText: 'Notes'),
+                  decoration: InputDecoration(labelText: l10n.notesLabel),
                   maxLines: 3,
                 ),
               ],
@@ -140,7 +142,7 @@ class _ContactFormDialogState extends ConsumerState<ContactFormDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text(l10n.cancel),
         ),
         FilledButton(
           onPressed: () {
@@ -155,7 +157,7 @@ class _ContactFormDialogState extends ConsumerState<ContactFormDialog> {
               'notes': _notes.text.trim().isEmpty ? null : _notes.text.trim(),
             }));
           },
-          child: Text(widget.existing == null ? 'Create' : 'Save'),
+          child: Text(widget.existing == null ? l10n.create : l10n.save),
         ),
       ],
     );

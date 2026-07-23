@@ -1,0 +1,267 @@
+{
+  "@@locale": "en",
+
+  "cancel": "Cancel",
+  "save": "Save",
+  "create": "Create",
+  "edit": "Edit",
+  "delete": "Delete",
+  "retry": "Retry",
+  "none": "None",
+  "requiredField": "Required",
+  "somethingWentWrong": "Something went wrong",
+
+  "appTitle": "CRM App",
+  "authTagline": "Track leads, manage your pipeline, and close more deals — all in one place.",
+
+  "navDashboard": "Dashboard",
+  "navContacts": "Contacts",
+  "navCompanies": "Companies",
+  "navLeads": "Leads",
+  "navDeals": "Deals",
+  "navTasks": "Tasks",
+  "navSettings": "Settings",
+  "signOut": "Sign out",
+
+  "loginTitle": "Welcome back",
+  "loginSubtitle": "Sign in to manage your pipeline, contacts, and deals.",
+  "emailLabel": "Email",
+  "emailInvalid": "Enter a valid email",
+  "passwordLabel": "Password",
+  "passwordTooShort": "At least 6 characters",
+  "signIn": "Sign in",
+  "noAccountPrompt": "Don't have an account?",
+  "createOneLink": "Create one",
+
+  "registerTitle": "Create your account",
+  "registerSubtitle": "Set up your workspace in a few seconds.",
+  "fullNameLabel": "Full name",
+  "nameRequired": "Name is required",
+  "createAccount": "Create account",
+  "alreadyHaveAccountPrompt": "Already have an account?",
+  "signInLink": "Sign in",
+
+  "settingsAppearanceSection": "Appearance",
+  "themeTitle": "Theme",
+  "themeSubtitle": "Choose how the CRM looks on this device.",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "settingsLanguageSection": "Language",
+  "languageSubtitle": "Choose your preferred language.",
+  "languageEnglish": "English",
+  "languageArabic": "العربية",
+  "settingsSecuritySection": "Security",
+  "changePasswordTitle": "Change password",
+  "changePasswordSubtitleEmail": "Update the password for {email}.",
+  "@changePasswordSubtitleEmail": {
+    "placeholders": { "email": { "type": "String" } }
+  },
+  "changePasswordSubtitleGeneric": "Update the password for your account.",
+  "currentPasswordLabel": "Current password",
+  "currentPasswordRequired": "Enter your current password",
+  "newPasswordLabel": "New password",
+  "confirmPasswordLabel": "Confirm new password",
+  "passwordsDontMatch": "Passwords do not match",
+  "updatePasswordButton": "Update password",
+  "passwordUpdatedMessage": "Password updated",
+
+  "companiesTitle": "Companies",
+  "companiesSubtitle": "Organizations you work with.",
+  "addCompany": "Add Company",
+  "editCompany": "Edit Company",
+  "searchCompaniesHint": "Search companies...",
+  "noCompaniesFound": "No companies found",
+  "deleteCompanyTitle": "Delete company",
+  "deleteCompanyMessage": "Delete {name}?",
+  "@deleteCompanyMessage": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "companyCreatedMessage": "Company created",
+  "companyUpdatedMessage": "Company updated",
+  "companyDeletedMessage": "Company deleted",
+  "companyInfoTitle": "Company Info",
+  "notesLabel": "Notes",
+  "contactsWithCount": "Contacts ({count})",
+  "@contactsWithCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "noContactsYet": "No contacts yet.",
+  "dealsWithCount": "Deals ({count})",
+  "@dealsWithCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "noDealsYetPlain": "No deals yet.",
+  "companyNameLabel": "Company name",
+  "companyLabel": "Company",
+  "industryLabel": "Industry",
+  "websiteLabel": "Website",
+  "phoneLabel": "Phone",
+  "addressLabel": "Address",
+  "contactsCountShort": "{count} contacts",
+  "@contactsCountShort": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "dealsCountShort": "{count} deals",
+  "@dealsCountShort": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "contactsTitle": "Contacts",
+  "contactsSubtitle": "Everyone you do business with.",
+  "addContact": "Add Contact",
+  "editContact": "Edit Contact",
+  "searchContactsHint": "Search contacts by name or email...",
+  "noContactsFoundTitle": "No contacts found",
+  "noContactsFoundSubtitle": "Try adjusting your search or add a new contact.",
+  "deleteContactTitle": "Delete contact",
+  "deleteContactMessage": "Delete {name}? This cannot be undone.",
+  "@deleteContactMessage": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "contactCreatedMessage": "Contact created",
+  "contactUpdatedMessage": "Contact updated",
+  "contactDeletedMessage": "Contact deleted",
+  "contactInfoTitle": "Contact Info",
+  "firstNameLabel": "First name",
+  "lastNameLabel": "Last name",
+  "jobTitleLabel": "Job title",
+  "dealsLabel": "Deals",
+  "noDealsLinkedMessage": "No deals linked to this contact yet.",
+  "tasksLabel": "Tasks",
+  "addTaskLink": "Add task",
+  "noTasksYetMessage": "No tasks yet.",
+  "activityTimelineTitle": "Activity Timeline",
+  "addNoteHint": "Add a note...",
+  "postButton": "Post",
+  "noActivityYetMessage": "No activity yet.",
+  "someoneFallback": "Someone",
+
+  "overviewTitle": "Overview",
+  "overviewSubtitle": "Here's what's happening with your business today.",
+  "statContacts": "Contacts",
+  "statCompanies": "Companies",
+  "statOpenDeals": "Open Deals",
+  "pipelineValueSubtitle": "{value} pipeline",
+  "@pipelineValueSubtitle": {
+    "placeholders": { "value": { "type": "String" } }
+  },
+  "statWonRevenue": "Won Revenue",
+  "statTotalLeads": "Total Leads",
+  "statTasksDueToday": "Tasks Due Today",
+  "statOverdueTasks": "Overdue Tasks",
+  "pipelineByStageTitle": "Pipeline by Stage",
+  "leadsByStatusTitle": "Leads by Status",
+  "recentActivityTitle": "Recent Activity",
+  "upcomingTasksTitle": "Upcoming Tasks",
+  "viewAllLink": "View all",
+  "noDealsYetTitle": "No deals yet",
+  "noDealsYetSubtitle": "Deals will appear here once you create some.",
+  "noLeadsYetTitle": "No leads yet",
+  "noActivityYetTitle": "No activity yet",
+  "allCaughtUpTitle": "All caught up!",
+  "justNowLabel": "just now",
+  "minutesAgoLabel": "{count}m ago",
+  "@minutesAgoLabel": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "hoursAgoLabel": "{count}h ago",
+  "@hoursAgoLabel": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "daysAgoLabel": "{count}d ago",
+  "@daysAgoLabel": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "dealsPipelineTitle": "Deals Pipeline",
+  "dealsPipelineSubtitle": "Drag cards between stages to update progress.",
+  "addDeal": "Add Deal",
+  "editDeal": "Edit Deal",
+  "dealTitleLabel": "Deal title",
+  "valueDollarLabel": "Value ($)",
+  "primaryContactLabel": "Primary contact",
+  "setExpectedCloseDate": "Set expected close date",
+  "closesOnLabel": "Closes {date}",
+  "@closesOnLabel": {
+    "placeholders": { "date": { "type": "String" } }
+  },
+  "probabilityWithPercent": "Probability: {percent}%",
+  "@probabilityWithPercent": {
+    "placeholders": { "percent": { "type": "int" } }
+  },
+  "noDealsShort": "No deals",
+  "deleteDealTitle": "Delete deal",
+  "deleteDealMessage": "Delete \"{title}\"?",
+  "@deleteDealMessage": {
+    "placeholders": { "title": { "type": "String" } }
+  },
+  "valueChipLabel": "Value",
+  "probabilityChipLabel": "Probability",
+  "statusChipLabel": "Status",
+  "contactChipLabel": "Contact",
+  "expectedCloseChipLabel": "Expected close",
+  "activityLabel": "Activity",
+  "dealStatusOpen": "Open",
+  "dealStatusWon": "Won",
+  "dealStatusLost": "Lost",
+  "probabilityPercentSuffix": "{percent}% probability",
+  "@probabilityPercentSuffix": {
+    "placeholders": { "percent": { "type": "int" } }
+  },
+
+  "leadsTitle": "Leads",
+  "leadsSubtitle": "Prospects waiting to be qualified.",
+  "noLeadsFoundTitle": "No leads found",
+  "addLead": "Add Lead",
+  "editLead": "Edit Lead",
+  "allFilterLabel": "All",
+  "nameLabel": "Name",
+  "sourceLabel": "Source",
+  "sourceHint": "e.g. Website, Referral",
+  "estimatedValueLabel": "Estimated value ($)",
+  "statusLabel": "Status",
+  "deleteLeadTitle": "Delete lead",
+  "deleteLeadMessage": "Delete {name}?",
+  "@deleteLeadMessage": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "convertLeadTitle": "Convert lead",
+  "convertLeadMessage": "Convert \"{name}\" into a contact and a new deal in the pipeline?",
+  "@convertLeadMessage": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "convertActionLabel": "Convert",
+  "leadConvertedMessage": "Lead converted to contact + deal",
+  "viaSourceLabel": "via {source}",
+  "@viaSourceLabel": {
+    "placeholders": { "source": { "type": "String" } }
+  },
+  "leadCreatedMessage": "Lead created",
+  "leadUpdatedMessage": "Lead updated",
+  "leadStatusNew": "New",
+  "leadStatusContacted": "Contacted",
+  "leadStatusQualified": "Qualified",
+  "leadStatusUnqualified": "Unqualified",
+  "leadStatusConverted": "Converted",
+
+  "tasksTitle": "Tasks",
+  "tasksSubtitle": "Stay on top of your follow-ups.",
+  "addTask": "Add Task",
+  "pendingFilterLabel": "Pending",
+  "completedFilterLabel": "Completed",
+  "noTasksFoundTitle": "No tasks found",
+  "deleteTaskTitle": "Delete task",
+  "deleteTaskMessage": "Delete \"{title}\"?",
+  "@deleteTaskMessage": {
+    "placeholders": { "title": { "type": "String" } }
+  },
+  "taskCreatedMessage": "Task created",
+  "titleLabel": "Title",
+  "descriptionLabel": "Description",
+  "setDueDate": "Set due date",
+  "priorityLabel": "Priority",
+  "priorityLow": "Low",
+  "priorityMedium": "Medium",
+  "priorityHigh": "High"
+}

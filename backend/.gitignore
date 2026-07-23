@@ -5,3 +5,6 @@
 # SQLite database (runtime data, not source)
 data/
 
+# Local secrets (JWT_SECRET, etc.) - not source
+.env
+

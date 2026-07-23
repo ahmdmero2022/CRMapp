@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../../core/models/dashboard_stats.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../l10n/generated/app_localizations.dart';
 import '../../../widgets/empty_state.dart';
 
 final _compactCurrency =
@@ -16,13 +17,14 @@ class DealsByStageChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     if (stages.isEmpty || stages.every((s) => s.dealCount == 0)) {
-      return const SizedBox(
+      return SizedBox(
         height: 220,
         child: EmptyState(
           icon: Icons.bar_chart,
-          title: 'No deals yet',
-          subtitle: 'Deals will appear here once you create some.',
+          title: l10n.noDealsYetTitle,
+          subtitle: l10n.noDealsYetSubtitle,
         ),
       );
     }
@@ -73,7 +75,8 @@ class DealsByStageChart extends StatelessWidget {
                   const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                   children: [
                     TextSpan(
-                      text: '${stage.dealCount} deals · ${_compactCurrency.format(stage.totalValue)}',
+                      text:
+                          '${l10n.dealsCountShort(stage.dealCount)} · ${_compactCurrency.format(stage.totalValue)}',
                       style: const TextStyle(color: Colors.white, fontWeight: FontWeight.normal),
                     ),
                   ],

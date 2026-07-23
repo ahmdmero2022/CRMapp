@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../l10n/generated/app_localizations.dart';
+
 class TaskFormResult {
   TaskFormResult(this.body);
   final Map<String, dynamic> body;
@@ -46,8 +48,9 @@ class _TaskFormDialogState extends State<TaskFormDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return AlertDialog(
-      title: const Text('Add Task'),
+      title: Text(l10n.addTask),
       content: SizedBox(
         width: 420,
         child: Form(
@@ -58,14 +61,14 @@ class _TaskFormDialogState extends State<TaskFormDialog> {
               children: [
                 TextFormField(
                   controller: _title,
-                  decoration: const InputDecoration(labelText: 'Title'),
+                  decoration: InputDecoration(labelText: l10n.titleLabel),
                   validator: (v) =>
-                      (v == null || v.trim().isEmpty) ? 'Required' : null,
+                      (v == null || v.trim().isEmpty) ? l10n.requiredField : null,
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: _description,
-                  decoration: const InputDecoration(labelText: 'Description'),
+                  decoration: InputDecoration(labelText: l10n.descriptionLabel),
                   maxLines: 2,
                 ),
                 const SizedBox(height: 12),
@@ -84,7 +87,7 @@ class _TaskFormDialogState extends State<TaskFormDialog> {
                         },
                         icon: const Icon(Icons.calendar_today, size: 16),
                         label: Text(_dueDate == null
-                            ? 'Set due date'
+                            ? l10n.setDueDate
                             : DateFormat.yMMMd().format(_dueDate!)),
                       ),
                     ),
@@ -93,11 +96,11 @@ class _TaskFormDialogState extends State<TaskFormDialog> {
                 const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
                   value: _priority,
-                  decoration: const InputDecoration(labelText: 'Priority'),
-                  items: const [
-                    DropdownMenuItem(value: 'low', child: Text('Low')),
-                    DropdownMenuItem(value: 'medium', child: Text('Medium')),
-                    DropdownMenuItem(value: 'high', child: Text('High')),
+                  decoration: InputDecoration(labelText: l10n.priorityLabel),
+                  items: [
+                    DropdownMenuItem(value: 'low', child: Text(l10n.priorityLow)),
+                    DropdownMenuItem(value: 'medium', child: Text(l10n.priorityMedium)),
+                    DropdownMenuItem(value: 'high', child: Text(l10n.priorityHigh)),
                   ],
                   onChanged: (value) => setState(() => _priority = value ?? 'medium'),
                 ),
@@ -109,7 +112,7 @@ class _TaskFormDialogState extends State<TaskFormDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text(l10n.cancel),
         ),
         FilledButton(
           onPressed: () {
@@ -124,7 +127,7 @@ class _TaskFormDialogState extends State<TaskFormDialog> {
               'relatedId': widget.initialRelatedId,
             }));
           },
-          child: const Text('Create'),
+          child: Text(l10n.create),
         ),
       ],
     );

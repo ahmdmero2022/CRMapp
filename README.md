@@ -2,6 +2,12 @@
 
 A full-stack CRM (Customer Relationship Management) application built entirely in **Flutter & Dart** — a Flutter web frontend with Material 3 design, backed by a Dart REST API and a SQLite database.
 
+## Run it on GitHub (Codespaces)
+
+Click **Code → Codespaces → Create codespace on main** on this repo. The devcontainer (`.devcontainer/devcontainer.json`) comes with Flutter/Dart preinstalled, builds the frontend and starts the backend automatically, and forwards port `8080` — open that forwarded port and the app is live, database included. No local setup needed.
+
+CI (`.github/workflows/ci.yml`) runs `dart analyze` for the backend and `flutter analyze`/`flutter build web` for the frontend on every push and pull request.
+
 ## Features
 
 - **Authentication** — register/login with hashed passwords (salted PBKDF2-style HMAC) and signed session tokens

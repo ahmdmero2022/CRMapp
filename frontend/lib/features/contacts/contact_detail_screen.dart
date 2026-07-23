@@ -11,6 +11,7 @@ import '../../core/providers/contacts_provider.dart';
 import '../../core/providers/detail_providers.dart';
 import '../../core/providers/repositories.dart';
 import '../../core/theme/app_theme.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../../widgets/confirm_dialog.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/initials_avatar.dart';
@@ -47,6 +48,7 @@ class _ContactDetailBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final contact = Contact.fromJson(data);
     final deals = (data['deals'] as List).map((e) => Deal.fromJson(e)).toList();
     final tasks = (data['tasks'] as List).map((e) => CrmTask.fromJson(e)).toList();
@@ -105,8 +107,8 @@ class _ContactDetailBody extends ConsumerWidget {
                   icon: const Icon(Icons.delete_outline),
                   onPressed: () async {
                     final confirmed = await confirmDialog(context,
-                        title: 'Delete contact',
-                        message: 'Delete ${contact.fullName}?');
+                        title: l10n.deleteContactTitle,
+                        message: l10n.deleteContactMessage(contact.fullName));
                     if (!confirmed) return;
                     await ref.read(contactsControllerProvider.notifier).delete(id);
                     if (context.mounted) context.go('/contacts');
@@ -150,27 +152,28 @@ class _InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Contact Info',
+            Text(l10n.contactInfoTitle,
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium
                     ?.copyWith(fontWeight: FontWeight.w700)),
             const SizedBox(height: 16),
-            _InfoRow(icon: Icons.mail_outline, label: 'Email', value: contact.email),
-            _InfoRow(icon: Icons.phone_outlined, label: 'Phone', value: contact.phone),
+            _InfoRow(icon: Icons.mail_outline, label: l10n.emailLabel, value: contact.email),
+            _InfoRow(icon: Icons.phone_outlined, label: l10n.phoneLabel, value: contact.phone),
             _InfoRow(
                 icon: Icons.apartment_outlined,
-                label: 'Company',
+                label: l10n.companyLabel,
                 value: contact.companyName),
             if (contact.notes != null && contact.notes!.isNotEmpty) ...[
               const Divider(height: 24),
-              Text('Notes', style: Theme.of(context).textTheme.labelLarge),
+              Text(l10n.notesLabel, style: Theme.of(context).textTheme.labelLarge),
               const SizedBox(height: 4),
               Text(contact.notes!),
             ],
@@ -209,6 +212,7 @@ class _DealsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final currency = NumberFormat.currency(symbol: '\$', decimalDigits: 0);
     return Card(
       child: Padding(
@@ -216,14 +220,14 @@ class _DealsCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Deals',
+            Text(l10n.dealsLabel,
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium
                     ?.copyWith(fontWeight: FontWeight.w700)),
             const SizedBox(height: 12),
             if (deals.isEmpty)
-              const Text('No deals linked to this contact yet.')
+              Text(l10n.noDealsLinkedMessage)
             else
               for (final deal in deals)
                 Padding(
@@ -250,6 +254,7 @@ class _TasksCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -259,7 +264,7 @@ class _TasksCard extends ConsumerWidget {
             Row(
               children: [
                 Expanded(
-                  child: Text('Tasks',
+                  child: Text(l10n.tasksLabel,
                       style: Theme.of(context)
                           .textTheme
                           .titleMedium
@@ -274,13 +279,13 @@ class _TasksCard extends ConsumerWidget {
                     ref.invalidate(contactDetailProvider(contactId));
                   },
                   icon: const Icon(Icons.add, size: 18),
-                  label: const Text('Add task'),
+                  label: Text(l10n.addTaskLink),
                 ),
               ],
             ),
             const SizedBox(height: 8),
             if (tasks.isEmpty)
-              const Text('No tasks yet.')
+              Text(l10n.noTasksYetMessage)
             else
               for (final task in tasks)
                 ListTile(
@@ -342,13 +347,14 @@ class _ActivityCardState extends ConsumerState<_ActivityCard> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Activity Timeline',
+            Text(l10n.activityTimelineTitle,
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium
@@ -359,20 +365,20 @@ class _ActivityCardState extends ConsumerState<_ActivityCard> {
                 Expanded(
                   child: TextField(
                     controller: _noteController,
-                    decoration: const InputDecoration(hintText: 'Add a note...'),
+                    decoration: InputDecoration(hintText: l10n.addNoteHint),
                     onSubmitted: (_) => _addNote(),
                   ),
                 ),
                 const SizedBox(width: 8),
                 FilledButton(
                   onPressed: _submitting ? null : _addNote,
-                  child: const Text('Post'),
+                  child: Text(l10n.postButton),
                 ),
               ],
             ),
             const SizedBox(height: 16),
             if (widget.activities.isEmpty)
-              const Text('No activity yet.')
+              Text(l10n.noActivityYetMessage)
             else
               for (final activity in widget.activities)
                 Padding(

@@ -29,6 +29,8 @@ class AuthHandler {
     router.post('/register', _register);
     router.post('/login', _login);
     router.get('/me', Pipeline().addMiddleware(authMiddleware(auth)).addHandler(_me));
+    router.put('/change-password',
+        Pipeline().addMiddleware(authMiddleware(auth)).addHandler(_changePassword));
     return router;
   }
 
@@ -106,5 +108,40 @@ class AuthHandler {
         .select('SELECT * FROM users WHERE id = ?', [request.userId]);
     if (rows.isEmpty) return notFound('User');
     return jsonResponse({'user': User.fromRow(rows.first).toJson()});
+  }
+
+  Future<Response> _changePassword(Request request) async {
+    final body = await readJsonBody(request);
+    if (body == null) return jsonError('Invalid JSON body');
+
+    final currentPassword = body['currentPassword'] as String?;
+    final newPassword = body['newPassword'] as String?;
+    if (currentPassword == null || currentPassword.isEmpty) {
+      return jsonError('Current password is required');
+    }
+    if (newPassword == null || newPassword.length < 6) {
+      return jsonError('New password must be at least 6 characters');
+    }
+
+    final rows =
+        appDb.db.select('SELECT * FROM users WHERE id = ?', [request.userId]);
+    if (rows.isEmpty) return notFound('User');
+    final row = rows.first;
+
+    final valid = auth.verifyPassword(
+      currentPassword,
+      row['password_salt'] as String,
+      row['password_hash'] as String,
+    );
+    if (!valid) return jsonError('Current password is incorrect', status: 401);
+
+    final salt = auth.generateSalt();
+    final hash = auth.hashPassword(newPassword, salt);
+    appDb.db.execute(
+      'UPDATE users SET password_hash = ?, password_salt = ? WHERE id = ?',
+      [hash, salt, request.userId],
+    );
+
+    return jsonResponse({'success': true});
   }
 }

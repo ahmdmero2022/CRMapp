@@ -8,6 +8,8 @@ import '../../core/models/task.dart';
 import '../../core/providers/deals_provider.dart';
 import '../../core/providers/detail_providers.dart';
 import '../../core/providers/repositories.dart';
+import '../../core/utils/enum_labels.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../../widgets/confirm_dialog.dart';
 import '../tasks/task_form_dialog.dart';
 import 'deal_form_dialog.dart';
@@ -25,6 +27,7 @@ class DealDetailDialog extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final detailAsync = ref.watch(dealDetailProvider(dealId));
     final currency = NumberFormat.currency(symbol: '\$', decimalDigits: 0);
 
@@ -73,7 +76,8 @@ class DealDetailDialog extends ConsumerWidget {
                           icon: const Icon(Icons.delete_outline),
                           onPressed: () async {
                             final confirmed = await confirmDialog(context,
-                                title: 'Delete deal', message: 'Delete "${deal.title}"?');
+                                title: l10n.deleteDealTitle,
+                                message: l10n.deleteDealMessage(deal.title));
                             if (!confirmed) return;
                             await ref
                                 .read(dealsControllerProvider.notifier)
@@ -91,25 +95,26 @@ class DealDetailDialog extends ConsumerWidget {
                       spacing: 20,
                       runSpacing: 8,
                       children: [
-                        _StatChip(label: 'Value', value: currency.format(deal.value)),
-                        _StatChip(label: 'Probability', value: '${deal.probability}%'),
+                        _StatChip(label: l10n.valueChipLabel, value: currency.format(deal.value)),
                         _StatChip(
-                            label: 'Status',
-                            value: deal.status[0].toUpperCase() + deal.status.substring(1)),
+                            label: l10n.probabilityChipLabel, value: '${deal.probability}%'),
+                        _StatChip(
+                            label: l10n.statusChipLabel,
+                            value: dealStatusLabel(l10n, deal.status)),
                         if (deal.companyName != null)
-                          _StatChip(label: 'Company', value: deal.companyName!),
+                          _StatChip(label: l10n.companyLabel, value: deal.companyName!),
                         if (deal.contactName != null)
-                          _StatChip(label: 'Contact', value: deal.contactName!),
+                          _StatChip(label: l10n.contactChipLabel, value: deal.contactName!),
                         if (deal.expectedCloseDate != null)
                           _StatChip(
-                              label: 'Expected close',
+                              label: l10n.expectedCloseChipLabel,
                               value: DateFormat.yMMMd()
                                   .format(DateTime.parse(deal.expectedCloseDate!))),
                       ],
                     ),
                     if (deal.notes != null && deal.notes!.isNotEmpty) ...[
                       const SizedBox(height: 16),
-                      Text('Notes', style: Theme.of(context).textTheme.labelLarge),
+                      Text(l10n.notesLabel, style: Theme.of(context).textTheme.labelLarge),
                       const SizedBox(height: 4),
                       Text(deal.notes!),
                     ],
@@ -117,7 +122,7 @@ class DealDetailDialog extends ConsumerWidget {
                     Row(
                       children: [
                         Expanded(
-                          child: Text('Tasks',
+                          child: Text(l10n.tasksLabel,
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium
@@ -132,12 +137,12 @@ class DealDetailDialog extends ConsumerWidget {
                             ref.invalidate(dealDetailProvider(dealId));
                           },
                           icon: const Icon(Icons.add, size: 18),
-                          label: const Text('Add task'),
+                          label: Text(l10n.addTaskLink),
                         ),
                       ],
                     ),
                     if (tasks.isEmpty)
-                      const Text('No tasks yet.')
+                      Text(l10n.noTasksYetMessage)
                     else
                       for (final task in tasks)
                         ListTile(
@@ -149,14 +154,14 @@ class DealDetailDialog extends ConsumerWidget {
                           title: Text(task.title),
                         ),
                     const Divider(height: 32),
-                    Text('Activity',
+                    Text(l10n.activityLabel,
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium
                             ?.copyWith(fontWeight: FontWeight.w700)),
                     const SizedBox(height: 8),
                     if (activities.isEmpty)
-                      const Text('No activity yet.')
+                      Text(l10n.noActivityYetMessage)
                     else
                       for (final activity in activities)
                         Padding(

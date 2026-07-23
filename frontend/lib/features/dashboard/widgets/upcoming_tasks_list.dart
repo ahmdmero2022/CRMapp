@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../../../core/models/task.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../l10n/generated/app_localizations.dart';
 import '../../../widgets/empty_state.dart';
 
 class UpcomingTasksList extends StatelessWidget {
@@ -12,10 +13,11 @@ class UpcomingTasksList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     if (tasks.isEmpty) {
-      return const SizedBox(
+      return SizedBox(
         height: 160,
-        child: EmptyState(icon: Icons.check_circle_outline, title: 'All caught up!'),
+        child: EmptyState(icon: Icons.check_circle_outline, title: l10n.allCaughtUpTitle),
       );
     }
     return Column(

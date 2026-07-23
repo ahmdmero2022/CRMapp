@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/providers/auth_provider.dart';
+import '../../l10n/generated/app_localizations.dart';
 import 'auth_scaffold.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -48,9 +49,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return AuthScaffold(
-      title: 'Welcome back',
-      subtitle: 'Sign in to manage your pipeline, contacts, and deals.',
+      title: l10n.loginTitle,
+      subtitle: l10n.loginSubtitle,
       child: Form(
         key: _formKey,
         child: Column(
@@ -71,19 +73,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             ],
             TextFormField(
               controller: _emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                prefixIcon: Icon(Icons.mail_outline),
+              decoration: InputDecoration(
+                labelText: l10n.emailLabel,
+                prefixIcon: const Icon(Icons.mail_outline),
               ),
               keyboardType: TextInputType.emailAddress,
-              validator: (v) =>
-                  (v == null || !v.contains('@')) ? 'Enter a valid email' : null,
+              validator: (v) => (v == null || !v.contains('@')) ? l10n.emailInvalid : null,
             ),
             const SizedBox(height: 14),
             TextFormField(
               controller: _passwordController,
               decoration: InputDecoration(
-                labelText: 'Password',
+                labelText: l10n.passwordLabel,
                 prefixIcon: const Icon(Icons.lock_outline),
                 suffixIcon: IconButton(
                   icon: Icon(_obscure ? Icons.visibility_off : Icons.visibility),
@@ -92,7 +93,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
               obscureText: _obscure,
               validator: (v) =>
-                  (v == null || v.length < 6) ? 'At least 6 characters' : null,
+                  (v == null || v.length < 6) ? l10n.passwordTooShort : null,
               onFieldSubmitted: (_) => _submit(),
             ),
             const SizedBox(height: 24),
@@ -103,16 +104,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       width: 20,
                       height: 20,
                       child: CircularProgressIndicator(strokeWidth: 2))
-                  : const Text('Sign in'),
+                  : Text(l10n.signIn),
             ),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Don't have an account?"),
+                Text(l10n.noAccountPrompt),
                 TextButton(
                   onPressed: () => context.go('/register'),
-                  child: const Text('Create one'),
+                  child: Text(l10n.createOneLink),
                 ),
               ],
             ),

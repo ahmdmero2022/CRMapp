@@ -6,11 +6,16 @@ import 'list_notifier.dart';
 import 'repositories.dart';
 
 class DealsController extends ListNotifier<Deal> {
-  DealsController(this._ref);
+  DealsController(this._ref) {
+    // The kanban board renders every open deal across stage columns at
+    // once rather than paging, so request a large single page.
+    pageSize = 200;
+  }
   final Ref _ref;
 
   @override
-  Future<List<Deal>> fetch() => _ref.read(dealsRepositoryProvider).list();
+  Future<ListPage<Deal>> fetch() =>
+      _ref.read(dealsRepositoryProvider).list(pageSize: pageSize);
 
   Future<void> create(Map<String, dynamic> body) async {
     await _ref.read(dealsRepositoryProvider).create(body);

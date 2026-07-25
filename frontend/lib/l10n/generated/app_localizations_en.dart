@@ -630,4 +630,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get priorityHigh => 'High';
+
+  @override
+  String get searchTooltip => 'Search';
+
+  @override
+  String get searchHint => 'Search contacts, companies, leads, deals, tasks...';
+
+  @override
+  String get searchEmptyTitle => 'Search your CRM';
+
+  @override
+  String get searchEmptySubtitle =>
+      'Find contacts, companies, leads, deals, and tasks in one place.';
+
+  @override
+  String get searchNoResultsTitle => 'No results found';
+
+  @override
+  String get searchNoResultsSubtitle => 'Try a different search term.';
+
+  @override
+  String get searchLeadsHint => 'Search leads...';
+
+  @override
+  String get searchTasksHint => 'Search tasks...';
+
+  @override
+  String get sortByLabel => 'Sort by';
+
+  @override
+  String get sortDirectionTooltip => 'Toggle sort direction';
+
+  @override
+  String pageIndicatorLabel(int page, int totalPages) {
+    return 'Page $page of $totalPages';
+  }
+
+  @override
+  String get previousPageTooltip => 'Previous page';
+
+  @override
+  String get nextPageTooltip => 'Next page';
+
+  @override
+  String get createdAtLabel => 'Created';
 }

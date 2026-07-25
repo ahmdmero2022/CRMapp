@@ -4,7 +4,14 @@ import 'package:shelf_router/shelf_router.dart';
 import '../db/database.dart';
 import '../middleware/auth_middleware.dart';
 import '../models/models.dart';
+import '../utils/list_query.dart';
 import '../utils/responses.dart';
+
+const _companySortColumns = {
+  'name': 'name COLLATE NOCASE',
+  'industry': 'industry COLLATE NOCASE',
+  'createdAt': 'created_at',
+};
 
 class CompaniesHandler {
   CompaniesHandler(this.appDb);
@@ -33,19 +40,25 @@ class CompaniesHandler {
 
   Future<Response> _list(Request request) async {
     final search = request.url.queryParameters['search'];
-    List<dynamic> rows;
+    final clauses = <String>[];
+    final params = <dynamic>[];
     if (search != null && search.isNotEmpty) {
-      rows = appDb.db.select(
-        'SELECT * FROM companies WHERE name LIKE ? ORDER BY name COLLATE NOCASE',
-        ['%$search%'],
-      );
-    } else {
-      rows = appDb.db
-          .select('SELECT * FROM companies ORDER BY name COLLATE NOCASE');
+      clauses.add('name LIKE ?');
+      params.add('%$search%');
     }
+    final where = clauses.isEmpty ? '' : 'WHERE ${clauses.join(' AND ')}';
+    final total = appDb.db
+        .select('SELECT COUNT(*) as c FROM companies $where', params)
+        .first['c'] as int;
+    final orderBy =
+        buildOrderBy(request, _companySortColumns, 'name COLLATE NOCASE ASC');
+    final pagination = parsePagination(request);
+    final rows = appDb.db.select(
+        'SELECT * FROM companies $where ORDER BY $orderBy LIMIT ? OFFSET ?',
+        [...params, pagination.limit, pagination.offset]);
     final companies =
         rows.map((r) => _withCounts(Company.fromRow(r)).toJson()).toList();
-    return jsonResponse(companies);
+    return jsonListResponse(companies, total);
   }
 
   Future<Response> _get(Request request, String id) async {

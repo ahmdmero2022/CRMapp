@@ -31,14 +31,15 @@ final companyDetailProvider =
   final companiesRepo = ref.read(companiesRepositoryProvider);
   final contactsRepo = ref.read(contactsRepositoryProvider);
   final dealsRepo = ref.read(dealsRepositoryProvider);
-  final results = await Future.wait([
-    companiesRepo.get(id),
-    contactsRepo.list(companyId: id),
-    dealsRepo.list(companyId: id),
-  ]);
+  final companyFuture = companiesRepo.get(id);
+  final contactsFuture = contactsRepo.list(companyId: id, pageSize: 100);
+  final dealsFuture = dealsRepo.list(companyId: id, pageSize: 100);
+  final company = await companyFuture;
+  final contacts = await contactsFuture;
+  final deals = await dealsFuture;
   return CompanyDetail(
-    company: results[0] as Company,
-    contacts: results[1] as List<Contact>,
-    deals: results[2] as List<Deal>,
+    company: company,
+    contacts: contacts.items,
+    deals: deals.items,
   );
 });

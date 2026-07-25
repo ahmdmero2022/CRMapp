@@ -11,11 +11,17 @@ class CompaniesController extends ListNotifier<Company> {
   String search = '';
 
   @override
-  Future<List<Company>> fetch() =>
-      _ref.read(companiesRepositoryProvider).list(search: search);
+  Future<ListPage<Company>> fetch() => _ref.read(companiesRepositoryProvider).list(
+        search: search,
+        page: page,
+        pageSize: pageSize,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      );
 
   Future<void> setSearch(String value) async {
     search = value;
+    page = 1;
     await refresh();
   }
 

@@ -263,5 +263,26 @@
   "priorityLabel": "Priority",
   "priorityLow": "Low",
   "priorityMedium": "Medium",
-  "priorityHigh": "High"
+  "priorityHigh": "High",
+
+  "searchTooltip": "Search",
+  "searchHint": "Search contacts, companies, leads, deals, tasks...",
+  "searchEmptyTitle": "Search your CRM",
+  "searchEmptySubtitle": "Find contacts, companies, leads, deals, and tasks in one place.",
+  "searchNoResultsTitle": "No results found",
+  "searchNoResultsSubtitle": "Try a different search term.",
+  "searchLeadsHint": "Search leads...",
+  "searchTasksHint": "Search tasks...",
+  "sortByLabel": "Sort by",
+  "sortDirectionTooltip": "Toggle sort direction",
+  "pageIndicatorLabel": "Page {page} of {totalPages}",
+  "@pageIndicatorLabel": {
+    "placeholders": {
+      "page": { "type": "int" },
+      "totalPages": { "type": "int" }
+    }
+  },
+  "previousPageTooltip": "Previous page",
+  "nextPageTooltip": "Next page",
+  "createdAtLabel": "Created"
 }

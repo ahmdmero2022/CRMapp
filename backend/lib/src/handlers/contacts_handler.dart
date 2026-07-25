@@ -4,6 +4,7 @@ import 'package:shelf_router/shelf_router.dart';
 import '../db/database.dart';
 import '../middleware/auth_middleware.dart';
 import '../models/models.dart';
+import '../utils/list_query.dart';
 import '../utils/responses.dart';
 
 const _avatarColors = [
@@ -22,6 +23,17 @@ const _contactSelect = '''
   FROM contacts c
   LEFT JOIN companies co ON co.id = c.company_id
 ''';
+
+const _contactFrom = '''
+  FROM contacts c
+  LEFT JOIN companies co ON co.id = c.company_id
+''';
+
+const _contactSortColumns = {
+  'name': 'c.first_name COLLATE NOCASE, c.last_name COLLATE NOCASE',
+  'email': 'c.email COLLATE NOCASE',
+  'createdAt': 'c.created_at',
+};
 
 class ContactsHandler {
   ContactsHandler(this.appDb);
@@ -54,9 +66,17 @@ class ContactsHandler {
       params.add(companyId);
     }
     final where = clauses.isEmpty ? '' : 'WHERE ${clauses.join(' AND ')}';
+    final total = appDb.db
+        .select('SELECT COUNT(*) as c $_contactFrom $where', params)
+        .first['c'] as int;
+    final orderBy = buildOrderBy(
+        request, _contactSortColumns, 'c.first_name COLLATE NOCASE ASC');
+    final pagination = parsePagination(request);
     final rows = appDb.db.select(
-        '$_contactSelect $where ORDER BY c.first_name COLLATE NOCASE', params);
-    return jsonResponse(rows.map((r) => Contact.fromRow(r).toJson()).toList());
+        '$_contactSelect $where ORDER BY $orderBy LIMIT ? OFFSET ?',
+        [...params, pagination.limit, pagination.offset]);
+    return jsonListResponse(
+        rows.map((r) => Contact.fromRow(r).toJson()).toList(), total);
   }
 
   Future<Response> _get(Request request, String id) async {

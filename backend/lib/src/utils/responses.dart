@@ -14,6 +14,11 @@ Response jsonError(String message, {int status = 400}) {
   return jsonResponse({'error': message}, status: status);
 }
 
+/// Standard envelope for paginated list endpoints.
+Response jsonListResponse(List<dynamic> items, int total) {
+  return jsonResponse({'items': items, 'total': total});
+}
+
 Response notFound(String what) => jsonError('$what not found', status: 404);
 
 Response unauthorized([String message = 'Unauthorized']) =>

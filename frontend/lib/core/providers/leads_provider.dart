@@ -9,13 +9,27 @@ class LeadsController extends ListNotifier<Lead> {
   final Ref _ref;
 
   String? status;
+  String search = '';
 
   @override
-  Future<List<Lead>> fetch() =>
-      _ref.read(leadsRepositoryProvider).list(status: status);
+  Future<ListPage<Lead>> fetch() => _ref.read(leadsRepositoryProvider).list(
+        status: status,
+        search: search,
+        page: page,
+        pageSize: pageSize,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      );
 
   Future<void> setStatusFilter(String? value) async {
     status = value;
+    page = 1;
+    await refresh();
+  }
+
+  Future<void> setSearch(String value) async {
+    search = value;
+    page = 1;
     await refresh();
   }
 

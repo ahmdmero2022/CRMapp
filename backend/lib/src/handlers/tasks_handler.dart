@@ -4,7 +4,15 @@ import 'package:shelf_router/shelf_router.dart';
 import '../db/database.dart';
 import '../middleware/auth_middleware.dart';
 import '../models/models.dart';
+import '../utils/list_query.dart';
 import '../utils/responses.dart';
+
+const _taskSortColumns = {
+  'title': 'title COLLATE NOCASE',
+  'dueDate': 'due_date IS NULL, due_date',
+  'priority': 'priority',
+  'createdAt': 'created_at',
+};
 
 class TasksHandler {
   TasksHandler(this.appDb);
@@ -53,6 +61,7 @@ class TasksHandler {
     final status = request.url.queryParameters['status'];
     final relatedType = request.url.queryParameters['relatedType'];
     final relatedId = request.url.queryParameters['relatedId'];
+    final search = request.url.queryParameters['search'];
 
     final clauses = <String>[];
     final params = <dynamic>[];
@@ -68,11 +77,22 @@ class TasksHandler {
       clauses.add('related_id = ?');
       params.add(relatedId);
     }
+    if (search != null && search.isNotEmpty) {
+      clauses.add('(title LIKE ? OR description LIKE ?)');
+      params.addAll(['%$search%', '%$search%']);
+    }
     final where = clauses.isEmpty ? '' : 'WHERE ${clauses.join(' AND ')}';
+    final total = appDb.db
+        .select('SELECT COUNT(*) as c FROM tasks $where', params)
+        .first['c'] as int;
+    final orderBy = buildOrderBy(
+        request, _taskSortColumns, 'status ASC, due_date IS NULL, due_date ASC');
+    final pagination = parsePagination(request);
     final rows = appDb.db.select(
-        'SELECT * FROM tasks $where ORDER BY status ASC, due_date IS NULL, due_date ASC',
-        params);
-    return jsonResponse(rows.map((r) => _withLabel(Task.fromRow(r))).toList());
+        'SELECT * FROM tasks $where ORDER BY $orderBy LIMIT ? OFFSET ?',
+        [...params, pagination.limit, pagination.offset]);
+    return jsonListResponse(
+        rows.map((r) => _withLabel(Task.fromRow(r))).toList(), total);
   }
 
   Future<Response> _get(Request request, String id) async {

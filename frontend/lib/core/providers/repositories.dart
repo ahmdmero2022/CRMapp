@@ -8,16 +8,43 @@ import '../models/dashboard_stats.dart';
 import '../models/deal.dart';
 import '../models/lead.dart';
 import '../models/pipeline_stage.dart';
+import '../models/search_result.dart';
 import '../models/task.dart';
 import 'auth_provider.dart';
+import 'list_notifier.dart';
+
+Map<String, String> _pageQuery({
+  required int page,
+  required int pageSize,
+  String? sortBy,
+  String sortOrder = 'asc',
+}) =>
+    {
+      'page': '$page',
+      'pageSize': '$pageSize',
+      'sortBy': sortBy ?? '',
+      'sortOrder': sortOrder,
+    };
 
 class CompaniesRepository {
   CompaniesRepository(this._api);
   final ApiClient _api;
 
-  Future<List<Company>> list({String? search}) async {
-    final res = await _api.get('/companies', query: {'search': search ?? ''});
-    return (res as List).map((e) => Company.fromJson(e)).toList();
+  Future<ListPage<Company>> list({
+    String? search,
+    int page = 1,
+    int pageSize = 25,
+    String? sortBy,
+    String sortOrder = 'asc',
+  }) async {
+    final res = await _api.get('/companies', query: {
+      'search': search ?? '',
+      ..._pageQuery(page: page, pageSize: pageSize, sortBy: sortBy, sortOrder: sortOrder),
+    });
+    final map = res as Map<String, dynamic>;
+    final items =
+        (map['items'] as List).map((e) => Company.fromJson(e)).toList();
+    return ListPage(items, map['total'] as int);
   }
 
   Future<Company> get(String id) async {
@@ -42,12 +69,23 @@ class ContactsRepository {
   ContactsRepository(this._api);
   final ApiClient _api;
 
-  Future<List<Contact>> list({String? search, String? companyId}) async {
+  Future<ListPage<Contact>> list({
+    String? search,
+    String? companyId,
+    int page = 1,
+    int pageSize = 25,
+    String? sortBy,
+    String sortOrder = 'asc',
+  }) async {
     final res = await _api.get('/contacts', query: {
       'search': search ?? '',
       'companyId': companyId ?? '',
+      ..._pageQuery(page: page, pageSize: pageSize, sortBy: sortBy, sortOrder: sortOrder),
     });
-    return (res as List).map((e) => Contact.fromJson(e)).toList();
+    final map = res as Map<String, dynamic>;
+    final items =
+        (map['items'] as List).map((e) => Contact.fromJson(e)).toList();
+    return ListPage(items, map['total'] as int);
   }
 
   Future<Map<String, dynamic>> get(String id) async {
@@ -72,9 +110,22 @@ class LeadsRepository {
   LeadsRepository(this._api);
   final ApiClient _api;
 
-  Future<List<Lead>> list({String? status}) async {
-    final res = await _api.get('/leads', query: {'status': status ?? ''});
-    return (res as List).map((e) => Lead.fromJson(e)).toList();
+  Future<ListPage<Lead>> list({
+    String? status,
+    String? search,
+    int page = 1,
+    int pageSize = 25,
+    String? sortBy,
+    String sortOrder = 'asc',
+  }) async {
+    final res = await _api.get('/leads', query: {
+      'status': status ?? '',
+      'search': search ?? '',
+      ..._pageQuery(page: page, pageSize: pageSize, sortBy: sortBy, sortOrder: sortOrder),
+    });
+    final map = res as Map<String, dynamic>;
+    final items = (map['items'] as List).map((e) => Lead.fromJson(e)).toList();
+    return ListPage(items, map['total'] as int);
   }
 
   Future<Map<String, dynamic>> get(String id) async {
@@ -104,15 +155,28 @@ class DealsRepository {
   DealsRepository(this._api);
   final ApiClient _api;
 
-  Future<List<Deal>> list(
-      {String? stageId, String? status, String? companyId, String? contactId}) async {
+  Future<ListPage<Deal>> list({
+    String? stageId,
+    String? status,
+    String? companyId,
+    String? contactId,
+    String? search,
+    int page = 1,
+    int pageSize = 200,
+    String? sortBy,
+    String sortOrder = 'asc',
+  }) async {
     final res = await _api.get('/deals', query: {
       'stageId': stageId ?? '',
       'status': status ?? '',
       'companyId': companyId ?? '',
       'contactId': contactId ?? '',
+      'search': search ?? '',
+      ..._pageQuery(page: page, pageSize: pageSize, sortBy: sortBy, sortOrder: sortOrder),
     });
-    return (res as List).map((e) => Deal.fromJson(e)).toList();
+    final map = res as Map<String, dynamic>;
+    final items = (map['items'] as List).map((e) => Deal.fromJson(e)).toList();
+    return ListPage(items, map['total'] as int);
   }
 
   Future<Map<String, dynamic>> get(String id) async {
@@ -142,14 +206,27 @@ class TasksRepository {
   TasksRepository(this._api);
   final ApiClient _api;
 
-  Future<List<CrmTask>> list(
-      {String? status, String? relatedType, String? relatedId}) async {
+  Future<ListPage<CrmTask>> list({
+    String? status,
+    String? relatedType,
+    String? relatedId,
+    String? search,
+    int page = 1,
+    int pageSize = 25,
+    String? sortBy,
+    String sortOrder = 'asc',
+  }) async {
     final res = await _api.get('/tasks', query: {
       'status': status ?? '',
       'relatedType': relatedType ?? '',
       'relatedId': relatedId ?? '',
+      'search': search ?? '',
+      ..._pageQuery(page: page, pageSize: pageSize, sortBy: sortBy, sortOrder: sortOrder),
     });
-    return (res as List).map((e) => CrmTask.fromJson(e)).toList();
+    final map = res as Map<String, dynamic>;
+    final items =
+        (map['items'] as List).map((e) => CrmTask.fromJson(e)).toList();
+    return ListPage(items, map['total'] as int);
   }
 
   Future<CrmTask> create(Map<String, dynamic> body) async {
@@ -208,6 +285,16 @@ class DashboardRepository {
   }
 }
 
+class SearchRepository {
+  SearchRepository(this._api);
+  final ApiClient _api;
+
+  Future<SearchResults> search(String q) async {
+    final res = await _api.get('/search', query: {'q': q});
+    return SearchResults.fromJson(res as Map<String, dynamic>);
+  }
+}
+
 class AuthRepository {
   AuthRepository(this._api);
   final ApiClient _api;
@@ -239,3 +326,5 @@ final pipelineStagesRepositoryProvider = Provider(
     (ref) => PipelineStagesRepository(ref.watch(apiClientProvider)));
 final dashboardRepositoryProvider = Provider(
     (ref) => DashboardRepository(ref.watch(apiClientProvider)));
+final searchRepositoryProvider =
+    Provider((ref) => SearchRepository(ref.watch(apiClientProvider)));

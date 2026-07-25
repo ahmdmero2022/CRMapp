@@ -630,4 +630,50 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get priorityHigh => 'عالية';
+
+  @override
+  String get searchTooltip => 'بحث';
+
+  @override
+  String get searchHint =>
+      'ابحث في جهات الاتصال والشركات والعملاء المحتملين والصفقات والمهام...';
+
+  @override
+  String get searchEmptyTitle => 'ابحث في نظام إدارة العملاء';
+
+  @override
+  String get searchEmptySubtitle =>
+      'اعثر على جهات الاتصال والشركات والعملاء المحتملين والصفقات والمهام في مكان واحد.';
+
+  @override
+  String get searchNoResultsTitle => 'لا توجد نتائج';
+
+  @override
+  String get searchNoResultsSubtitle => 'جرّب كلمة بحث مختلفة.';
+
+  @override
+  String get searchLeadsHint => 'ابحث في العملاء المحتملين...';
+
+  @override
+  String get searchTasksHint => 'ابحث في المهام...';
+
+  @override
+  String get sortByLabel => 'ترتيب حسب';
+
+  @override
+  String get sortDirectionTooltip => 'تبديل اتجاه الترتيب';
+
+  @override
+  String pageIndicatorLabel(int page, int totalPages) {
+    return 'صفحة $page من $totalPages';
+  }
+
+  @override
+  String get previousPageTooltip => 'الصفحة السابقة';
+
+  @override
+  String get nextPageTooltip => 'الصفحة التالية';
+
+  @override
+  String get createdAtLabel => 'تاريخ الإنشاء';
 }

@@ -4,7 +4,15 @@ import 'package:shelf_router/shelf_router.dart';
 import '../db/database.dart';
 import '../middleware/auth_middleware.dart';
 import '../models/models.dart';
+import '../utils/list_query.dart';
 import '../utils/responses.dart';
+
+const _leadSortColumns = {
+  'name': 'name COLLATE NOCASE',
+  'status': 'status',
+  'estimatedValue': 'estimated_value',
+  'createdAt': 'created_at',
+};
 
 const _avatarColors = [
   '#6366F1',
@@ -35,15 +43,29 @@ class LeadsHandler {
 
   Future<Response> _list(Request request) async {
     final status = request.url.queryParameters['status'];
-    List<dynamic> rows;
+    final search = request.url.queryParameters['search'];
+
+    final clauses = <String>[];
+    final params = <dynamic>[];
     if (status != null && status.isNotEmpty) {
-      rows = appDb.db.select(
-          'SELECT * FROM leads WHERE status = ? ORDER BY created_at DESC',
-          [status]);
-    } else {
-      rows = appDb.db.select('SELECT * FROM leads ORDER BY created_at DESC');
+      clauses.add('status = ?');
+      params.add(status);
     }
-    return jsonResponse(rows.map((r) => Lead.fromRow(r).toJson()).toList());
+    if (search != null && search.isNotEmpty) {
+      clauses.add('(name LIKE ? OR email LIKE ? OR company_name LIKE ?)');
+      params.addAll(['%$search%', '%$search%', '%$search%']);
+    }
+    final where = clauses.isEmpty ? '' : 'WHERE ${clauses.join(' AND ')}';
+    final total = appDb.db
+        .select('SELECT COUNT(*) as c FROM leads $where', params)
+        .first['c'] as int;
+    final orderBy = buildOrderBy(request, _leadSortColumns, 'created_at DESC');
+    final pagination = parsePagination(request);
+    final rows = appDb.db.select(
+        'SELECT * FROM leads $where ORDER BY $orderBy LIMIT ? OFFSET ?',
+        [...params, pagination.limit, pagination.offset]);
+    return jsonListResponse(
+        rows.map((r) => Lead.fromRow(r).toJson()).toList(), total);
   }
 
   Future<Response> _get(Request request, String id) async {

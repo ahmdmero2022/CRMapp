@@ -9,13 +9,27 @@ class TasksController extends ListNotifier<CrmTask> {
   final Ref _ref;
 
   String? status;
+  String search = '';
 
   @override
-  Future<List<CrmTask>> fetch() =>
-      _ref.read(tasksRepositoryProvider).list(status: status);
+  Future<ListPage<CrmTask>> fetch() => _ref.read(tasksRepositoryProvider).list(
+        status: status,
+        search: search,
+        page: page,
+        pageSize: pageSize,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      );
 
   Future<void> setStatusFilter(String? value) async {
     status = value;
+    page = 1;
+    await refresh();
+  }
+
+  Future<void> setSearch(String value) async {
+    search = value;
+    page = 1;
     await refresh();
   }
 

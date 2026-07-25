@@ -4,6 +4,7 @@ import 'package:shelf_router/shelf_router.dart';
 import '../db/database.dart';
 import '../middleware/auth_middleware.dart';
 import '../models/models.dart';
+import '../utils/list_query.dart';
 import '../utils/responses.dart';
 
 const _dealSelect = '''
@@ -14,6 +15,19 @@ const _dealSelect = '''
   LEFT JOIN contacts con ON con.id = d.contact_id
   LEFT JOIN companies co ON co.id = d.company_id
 ''';
+
+const _dealFrom = '''
+  FROM deals d
+  LEFT JOIN contacts con ON con.id = d.contact_id
+  LEFT JOIN companies co ON co.id = d.company_id
+''';
+
+const _dealSortColumns = {
+  'title': 'd.title COLLATE NOCASE',
+  'value': 'd.value',
+  'expectedCloseDate': 'd.expected_close_date',
+  'createdAt': 'd.created_at',
+};
 
 class DealsHandler {
   DealsHandler(this.appDb);
@@ -36,6 +50,7 @@ class DealsHandler {
     final status = request.url.queryParameters['status'];
     final companyId = request.url.queryParameters['companyId'];
     final contactId = request.url.queryParameters['contactId'];
+    final search = request.url.queryParameters['search'];
     final clauses = <String>[];
     final params = <dynamic>[];
     if (stageId != null && stageId.isNotEmpty) {
@@ -54,10 +69,22 @@ class DealsHandler {
       clauses.add('d.contact_id = ?');
       params.add(contactId);
     }
+    if (search != null && search.isNotEmpty) {
+      clauses.add('d.title LIKE ?');
+      params.add('%$search%');
+    }
     final where = clauses.isEmpty ? '' : 'WHERE ${clauses.join(' AND ')}';
-    final rows = appDb.db
-        .select('$_dealSelect $where ORDER BY d.created_at DESC', params);
-    return jsonResponse(rows.map((r) => Deal.fromRow(r).toJson()).toList());
+    final total = appDb.db
+        .select('SELECT COUNT(*) as c $_dealFrom $where', params)
+        .first['c'] as int;
+    final orderBy =
+        buildOrderBy(request, _dealSortColumns, 'd.created_at DESC');
+    final pagination = parsePagination(request, defaultLimit: 200, maxLimit: 500);
+    final rows = appDb.db.select(
+        '$_dealSelect $where ORDER BY $orderBy LIMIT ? OFFSET ?',
+        [...params, pagination.limit, pagination.offset]);
+    return jsonListResponse(
+        rows.map((r) => Deal.fromRow(r).toJson()).toList(), total);
   }
 
   Future<Response> _get(Request request, String id) async {

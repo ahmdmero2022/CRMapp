@@ -206,5 +206,20 @@
   "priorityLabel": "الأولوية",
   "priorityLow": "منخفضة",
   "priorityMedium": "متوسطة",
-  "priorityHigh": "عالية"
+  "priorityHigh": "عالية",
+
+  "searchTooltip": "بحث",
+  "searchHint": "ابحث في جهات الاتصال والشركات والعملاء المحتملين والصفقات والمهام...",
+  "searchEmptyTitle": "ابحث في نظام إدارة العملاء",
+  "searchEmptySubtitle": "اعثر على جهات الاتصال والشركات والعملاء المحتملين والصفقات والمهام في مكان واحد.",
+  "searchNoResultsTitle": "لا توجد نتائج",
+  "searchNoResultsSubtitle": "جرّب كلمة بحث مختلفة.",
+  "searchLeadsHint": "ابحث في العملاء المحتملين...",
+  "searchTasksHint": "ابحث في المهام...",
+  "sortByLabel": "ترتيب حسب",
+  "sortDirectionTooltip": "تبديل اتجاه الترتيب",
+  "pageIndicatorLabel": "صفحة {page} من {totalPages}",
+  "previousPageTooltip": "الصفحة السابقة",
+  "nextPageTooltip": "الصفحة التالية",
+  "createdAtLabel": "تاريخ الإنشاء"
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,7 +10,9 @@ import '../../l10n/generated/app_localizations.dart';
 import '../../widgets/confirm_dialog.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/initials_avatar.dart';
+import '../../widgets/pagination_footer.dart';
 import '../../widgets/section_header.dart';
+import '../../widgets/sort_control.dart';
 import 'contact_form_dialog.dart';
 
 class ContactsListScreen extends ConsumerStatefulWidget {
@@ -20,11 +24,34 @@ class ContactsListScreen extends ConsumerStatefulWidget {
 
 class _ContactsListScreenState extends ConsumerState<ContactsListScreen> {
   final _searchController = TextEditingController();
+  Timer? _debounce;
+  bool _appliedInitialQuery = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_appliedInitialQuery) {
+      _appliedInitialQuery = true;
+      final q = GoRouterState.of(context).uri.queryParameters['q'];
+      if (q != null && q.isNotEmpty) {
+        _searchController.text = q;
+        ref.read(contactsControllerProvider.notifier).setSearch(q);
+      }
+    }
+  }
 
   @override
   void dispose() {
+    _debounce?.cancel();
     _searchController.dispose();
     super.dispose();
+  }
+
+  void _onSearchChanged(String value) {
+    _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 350), () {
+      ref.read(contactsControllerProvider.notifier).setSearch(value);
+    });
   }
 
   Future<void> _create() async {
@@ -91,14 +118,33 @@ class _ContactsListScreenState extends ConsumerState<ContactsListScreen> {
             ],
           ),
           const SizedBox(height: 20),
-          TextField(
-            controller: _searchController,
-            decoration: InputDecoration(
-              hintText: l10n.searchContactsHint,
-              prefixIcon: const Icon(Icons.search),
-            ),
-            onChanged: (value) =>
-                ref.read(contactsControllerProvider.notifier).setSearch(value),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    hintText: l10n.searchContactsHint,
+                    prefixIcon: const Icon(Icons.search),
+                  ),
+                  onChanged: _onSearchChanged,
+                ),
+              ),
+              const SizedBox(width: 12),
+              SortControl(
+                options: [
+                  ('name', l10n.nameLabel),
+                  ('email', l10n.emailLabel),
+                  ('createdAt', l10n.createdAtLabel),
+                ],
+                value: ref.read(contactsControllerProvider.notifier).sortBy,
+                descending:
+                    ref.read(contactsControllerProvider.notifier).sortOrder == 'desc',
+                onChanged: (field, descending) => ref
+                    .read(contactsControllerProvider.notifier)
+                    .setSort(field, order: descending ? 'desc' : 'asc'),
+              ),
+            ],
           ),
           const SizedBox(height: 16),
           Expanded(
@@ -157,6 +203,12 @@ class _ContactsListScreenState extends ConsumerState<ContactsListScreen> {
                 );
               },
             ),
+          ),
+          PaginationFooter(
+            page: ref.read(contactsControllerProvider.notifier).page,
+            totalPages: ref.read(contactsControllerProvider.notifier).totalPages,
+            onPageChanged: (page) =>
+                ref.read(contactsControllerProvider.notifier).setPage(page),
           ),
         ],
       ),

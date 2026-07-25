@@ -57,6 +57,11 @@ class AppShell extends ConsumerWidget {
       appBar: AppBar(
         title: Text(title),
         actions: [
+          IconButton(
+            tooltip: l10n.searchTooltip,
+            icon: const Icon(Icons.search),
+            onPressed: () => context.go('/search'),
+          ),
           Padding(
             padding: const EdgeInsetsDirectional.only(end: 16),
             child: PopupMenuButton<String>(

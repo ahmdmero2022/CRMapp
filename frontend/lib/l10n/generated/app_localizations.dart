@@ -1264,6 +1264,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'High'**
   String get priorityHigh;
+
+  /// No description provided for @searchTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get searchTooltip;
+
+  /// No description provided for @searchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search contacts, companies, leads, deals, tasks...'**
+  String get searchHint;
+
+  /// No description provided for @searchEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Search your CRM'**
+  String get searchEmptyTitle;
+
+  /// No description provided for @searchEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Find contacts, companies, leads, deals, and tasks in one place.'**
+  String get searchEmptySubtitle;
+
+  /// No description provided for @searchNoResultsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get searchNoResultsTitle;
+
+  /// No description provided for @searchNoResultsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a different search term.'**
+  String get searchNoResultsSubtitle;
+
+  /// No description provided for @searchLeadsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search leads...'**
+  String get searchLeadsHint;
+
+  /// No description provided for @searchTasksHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search tasks...'**
+  String get searchTasksHint;
+
+  /// No description provided for @sortByLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by'**
+  String get sortByLabel;
+
+  /// No description provided for @sortDirectionTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle sort direction'**
+  String get sortDirectionTooltip;
+
+  /// No description provided for @pageIndicatorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Page {page} of {totalPages}'**
+  String pageIndicatorLabel(int page, int totalPages);
+
+  /// No description provided for @previousPageTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous page'**
+  String get previousPageTooltip;
+
+  /// No description provided for @nextPageTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Next page'**
+  String get nextPageTooltip;
+
+  /// No description provided for @createdAtLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get createdAtLabel;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

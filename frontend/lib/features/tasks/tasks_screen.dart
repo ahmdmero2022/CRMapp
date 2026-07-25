@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/models/task.dart';
@@ -9,7 +12,9 @@ import '../../core/utils/enum_labels.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../../widgets/confirm_dialog.dart';
 import '../../widgets/empty_state.dart';
+import '../../widgets/pagination_footer.dart';
 import '../../widgets/section_header.dart';
+import '../../widgets/sort_control.dart';
 import 'task_form_dialog.dart';
 
 class TasksScreen extends ConsumerStatefulWidget {
@@ -21,6 +26,36 @@ class TasksScreen extends ConsumerStatefulWidget {
 
 class _TasksScreenState extends ConsumerState<TasksScreen> {
   String? _filter;
+  final _searchController = TextEditingController();
+  Timer? _debounce;
+  bool _appliedInitialQuery = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_appliedInitialQuery) {
+      _appliedInitialQuery = true;
+      final q = GoRouterState.of(context).uri.queryParameters['q'];
+      if (q != null && q.isNotEmpty) {
+        _searchController.text = q;
+        ref.read(tasksControllerProvider.notifier).setSearch(q);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onSearchChanged(String value) {
+    _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 350), () {
+      ref.read(tasksControllerProvider.notifier).setSearch(value);
+    });
+  }
 
   Future<void> _create() async {
     final l10n = AppLocalizations.of(context);
@@ -46,6 +81,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final tasksAsync = ref.watch(tasksControllerProvider);
+    final controller = ref.read(tasksControllerProvider.notifier);
 
     return Padding(
       padding: const EdgeInsets.all(24),
@@ -64,6 +100,34 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
             ],
           ),
           const SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    hintText: l10n.searchTasksHint,
+                    prefixIcon: const Icon(Icons.search),
+                  ),
+                  onChanged: _onSearchChanged,
+                ),
+              ),
+              const SizedBox(width: 12),
+              SortControl(
+                options: [
+                  ('title', l10n.titleLabel),
+                  ('dueDate', l10n.setDueDate),
+                  ('priority', l10n.priorityLabel),
+                ],
+                value: controller.sortBy,
+                descending: controller.sortOrder == 'desc',
+                onChanged: (field, descending) => ref
+                    .read(tasksControllerProvider.notifier)
+                    .setSort(field, order: descending ? 'desc' : 'asc'),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
           Wrap(
             spacing: 8,
             children: [
@@ -175,6 +239,11 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
                 );
               },
             ),
+          ),
+          PaginationFooter(
+            page: controller.page,
+            totalPages: controller.totalPages,
+            onPageChanged: (page) => controller.setPage(page),
           ),
         ],
       ),

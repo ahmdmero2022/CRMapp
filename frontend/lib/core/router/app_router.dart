@@ -14,6 +14,7 @@ import '../../features/companies/companies_list_screen.dart';
 import '../../features/companies/company_detail_screen.dart';
 import '../../features/leads/leads_screen.dart';
 import '../../features/deals/deals_pipeline_screen.dart';
+import '../../features/search/search_screen.dart';
 import '../../features/tasks/tasks_screen.dart';
 import '../../features/settings/settings_screen.dart';
 
@@ -86,6 +87,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
               path: '/deals', builder: (context, state) => const DealsPipelineScreen()),
           GoRoute(path: '/tasks', builder: (context, state) => const TasksScreen()),
+          GoRoute(path: '/search', builder: (context, state) => const SearchScreen()),
           GoRoute(
               path: '/settings', builder: (context, state) => const SettingsScreen()),
         ],

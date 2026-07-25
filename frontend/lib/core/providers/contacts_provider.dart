@@ -12,8 +12,14 @@ class ContactsController extends ListNotifier<Contact> {
   String? companyId;
 
   @override
-  Future<List<Contact>> fetch() =>
-      _ref.read(contactsRepositoryProvider).list(search: search, companyId: companyId);
+  Future<ListPage<Contact>> fetch() => _ref.read(contactsRepositoryProvider).list(
+        search: search,
+        companyId: companyId,
+        page: page,
+        pageSize: pageSize,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      );
 
   Future<void> setSearch(String value) async {
     search = value;

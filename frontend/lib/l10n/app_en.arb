@@ -284,5 +284,16 @@
   },
   "previousPageTooltip": "Previous page",
   "nextPageTooltip": "Next page",
-  "createdAtLabel": "Created"
+  "createdAtLabel": "Created",
+
+  "listViewLabel": "List",
+  "boardViewLabel": "Board",
+  "calendarViewLabel": "Calendar",
+  "todayLabel": "Today",
+  "moreTasksLabel": "+{count} more",
+  "@moreTasksLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

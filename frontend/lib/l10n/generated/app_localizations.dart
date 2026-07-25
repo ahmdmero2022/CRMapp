@@ -1348,6 +1348,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Created'**
   String get createdAtLabel;
+
+  /// No description provided for @listViewLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'List'**
+  String get listViewLabel;
+
+  /// No description provided for @boardViewLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Board'**
+  String get boardViewLabel;
+
+  /// No description provided for @calendarViewLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar'**
+  String get calendarViewLabel;
+
+  /// No description provided for @todayLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get todayLabel;
+
+  /// No description provided for @moreTasksLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count} more'**
+  String moreTasksLabel(int count);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

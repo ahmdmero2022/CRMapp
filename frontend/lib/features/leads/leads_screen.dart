@@ -7,7 +7,6 @@ import 'package:intl/intl.dart';
 
 import '../../core/models/lead.dart';
 import '../../core/providers/leads_provider.dart';
-import '../../core/theme/app_theme.dart';
 import '../../core/utils/enum_labels.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../../widgets/confirm_dialog.dart';
@@ -16,14 +15,12 @@ import '../../widgets/pagination_footer.dart';
 import '../../widgets/section_header.dart';
 import '../../widgets/sort_control.dart';
 import 'lead_form_dialog.dart';
+import 'leads_kanban_board.dart';
 
-const _statusColors = {
-  'new': AppTheme.blue400,
-  'contacted': AppTheme.blue700,
-  'qualified': AppTheme.success,
-  'unqualified': AppTheme.danger,
-  'converted': AppTheme.warning,
-};
+enum _ViewMode { list, board }
+
+const _listPageSize = 25;
+const _boardPageSize = 500;
 
 class LeadsScreen extends ConsumerStatefulWidget {
   const LeadsScreen({super.key});
@@ -34,6 +31,7 @@ class LeadsScreen extends ConsumerStatefulWidget {
 
 class _LeadsScreenState extends ConsumerState<LeadsScreen> {
   String? _statusFilter;
+  _ViewMode _viewMode = _ViewMode.list;
   final _currency = NumberFormat.currency(symbol: '\$', decimalDigits: 0);
   final _searchController = TextEditingController();
   Timer? _debounce;
@@ -64,6 +62,14 @@ class _LeadsScreenState extends ConsumerState<LeadsScreen> {
     _debounce = Timer(const Duration(milliseconds: 350), () {
       ref.read(leadsControllerProvider.notifier).setSearch(value);
     });
+  }
+
+  void _setViewMode(_ViewMode mode) {
+    if (mode == _viewMode) return;
+    setState(() => _viewMode = mode);
+    ref
+        .read(leadsControllerProvider.notifier)
+        .setPageSize(mode == _ViewMode.board ? _boardPageSize : _listPageSize);
   }
 
   Future<void> _create() async {
@@ -123,6 +129,7 @@ class _LeadsScreenState extends ConsumerState<LeadsScreen> {
     final l10n = AppLocalizations.of(context);
     final leadsAsync = ref.watch(leadsControllerProvider);
     final controller = ref.read(leadsControllerProvider.notifier);
+    final isBoard = _viewMode == _ViewMode.board;
 
     return Padding(
       padding: const EdgeInsets.all(24),
@@ -133,6 +140,21 @@ class _LeadsScreenState extends ConsumerState<LeadsScreen> {
             title: l10n.leadsTitle,
             subtitle: l10n.leadsSubtitle,
             actions: [
+              SegmentedButton<_ViewMode>(
+                segments: [
+                  ButtonSegment(
+                      value: _ViewMode.list,
+                      icon: const Icon(Icons.view_list_outlined),
+                      label: Text(l10n.listViewLabel)),
+                  ButtonSegment(
+                      value: _ViewMode.board,
+                      icon: const Icon(Icons.view_kanban_outlined),
+                      label: Text(l10n.boardViewLabel)),
+                ],
+                selected: {_viewMode},
+                onSelectionChanged: (selection) => _setViewMode(selection.first),
+              ),
+              const SizedBox(width: 12),
               FilledButton.icon(
                 onPressed: _create,
                 icon: const Icon(Icons.add),
@@ -153,44 +175,50 @@ class _LeadsScreenState extends ConsumerState<LeadsScreen> {
                   onChanged: _onSearchChanged,
                 ),
               ),
-              const SizedBox(width: 12),
-              SortControl(
-                options: [
-                  ('name', l10n.nameLabel),
-                  ('estimatedValue', l10n.estimatedValueLabel),
-                  ('createdAt', l10n.createdAtLabel),
-                ],
-                value: controller.sortBy,
-                descending: controller.sortOrder == 'desc',
-                onChanged: (field, descending) => ref
-                    .read(leadsControllerProvider.notifier)
-                    .setSort(field, order: descending ? 'desc' : 'asc'),
-              ),
+              if (!isBoard) ...[
+                const SizedBox(width: 12),
+                SortControl(
+                  options: [
+                    ('name', l10n.nameLabel),
+                    ('estimatedValue', l10n.estimatedValueLabel),
+                    ('createdAt', l10n.createdAtLabel),
+                  ],
+                  value: controller.sortBy,
+                  descending: controller.sortOrder == 'desc',
+                  onChanged: (field, descending) => ref
+                      .read(leadsControllerProvider.notifier)
+                      .setSort(field, order: descending ? 'desc' : 'asc'),
+                ),
+              ],
             ],
           ),
-          const SizedBox(height: 16),
-          Wrap(
-            spacing: 8,
-            children: [
-              ChoiceChip(
-                label: Text(l10n.allFilterLabel),
-                selected: _statusFilter == null,
-                onSelected: (_) {
-                  setState(() => _statusFilter = null);
-                  ref.read(leadsControllerProvider.notifier).setStatusFilter(null);
-                },
-              ),
-              for (final status in Lead.statuses)
+          if (!isBoard) ...[
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 8,
+              children: [
                 ChoiceChip(
-                  label: Text(leadStatusLabel(l10n, status)),
-                  selected: _statusFilter == status,
+                  label: Text(l10n.allFilterLabel),
+                  selected: _statusFilter == null,
                   onSelected: (_) {
-                    setState(() => _statusFilter = status);
-                    ref.read(leadsControllerProvider.notifier).setStatusFilter(status);
+                    setState(() => _statusFilter = null);
+                    ref.read(leadsControllerProvider.notifier).setStatusFilter(null);
                   },
                 ),
-            ],
-          ),
+                for (final status in Lead.statuses)
+                  ChoiceChip(
+                    label: Text(leadStatusLabel(l10n, status)),
+                    selected: _statusFilter == status,
+                    onSelected: (_) {
+                      setState(() => _statusFilter = status);
+                      ref
+                          .read(leadsControllerProvider.notifier)
+                          .setStatusFilter(status);
+                    },
+                  ),
+              ],
+            ),
+          ],
           const SizedBox(height: 16),
           Expanded(
             child: leadsAsync.when(
@@ -204,12 +232,15 @@ class _LeadsScreenState extends ConsumerState<LeadsScreen> {
                   return EmptyState(
                       icon: Icons.filter_alt_outlined, title: l10n.noLeadsFoundTitle);
                 }
+                if (isBoard) {
+                  return LeadsKanbanBoard(leads: leads);
+                }
                 return ListView.separated(
                   itemCount: leads.length,
                   separatorBuilder: (_, __) => const SizedBox(height: 8),
                   itemBuilder: (context, index) {
                     final lead = leads[index];
-                    final color = _statusColors[lead.status] ?? Colors.grey;
+                    final color = leadStatusColors[lead.status] ?? Colors.grey;
                     return Card(
                       child: ListTile(
                         contentPadding:
@@ -264,11 +295,12 @@ class _LeadsScreenState extends ConsumerState<LeadsScreen> {
               },
             ),
           ),
-          PaginationFooter(
-            page: controller.page,
-            totalPages: controller.totalPages,
-            onPageChanged: (page) => controller.setPage(page),
-          ),
+          if (!isBoard)
+            PaginationFooter(
+              page: controller.page,
+              totalPages: controller.totalPages,
+              onPageChanged: (page) => controller.setPage(page),
+            ),
         ],
       ),
     );

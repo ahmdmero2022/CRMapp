@@ -16,6 +16,12 @@ import '../../widgets/pagination_footer.dart';
 import '../../widgets/section_header.dart';
 import '../../widgets/sort_control.dart';
 import 'task_form_dialog.dart';
+import 'tasks_calendar_view.dart';
+
+enum _ViewMode { list, calendar }
+
+const _listPageSize = 25;
+const _calendarPageSize = 500;
 
 class TasksScreen extends ConsumerStatefulWidget {
   const TasksScreen({super.key});
@@ -26,6 +32,7 @@ class TasksScreen extends ConsumerStatefulWidget {
 
 class _TasksScreenState extends ConsumerState<TasksScreen> {
   String? _filter;
+  _ViewMode _viewMode = _ViewMode.list;
   final _searchController = TextEditingController();
   Timer? _debounce;
   bool _appliedInitialQuery = false;
@@ -57,6 +64,14 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
     });
   }
 
+  void _setViewMode(_ViewMode mode) {
+    if (mode == _viewMode) return;
+    setState(() => _viewMode = mode);
+    ref
+        .read(tasksControllerProvider.notifier)
+        .setPageSize(mode == _ViewMode.calendar ? _calendarPageSize : _listPageSize);
+  }
+
   Future<void> _create() async {
     final l10n = AppLocalizations.of(context);
     final result = await showTaskFormDialog(context);
@@ -82,6 +97,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
     final l10n = AppLocalizations.of(context);
     final tasksAsync = ref.watch(tasksControllerProvider);
     final controller = ref.read(tasksControllerProvider.notifier);
+    final isCalendar = _viewMode == _ViewMode.calendar;
 
     return Padding(
       padding: const EdgeInsets.all(24),
@@ -92,6 +108,21 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
             title: l10n.tasksTitle,
             subtitle: l10n.tasksSubtitle,
             actions: [
+              SegmentedButton<_ViewMode>(
+                segments: [
+                  ButtonSegment(
+                      value: _ViewMode.list,
+                      icon: const Icon(Icons.view_list_outlined),
+                      label: Text(l10n.listViewLabel)),
+                  ButtonSegment(
+                      value: _ViewMode.calendar,
+                      icon: const Icon(Icons.calendar_month_outlined),
+                      label: Text(l10n.calendarViewLabel)),
+                ],
+                selected: {_viewMode},
+                onSelectionChanged: (selection) => _setViewMode(selection.first),
+              ),
+              const SizedBox(width: 12),
               FilledButton.icon(
                 onPressed: _create,
                 icon: const Icon(Icons.add),
@@ -112,19 +143,21 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
                   onChanged: _onSearchChanged,
                 ),
               ),
-              const SizedBox(width: 12),
-              SortControl(
-                options: [
-                  ('title', l10n.titleLabel),
-                  ('dueDate', l10n.setDueDate),
-                  ('priority', l10n.priorityLabel),
-                ],
-                value: controller.sortBy,
-                descending: controller.sortOrder == 'desc',
-                onChanged: (field, descending) => ref
-                    .read(tasksControllerProvider.notifier)
-                    .setSort(field, order: descending ? 'desc' : 'asc'),
-              ),
+              if (!isCalendar) ...[
+                const SizedBox(width: 12),
+                SortControl(
+                  options: [
+                    ('title', l10n.titleLabel),
+                    ('dueDate', l10n.setDueDate),
+                    ('priority', l10n.priorityLabel),
+                  ],
+                  value: controller.sortBy,
+                  descending: controller.sortOrder == 'desc',
+                  onChanged: (field, descending) => ref
+                      .read(tasksControllerProvider.notifier)
+                      .setSort(field, order: descending ? 'desc' : 'asc'),
+                ),
+              ],
             ],
           ),
           const SizedBox(height: 16),
@@ -171,6 +204,9 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
                 if (tasks.isEmpty) {
                   return EmptyState(
                       icon: Icons.task_alt, title: l10n.noTasksFoundTitle);
+                }
+                if (isCalendar) {
+                  return TasksCalendarView(tasks: tasks);
                 }
                 return ListView.separated(
                   itemCount: tasks.length,
@@ -240,11 +276,12 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
               },
             ),
           ),
-          PaginationFooter(
-            page: controller.page,
-            totalPages: controller.totalPages,
-            onPageChanged: (page) => controller.setPage(page),
-          ),
+          if (!isCalendar)
+            PaginationFooter(
+              page: controller.page,
+              totalPages: controller.totalPages,
+              onPageChanged: (page) => controller.setPage(page),
+            ),
         ],
       ),
     );

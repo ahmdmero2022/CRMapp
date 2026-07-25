@@ -674,4 +674,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get createdAtLabel => 'Created';
+
+  @override
+  String get listViewLabel => 'List';
+
+  @override
+  String get boardViewLabel => 'Board';
+
+  @override
+  String get calendarViewLabel => 'Calendar';
+
+  @override
+  String get todayLabel => 'Today';
+
+  @override
+  String moreTasksLabel(int count) {
+    return '+$count more';
+  }
 }

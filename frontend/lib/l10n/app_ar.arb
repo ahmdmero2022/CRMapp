@@ -221,5 +221,11 @@
   "pageIndicatorLabel": "صفحة {page} من {totalPages}",
   "previousPageTooltip": "الصفحة السابقة",
   "nextPageTooltip": "الصفحة التالية",
-  "createdAtLabel": "تاريخ الإنشاء"
+  "createdAtLabel": "تاريخ الإنشاء",
+
+  "listViewLabel": "قائمة",
+  "boardViewLabel": "لوحة",
+  "calendarViewLabel": "التقويم",
+  "todayLabel": "اليوم",
+  "moreTasksLabel": "+{count} أخرى"
 }

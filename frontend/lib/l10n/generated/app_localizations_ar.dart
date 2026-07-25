@@ -674,4 +674,21 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get createdAtLabel => 'تاريخ الإنشاء';
+
+  @override
+  String get listViewLabel => 'قائمة';
+
+  @override
+  String get boardViewLabel => 'لوحة';
+
+  @override
+  String get calendarViewLabel => 'التقويم';
+
+  @override
+  String get todayLabel => 'اليوم';
+
+  @override
+  String moreTasksLabel(int count) {
+    return '+$count أخرى';
+  }
 }

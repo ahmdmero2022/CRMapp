@@ -75,6 +75,25 @@ class TasksController extends ListNotifier<CrmTask> {
     await _ref.read(tasksRepositoryProvider).delete(id);
     await refresh();
   }
+
+  /// Optimistically reschedules a task to [dueDate] so dragging it to a new
+  /// day on the calendar feels instant, then reconciles with the server.
+  Future<void> updateDueDate(String id, String dueDate) async {
+    final current = state.valueOrNull;
+    if (current != null) {
+      state = AsyncValue.data([
+        for (final task in current)
+          if (task.id == id) task.copyWith(dueDate: dueDate) else task,
+      ]);
+    }
+    try {
+      await _ref.read(tasksRepositoryProvider).update(id, {'dueDate': dueDate});
+      await refresh(silent: true);
+    } catch (_) {
+      await refresh();
+      rethrow;
+    }
+  }
 }
 
 final tasksControllerProvider =

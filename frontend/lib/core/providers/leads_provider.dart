@@ -53,6 +53,25 @@ class LeadsController extends ListNotifier<Lead> {
     await refresh();
     return result;
   }
+
+  /// Optimistically moves a lead to [status] so the kanban board feels
+  /// instant, then reconciles with the server response.
+  Future<void> updateStatus(String id, String status) async {
+    final current = state.valueOrNull;
+    if (current != null) {
+      state = AsyncValue.data([
+        for (final lead in current)
+          if (lead.id == id) lead.copyWith(status: status) else lead,
+      ]);
+    }
+    try {
+      await _ref.read(leadsRepositoryProvider).update(id, {'status': status});
+      await refresh(silent: true);
+    } catch (_) {
+      await refresh();
+      rethrow;
+    }
+  }
 }
 
 final leadsControllerProvider =

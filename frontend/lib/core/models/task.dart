@@ -51,4 +51,19 @@ class CrmTask {
         createdAt: json['createdAt'] as String,
         updatedAt: json['updatedAt'] as String,
       );
+
+  CrmTask copyWith({String? dueDate}) => CrmTask(
+        id: id,
+        title: title,
+        description: description,
+        dueDate: dueDate ?? this.dueDate,
+        priority: priority,
+        status: status,
+        relatedType: relatedType,
+        relatedId: relatedId,
+        relatedLabel: relatedLabel,
+        ownerId: ownerId,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+      );
 }

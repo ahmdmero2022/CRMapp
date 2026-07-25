@@ -43,4 +43,19 @@ class Lead {
         createdAt: json['createdAt'] as String,
         updatedAt: json['updatedAt'] as String,
       );
+
+  Lead copyWith({String? status}) => Lead(
+        id: id,
+        name: name,
+        email: email,
+        phone: phone,
+        source: source,
+        status: status ?? this.status,
+        companyName: companyName,
+        estimatedValue: estimatedValue,
+        ownerId: ownerId,
+        notes: notes,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+      );
 }

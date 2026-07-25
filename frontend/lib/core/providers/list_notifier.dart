@@ -50,4 +50,13 @@ abstract class ListNotifier<T> extends StateNotifier<AsyncValue<List<T>>> {
     page = 1;
     await refresh();
   }
+
+  /// Switches the page size (e.g. a view that needs the whole unpaginated
+  /// dataset at once, like a kanban board or calendar) and reloads.
+  Future<void> setPageSize(int size) async {
+    if (size == pageSize) return;
+    pageSize = size;
+    page = 1;
+    await refresh();
+  }
 }

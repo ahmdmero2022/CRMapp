@@ -31,6 +31,7 @@ class SortControl extends StatelessWidget {
         DropdownButton<String>(
           value: value,
           underline: const SizedBox.shrink(),
+          isDense: true,
           items: [
             for (final option in options)
               DropdownMenuItem(value: option.$1, child: Text(option.$2)),
@@ -41,6 +42,8 @@ class SortControl extends StatelessWidget {
           tooltip: l10n.sortDirectionTooltip,
           icon: Icon(descending ? Icons.arrow_downward : Icons.arrow_upward),
           onPressed: () => onChanged(value, !descending),
+          visualDensity: VisualDensity.compact,
+          padding: EdgeInsets.zero,
         ),
       ],
     );

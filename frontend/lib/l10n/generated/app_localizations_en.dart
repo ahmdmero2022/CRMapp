@@ -641,8 +641,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchEmptyTitle => 'Search your CRM';
 
   @override
-  String get searchEmptySubtitle =>
-      'Find contacts, companies, leads, deals, and tasks in one place.';
+  String get searchEmptySubtitle => 'Find contacts, companies, leads, deals, and tasks in one place.';
 
   @override
   String get searchNoResultsTitle => 'No results found';

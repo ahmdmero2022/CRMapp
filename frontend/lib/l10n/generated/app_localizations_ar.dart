@@ -635,15 +635,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get searchTooltip => 'بحث';
 
   @override
-  String get searchHint =>
-      'ابحث في جهات الاتصال والشركات والعملاء المحتملين والصفقات والمهام...';
+  String get searchHint => 'ابحث في جهات الاتصال والشركات والعملاء المحتملين والصفقات والمهام...';
 
   @override
   String get searchEmptyTitle => 'ابحث في نظام إدارة العملاء';
 
   @override
-  String get searchEmptySubtitle =>
-      'اعثر على جهات الاتصال والشركات والعملاء المحتملين والصفقات والمهام في مكان واحد.';
+  String get searchEmptySubtitle => 'اعثر على جهات الاتصال والشركات والعملاء المحتملين والصفقات والمهام في مكان واحد.';
 
   @override
   String get searchNoResultsTitle => 'لا توجد نتائج';

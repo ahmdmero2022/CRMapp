@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/providers/auth_provider.dart';
+import '../../l10n/generated/app_localizations.dart';
 import 'auth_scaffold.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
@@ -52,9 +53,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return AuthScaffold(
-      title: 'Create your account',
-      subtitle: 'Set up your workspace in a few seconds.',
+      title: l10n.registerTitle,
+      subtitle: l10n.registerSubtitle,
       child: Form(
         key: _formKey,
         child: Column(
@@ -75,29 +77,27 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             ],
             TextFormField(
               controller: _nameController,
-              decoration: const InputDecoration(
-                labelText: 'Full name',
-                prefixIcon: Icon(Icons.person_outline),
+              decoration: InputDecoration(
+                labelText: l10n.fullNameLabel,
+                prefixIcon: const Icon(Icons.person_outline),
               ),
-              validator: (v) =>
-                  (v == null || v.trim().isEmpty) ? 'Name is required' : null,
+              validator: (v) => (v == null || v.trim().isEmpty) ? l10n.nameRequired : null,
             ),
             const SizedBox(height: 14),
             TextFormField(
               controller: _emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                prefixIcon: Icon(Icons.mail_outline),
+              decoration: InputDecoration(
+                labelText: l10n.emailLabel,
+                prefixIcon: const Icon(Icons.mail_outline),
               ),
               keyboardType: TextInputType.emailAddress,
-              validator: (v) =>
-                  (v == null || !v.contains('@')) ? 'Enter a valid email' : null,
+              validator: (v) => (v == null || !v.contains('@')) ? l10n.emailInvalid : null,
             ),
             const SizedBox(height: 14),
             TextFormField(
               controller: _passwordController,
               decoration: InputDecoration(
-                labelText: 'Password',
+                labelText: l10n.passwordLabel,
                 prefixIcon: const Icon(Icons.lock_outline),
                 suffixIcon: IconButton(
                   icon: Icon(_obscure ? Icons.visibility_off : Icons.visibility),
@@ -106,7 +106,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               ),
               obscureText: _obscure,
               validator: (v) =>
-                  (v == null || v.length < 6) ? 'At least 6 characters' : null,
+                  (v == null || v.length < 6) ? l10n.passwordTooShort : null,
               onFieldSubmitted: (_) => _submit(),
             ),
             const SizedBox(height: 24),
@@ -117,16 +117,16 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       width: 20,
                       height: 20,
                       child: CircularProgressIndicator(strokeWidth: 2))
-                  : const Text('Create account'),
+                  : Text(l10n.createAccount),
             ),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Already have an account?'),
+                Text(l10n.alreadyHaveAccountPrompt),
                 TextButton(
                   onPressed: () => context.go('/login'),
-                  child: const Text('Sign in'),
+                  child: Text(l10n.signInLink),
                 ),
               ],
             ),

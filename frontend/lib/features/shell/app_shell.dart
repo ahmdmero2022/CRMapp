@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/providers/auth_provider.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../../widgets/initials_avatar.dart';
 
 class _NavItem {
@@ -13,47 +14,58 @@ class _NavItem {
   final String path;
 }
 
-const _navItems = [
-  _NavItem('Dashboard', Icons.dashboard_outlined, Icons.dashboard, '/dashboard'),
-  _NavItem('Contacts', Icons.people_outline, Icons.people, '/contacts'),
-  _NavItem('Companies', Icons.apartment_outlined, Icons.apartment, '/companies'),
-  _NavItem('Leads', Icons.filter_alt_outlined, Icons.filter_alt, '/leads'),
-  _NavItem('Deals', Icons.trending_up_outlined, Icons.trending_up, '/deals'),
-  _NavItem('Tasks', Icons.task_alt_outlined, Icons.task_alt, '/tasks'),
-];
+List<_NavItem> _navItems(AppLocalizations l10n) => [
+      _NavItem(l10n.navDashboard, Icons.dashboard_outlined, Icons.dashboard, '/dashboard'),
+      _NavItem(l10n.navContacts, Icons.people_outline, Icons.people, '/contacts'),
+      _NavItem(
+          l10n.navCompanies, Icons.apartment_outlined, Icons.apartment, '/companies'),
+      _NavItem(l10n.navLeads, Icons.filter_alt_outlined, Icons.filter_alt, '/leads'),
+      _NavItem(l10n.navDeals, Icons.trending_up_outlined, Icons.trending_up, '/deals'),
+      _NavItem(l10n.navTasks, Icons.task_alt_outlined, Icons.task_alt, '/tasks'),
+    ];
 
 class AppShell extends ConsumerWidget {
   const AppShell({super.key, required this.child});
 
   final Widget child;
 
-  int _currentIndex(String location) {
-    final index = _navItems.indexWhere((item) => location.startsWith(item.path));
-    return index == -1 ? 0 : index;
-  }
+  int _matchedIndex(List<_NavItem> navItems, String location) =>
+      navItems.indexWhere((item) => location.startsWith(item.path));
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final navItems = _navItems(l10n);
     final location = GoRouterState.of(context).matchedLocation;
-    final index = _currentIndex(location);
+    final matchedIndex = _matchedIndex(navItems, location);
+    // NavigationRail supports "nothing selected" (null); NavigationBar
+    // doesn't, so the bottom nav falls back to the first tab on routes with
+    // no matching destination (e.g. /settings) — an unavoidable narrow-width
+    // trade-off since there's no dedicated settings tab there.
+    final railIndex = matchedIndex == -1 ? null : matchedIndex;
+    final barIndex = matchedIndex == -1 ? 0 : matchedIndex;
     final user = ref.watch(authProvider).user;
     final isWide = MediaQuery.of(context).size.width >= 900;
 
-    void onSelect(int i) => context.go(_navItems[i].path);
+    void onSelect(int i) => context.go(navItems[i].path);
 
-    final title = _navItems[index].label;
+    final title = location.startsWith('/settings')
+        ? l10n.navSettings
+        : (matchedIndex == -1 ? '' : navItems[matchedIndex].label);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 16),
+            padding: const EdgeInsetsDirectional.only(end: 16),
             child: PopupMenuButton<String>(
-              tooltip: 'Account',
+              tooltip: l10n.navSettings,
               onSelected: (value) {
                 if (value == 'logout') {
                   ref.read(authProvider.notifier).logout();
+                } else if (value == 'settings') {
+                  context.go('/settings');
                 }
               },
               itemBuilder: (context) => [
@@ -63,13 +75,23 @@ class AppShell extends ConsumerWidget {
                       style: Theme.of(context).textTheme.bodySmall),
                 ),
                 const PopupMenuDivider(),
-                const PopupMenuItem(
+                PopupMenuItem(
+                  value: 'settings',
+                  child: Row(
+                    children: [
+                      const Icon(Icons.settings_outlined, size: 18),
+                      const SizedBox(width: 8),
+                      Text(l10n.navSettings),
+                    ],
+                  ),
+                ),
+                PopupMenuItem(
                   value: 'logout',
                   child: Row(
                     children: [
-                      Icon(Icons.logout, size: 18),
-                      SizedBox(width: 8),
-                      Text('Sign out'),
+                      const Icon(Icons.logout, size: 18),
+                      const SizedBox(width: 8),
+                      Text(l10n.signOut),
                     ],
                   ),
                 ),
@@ -81,7 +103,7 @@ class AppShell extends ConsumerWidget {
                     .take(2)
                     .join()
                     .toUpperCase(),
-                colorHex: user?.avatarColor ?? '#6366F1',
+                colorHex: user?.avatarColor ?? '#2563EB',
                 radius: 18,
               ),
             ),
@@ -92,11 +114,11 @@ class AppShell extends ConsumerWidget {
           ? Row(
               children: [
                 NavigationRail(
-                  selectedIndex: index,
+                  selectedIndex: railIndex,
                   onDestinationSelected: onSelect,
                   labelType: NavigationRailLabelType.all,
                   destinations: [
-                    for (final item in _navItems)
+                    for (final item in navItems)
                       NavigationRailDestination(
                         icon: Icon(item.icon),
                         selectedIcon: Icon(item.selectedIcon),
@@ -112,10 +134,10 @@ class AppShell extends ConsumerWidget {
       bottomNavigationBar: isWide
           ? null
           : NavigationBar(
-              selectedIndex: index,
+              selectedIndex: barIndex,
               onDestinationSelected: onSelect,
               destinations: [
-                for (final item in _navItems)
+                for (final item in navItems)
                   NavigationDestination(
                     icon: Icon(item.icon),
                     selectedIcon: Icon(item.selectedIcon),

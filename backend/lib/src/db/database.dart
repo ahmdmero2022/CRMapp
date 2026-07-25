@@ -158,13 +158,16 @@ class AppDatabase {
     final count =
         db.select('SELECT COUNT(*) as c FROM pipeline_stages').first['c']
             as int;
-    if (count > 0) return;
+    if (count > 0) {
+      _rebrandLegacyStageColors();
+      return;
+    }
 
     final stages = [
-      ('New', 0, '#6366F1'),
+      ('New', 0, '#60A5FA'),
       ('Qualified', 1, '#3B82F6'),
-      ('Proposal', 2, '#F59E0B'),
-      ('Negotiation', 3, '#F97316'),
+      ('Proposal', 2, '#2563EB'),
+      ('Negotiation', 3, '#1D4ED8'),
       ('Won', 4, '#22C55E'),
       ('Lost', 5, '#EF4444'),
     ];
@@ -174,6 +177,23 @@ class AppDatabase {
       stmt.execute([uuid.v4(), s.$1, s.$2, s.$3]);
     }
     stmt.dispose();
+  }
+
+  /// The original seed used a violet/orange accent for New/Proposal/
+  /// Negotiation; nudge those specific defaults onto the current blue ramp
+  /// without touching colors a user has since customized.
+  void _rebrandLegacyStageColors() {
+    const legacyToNew = {
+      'New': ('#6366F1', '#60A5FA'),
+      'Proposal': ('#F59E0B', '#2563EB'),
+      'Negotiation': ('#F97316', '#1D4ED8'),
+    };
+    for (final entry in legacyToNew.entries) {
+      db.execute(
+        'UPDATE pipeline_stages SET color = ? WHERE name = ? AND color = ?',
+        [entry.value.$2, entry.key, entry.value.$1],
+      );
+    }
   }
 
   void dispose() => db.dispose();

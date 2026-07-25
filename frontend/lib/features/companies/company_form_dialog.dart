@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/models/company.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 class CompanyFormResult {
   CompanyFormResult(this.body);
@@ -47,8 +48,9 @@ class _CompanyFormDialogState extends State<CompanyFormDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return AlertDialog(
-      title: Text(widget.existing == null ? 'Add Company' : 'Edit Company'),
+      title: Text(widget.existing == null ? l10n.addCompany : l10n.editCompany),
       content: SizedBox(
         width: 420,
         child: Form(
@@ -59,34 +61,34 @@ class _CompanyFormDialogState extends State<CompanyFormDialog> {
               children: [
                 TextFormField(
                   controller: _name,
-                  decoration: const InputDecoration(labelText: 'Company name'),
+                  decoration: InputDecoration(labelText: l10n.companyNameLabel),
                   validator: (v) =>
-                      (v == null || v.trim().isEmpty) ? 'Required' : null,
+                      (v == null || v.trim().isEmpty) ? l10n.requiredField : null,
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: _industry,
-                  decoration: const InputDecoration(labelText: 'Industry'),
+                  decoration: InputDecoration(labelText: l10n.industryLabel),
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: _website,
-                  decoration: const InputDecoration(labelText: 'Website'),
+                  decoration: InputDecoration(labelText: l10n.websiteLabel),
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: _phone,
-                  decoration: const InputDecoration(labelText: 'Phone'),
+                  decoration: InputDecoration(labelText: l10n.phoneLabel),
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: _address,
-                  decoration: const InputDecoration(labelText: 'Address'),
+                  decoration: InputDecoration(labelText: l10n.addressLabel),
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: _notes,
-                  decoration: const InputDecoration(labelText: 'Notes'),
+                  decoration: InputDecoration(labelText: l10n.notesLabel),
                   maxLines: 3,
                 ),
               ],
@@ -97,7 +99,7 @@ class _CompanyFormDialogState extends State<CompanyFormDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text(l10n.cancel),
         ),
         FilledButton(
           onPressed: () {
@@ -111,7 +113,7 @@ class _CompanyFormDialogState extends State<CompanyFormDialog> {
               'notes': _notes.text.trim().isEmpty ? null : _notes.text.trim(),
             }));
           },
-          child: Text(widget.existing == null ? 'Create' : 'Save'),
+          child: Text(widget.existing == null ? l10n.create : l10n.save),
         ),
       ],
     );

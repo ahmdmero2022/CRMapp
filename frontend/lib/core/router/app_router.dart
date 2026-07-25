@@ -15,6 +15,7 @@ import '../../features/companies/company_detail_screen.dart';
 import '../../features/leads/leads_screen.dart';
 import '../../features/deals/deals_pipeline_screen.dart';
 import '../../features/tasks/tasks_screen.dart';
+import '../../features/settings/settings_screen.dart';
 
 class _AuthRefreshNotifier extends ChangeNotifier {
   _AuthRefreshNotifier(Ref ref) {
@@ -85,6 +86,8 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
               path: '/deals', builder: (context, state) => const DealsPipelineScreen()),
           GoRoute(path: '/tasks', builder: (context, state) => const TasksScreen()),
+          GoRoute(
+              path: '/settings', builder: (context, state) => const SettingsScreen()),
         ],
       ),
     ],

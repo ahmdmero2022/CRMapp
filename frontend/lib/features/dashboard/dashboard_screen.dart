@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import '../../core/models/dashboard_stats.dart';
 import '../../core/providers/dashboard_provider.dart';
 import '../../core/theme/app_theme.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/section_header.dart';
 import '../../widgets/stat_card.dart';
@@ -44,6 +45,7 @@ class _DashboardBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final width = MediaQuery.of(context).size.width;
     final statCrossAxisCount = width > 1200 ? 4 : (width > 700 ? 2 : 1);
 
@@ -53,9 +55,9 @@ class _DashboardBody extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SectionHeader(
-            title: 'Overview',
-            subtitle: "Here's what's happening with your business today.",
+          SectionHeader(
+            title: l10n.overviewTitle,
+            subtitle: l10n.overviewSubtitle,
           ),
           const SizedBox(height: 20),
           GridView.count(
@@ -67,26 +69,27 @@ class _DashboardBody extends StatelessWidget {
             childAspectRatio: 1.6,
             children: [
               StatCard(
-                label: 'Contacts',
+                label: l10n.statContacts,
                 value: '${stats.totalContacts}',
                 icon: Icons.people,
                 color: AppTheme.info,
               ),
               StatCard(
-                label: 'Companies',
+                label: l10n.statCompanies,
                 value: '${stats.totalCompanies}',
                 icon: Icons.apartment,
                 color: AppTheme.seed,
               ),
               StatCard(
-                label: 'Open Deals',
+                label: l10n.statOpenDeals,
                 value: '${stats.openDeals}',
-                subtitle: '${_currencyFormat.format(stats.openDealsValue)} pipeline',
+                subtitle:
+                    l10n.pipelineValueSubtitle(_currencyFormat.format(stats.openDealsValue)),
                 icon: Icons.trending_up,
                 color: AppTheme.warning,
               ),
               StatCard(
-                label: 'Won Revenue',
+                label: l10n.statWonRevenue,
                 value: _currencyFormat.format(stats.wonDealsValue),
                 icon: Icons.emoji_events,
                 color: AppTheme.success,
@@ -103,19 +106,19 @@ class _DashboardBody extends StatelessWidget {
             childAspectRatio: 1.6,
             children: [
               StatCard(
-                label: 'Total Leads',
+                label: l10n.statTotalLeads,
                 value: '${stats.totalLeads}',
                 icon: Icons.filter_alt,
                 color: AppTheme.seed,
               ),
               StatCard(
-                label: 'Tasks Due Today',
+                label: l10n.statTasksDueToday,
                 value: '${stats.tasksDueToday}',
                 icon: Icons.today,
                 color: AppTheme.info,
               ),
               StatCard(
-                label: 'Overdue Tasks',
+                label: l10n.statOverdueTasks,
                 value: '${stats.overdueTasks}',
                 icon: Icons.warning_amber,
                 color: stats.overdueTasks > 0 ? AppTheme.danger : AppTheme.success,
@@ -127,11 +130,11 @@ class _DashboardBody extends StatelessWidget {
             builder: (context, constraints) {
               final isWide = constraints.maxWidth > 900;
               final pipelineCard = _ChartCard(
-                title: 'Pipeline by Stage',
+                title: l10n.pipelineByStageTitle,
                 child: DealsByStageChart(stages: stats.dealsByStage),
               );
               final leadsCard = _ChartCard(
-                title: 'Leads by Status',
+                title: l10n.leadsByStatusTitle,
                 child: LeadsByStatusChart(leadsByStatus: stats.leadsByStatus),
               );
               if (isWide) {
@@ -158,14 +161,14 @@ class _DashboardBody extends StatelessWidget {
             builder: (context, constraints) {
               final isWide = constraints.maxWidth > 900;
               final activityCard = _ChartCard(
-                title: 'Recent Activity',
+                title: l10n.recentActivityTitle,
                 child: RecentActivityList(activities: stats.recentActivities),
               );
               final tasksCard = _ChartCard(
-                title: 'Upcoming Tasks',
+                title: l10n.upcomingTasksTitle,
                 action: TextButton(
                   onPressed: () => context.go('/tasks'),
-                  child: const Text('View all'),
+                  child: Text(l10n.viewAllLink),
                 ),
                 child: UpcomingTasksList(tasks: stats.upcomingTasks),
               );

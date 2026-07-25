@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/models/company.dart';
 import '../../core/providers/companies_provider.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../../widgets/confirm_dialog.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/section_header.dart';
@@ -26,36 +27,40 @@ class _CompaniesListScreenState extends ConsumerState<CompaniesListScreen> {
   }
 
   Future<void> _create() async {
+    final l10n = AppLocalizations.of(context);
     final result = await showCompanyFormDialog(context);
     if (result == null) return;
     try {
       await ref.read(companiesControllerProvider.notifier).create(result.body);
-      if (mounted) showSuccessSnackBar(context, 'Company created');
+      if (mounted) showSuccessSnackBar(context, l10n.companyCreatedMessage);
     } catch (e) {
       if (mounted) showErrorSnackBar(context, e.toString());
     }
   }
 
   Future<void> _edit(Company company) async {
+    final l10n = AppLocalizations.of(context);
     final result = await showCompanyFormDialog(context, existing: company);
     if (result == null) return;
     try {
       await ref
           .read(companiesControllerProvider.notifier)
           .update(company.id, result.body);
-      if (mounted) showSuccessSnackBar(context, 'Company updated');
+      if (mounted) showSuccessSnackBar(context, l10n.companyUpdatedMessage);
     } catch (e) {
       if (mounted) showErrorSnackBar(context, e.toString());
     }
   }
 
   Future<void> _delete(Company company) async {
+    final l10n = AppLocalizations.of(context);
     final confirmed = await confirmDialog(context,
-        title: 'Delete company', message: 'Delete ${company.name}?');
+        title: l10n.deleteCompanyTitle,
+        message: l10n.deleteCompanyMessage(company.name));
     if (!confirmed) return;
     try {
       await ref.read(companiesControllerProvider.notifier).delete(company.id);
-      if (mounted) showSuccessSnackBar(context, 'Company deleted');
+      if (mounted) showSuccessSnackBar(context, l10n.companyDeletedMessage);
     } catch (e) {
       if (mounted) showErrorSnackBar(context, e.toString());
     }
@@ -63,6 +68,7 @@ class _CompaniesListScreenState extends ConsumerState<CompaniesListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final companiesAsync = ref.watch(companiesControllerProvider);
 
     return Padding(
@@ -71,22 +77,22 @@ class _CompaniesListScreenState extends ConsumerState<CompaniesListScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionHeader(
-            title: 'Companies',
-            subtitle: 'Organizations you work with.',
+            title: l10n.companiesTitle,
+            subtitle: l10n.companiesSubtitle,
             actions: [
               FilledButton.icon(
                 onPressed: _create,
                 icon: const Icon(Icons.add),
-                label: const Text('Add Company'),
+                label: Text(l10n.addCompany),
               ),
             ],
           ),
           const SizedBox(height: 20),
           TextField(
             controller: _searchController,
-            decoration: const InputDecoration(
-              hintText: 'Search companies...',
-              prefixIcon: Icon(Icons.search),
+            decoration: InputDecoration(
+              hintText: l10n.searchCompaniesHint,
+              prefixIcon: const Icon(Icons.search),
             ),
             onChanged: (value) =>
                 ref.read(companiesControllerProvider.notifier).setSearch(value),
@@ -101,9 +107,9 @@ class _CompaniesListScreenState extends ConsumerState<CompaniesListScreen> {
               ),
               data: (companies) {
                 if (companies.isEmpty) {
-                  return const EmptyState(
+                  return EmptyState(
                     icon: Icons.apartment_outlined,
-                    title: 'No companies found',
+                    title: l10n.noCompaniesFound,
                   );
                 }
                 return ListView.separated(
@@ -125,8 +131,8 @@ class _CompaniesListScreenState extends ConsumerState<CompaniesListScreen> {
                             style: const TextStyle(fontWeight: FontWeight.w600)),
                         subtitle: Text([
                           if (company.industry != null) company.industry,
-                          '${company.contactCount} contacts',
-                          '${company.dealCount} deals',
+                          l10n.contactsCountShort(company.contactCount),
+                          l10n.dealsCountShort(company.dealCount),
                         ].whereType<String>().join(' · ')),
                         onTap: () => context.go('/companies/${company.id}'),
                         trailing: PopupMenuButton<String>(
@@ -134,9 +140,9 @@ class _CompaniesListScreenState extends ConsumerState<CompaniesListScreen> {
                             if (value == 'edit') _edit(company);
                             if (value == 'delete') _delete(company);
                           },
-                          itemBuilder: (context) => const [
-                            PopupMenuItem(value: 'edit', child: Text('Edit')),
-                            PopupMenuItem(value: 'delete', child: Text('Delete')),
+                          itemBuilder: (context) => [
+                            PopupMenuItem(value: 'edit', child: Text(l10n.edit)),
+                            PopupMenuItem(value: 'delete', child: Text(l10n.delete)),
                           ],
                         ),
                       ),

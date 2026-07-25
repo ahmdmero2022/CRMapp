@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/models/contact.dart';
 import '../../core/providers/contacts_provider.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../../widgets/confirm_dialog.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/initials_avatar.dart';
@@ -27,39 +28,42 @@ class _ContactsListScreenState extends ConsumerState<ContactsListScreen> {
   }
 
   Future<void> _create() async {
+    final l10n = AppLocalizations.of(context);
     final result = await showContactFormDialog(context);
     if (result == null) return;
     try {
       await ref.read(contactsControllerProvider.notifier).create(result.body);
-      if (mounted) showSuccessSnackBar(context, 'Contact created');
+      if (mounted) showSuccessSnackBar(context, l10n.contactCreatedMessage);
     } catch (e) {
       if (mounted) showErrorSnackBar(context, e.toString());
     }
   }
 
   Future<void> _edit(Contact contact) async {
+    final l10n = AppLocalizations.of(context);
     final result = await showContactFormDialog(context, existing: contact);
     if (result == null) return;
     try {
       await ref
           .read(contactsControllerProvider.notifier)
           .update(contact.id, result.body);
-      if (mounted) showSuccessSnackBar(context, 'Contact updated');
+      if (mounted) showSuccessSnackBar(context, l10n.contactUpdatedMessage);
     } catch (e) {
       if (mounted) showErrorSnackBar(context, e.toString());
     }
   }
 
   Future<void> _delete(Contact contact) async {
+    final l10n = AppLocalizations.of(context);
     final confirmed = await confirmDialog(
       context,
-      title: 'Delete contact',
-      message: 'Delete ${contact.fullName}? This cannot be undone.',
+      title: l10n.deleteContactTitle,
+      message: l10n.deleteContactMessage(contact.fullName),
     );
     if (!confirmed) return;
     try {
       await ref.read(contactsControllerProvider.notifier).delete(contact.id);
-      if (mounted) showSuccessSnackBar(context, 'Contact deleted');
+      if (mounted) showSuccessSnackBar(context, l10n.contactDeletedMessage);
     } catch (e) {
       if (mounted) showErrorSnackBar(context, e.toString());
     }
@@ -67,6 +71,7 @@ class _ContactsListScreenState extends ConsumerState<ContactsListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final contactsAsync = ref.watch(contactsControllerProvider);
 
     return Padding(
@@ -75,22 +80,22 @@ class _ContactsListScreenState extends ConsumerState<ContactsListScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionHeader(
-            title: 'Contacts',
-            subtitle: 'Everyone you do business with.',
+            title: l10n.contactsTitle,
+            subtitle: l10n.contactsSubtitle,
             actions: [
               FilledButton.icon(
                 onPressed: _create,
                 icon: const Icon(Icons.add),
-                label: const Text('Add Contact'),
+                label: Text(l10n.addContact),
               ),
             ],
           ),
           const SizedBox(height: 20),
           TextField(
             controller: _searchController,
-            decoration: const InputDecoration(
-              hintText: 'Search contacts by name or email...',
-              prefixIcon: Icon(Icons.search),
+            decoration: InputDecoration(
+              hintText: l10n.searchContactsHint,
+              prefixIcon: const Icon(Icons.search),
             ),
             onChanged: (value) =>
                 ref.read(contactsControllerProvider.notifier).setSearch(value),
@@ -105,10 +110,10 @@ class _ContactsListScreenState extends ConsumerState<ContactsListScreen> {
               ),
               data: (contacts) {
                 if (contacts.isEmpty) {
-                  return const EmptyState(
+                  return EmptyState(
                     icon: Icons.people_outline,
-                    title: 'No contacts found',
-                    subtitle: 'Try adjusting your search or add a new contact.',
+                    title: l10n.noContactsFoundTitle,
+                    subtitle: l10n.noContactsFoundSubtitle,
                   );
                 }
                 return RefreshIndicator(
@@ -140,9 +145,9 @@ class _ContactsListScreenState extends ConsumerState<ContactsListScreen> {
                               if (value == 'edit') _edit(contact);
                               if (value == 'delete') _delete(contact);
                             },
-                            itemBuilder: (context) => const [
-                              PopupMenuItem(value: 'edit', child: Text('Edit')),
-                              PopupMenuItem(value: 'delete', child: Text('Delete')),
+                            itemBuilder: (context) => [
+                              PopupMenuItem(value: 'edit', child: Text(l10n.edit)),
+                              PopupMenuItem(value: 'delete', child: Text(l10n.delete)),
                             ],
                           ),
                         ),

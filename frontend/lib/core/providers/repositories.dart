@@ -208,6 +208,21 @@ class DashboardRepository {
   }
 }
 
+class AuthRepository {
+  AuthRepository(this._api);
+  final ApiClient _api;
+
+  Future<void> changePassword(String currentPassword, String newPassword) {
+    return _api.put('/auth/change-password', body: {
+      'currentPassword': currentPassword,
+      'newPassword': newPassword,
+    });
+  }
+}
+
+final authRepositoryProvider =
+    Provider((ref) => AuthRepository(ref.watch(apiClientProvider)));
+
 final companiesRepositoryProvider = Provider(
     (ref) => CompaniesRepository(ref.watch(apiClientProvider)));
 final contactsRepositoryProvider = Provider(

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/models/deal.dart';
 import '../../core/providers/companies_provider.dart';
 import '../../core/providers/contacts_provider.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 class DealFormResult {
   DealFormResult(this.body);
@@ -64,11 +65,12 @@ class _DealFormDialogState extends ConsumerState<DealFormDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final contactsAsync = ref.watch(contactsControllerProvider);
     final companiesAsync = ref.watch(companiesControllerProvider);
 
     return AlertDialog(
-      title: Text(widget.existing == null ? 'Add Deal' : 'Edit Deal'),
+      title: Text(widget.existing == null ? l10n.addDeal : l10n.editDeal),
       content: SizedBox(
         width: 440,
         child: Form(
@@ -79,23 +81,23 @@ class _DealFormDialogState extends ConsumerState<DealFormDialog> {
               children: [
                 TextFormField(
                   controller: _title,
-                  decoration: const InputDecoration(labelText: 'Deal title'),
+                  decoration: InputDecoration(labelText: l10n.dealTitleLabel),
                   validator: (v) =>
-                      (v == null || v.trim().isEmpty) ? 'Required' : null,
+                      (v == null || v.trim().isEmpty) ? l10n.requiredField : null,
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: _value,
-                  decoration: const InputDecoration(labelText: 'Value (\$)'),
+                  decoration: InputDecoration(labelText: l10n.valueDollarLabel),
                   keyboardType: TextInputType.number,
                 ),
                 const SizedBox(height: 12),
                 companiesAsync.when(
                   data: (companies) => DropdownButtonFormField<String?>(
                     value: companies.any((c) => c.id == _companyId) ? _companyId : null,
-                    decoration: const InputDecoration(labelText: 'Company'),
+                    decoration: InputDecoration(labelText: l10n.companyLabel),
                     items: [
-                      const DropdownMenuItem<String?>(value: null, child: Text('None')),
+                      DropdownMenuItem<String?>(value: null, child: Text(l10n.none)),
                       for (final c in companies)
                         DropdownMenuItem<String?>(value: c.id, child: Text(c.name)),
                     ],
@@ -108,9 +110,9 @@ class _DealFormDialogState extends ConsumerState<DealFormDialog> {
                 contactsAsync.when(
                   data: (contacts) => DropdownButtonFormField<String?>(
                     value: contacts.any((c) => c.id == _contactId) ? _contactId : null,
-                    decoration: const InputDecoration(labelText: 'Primary contact'),
+                    decoration: InputDecoration(labelText: l10n.primaryContactLabel),
                     items: [
-                      const DropdownMenuItem<String?>(value: null, child: Text('None')),
+                      DropdownMenuItem<String?>(value: null, child: Text(l10n.none)),
                       for (final c in contacts)
                         DropdownMenuItem<String?>(value: c.id, child: Text(c.fullName)),
                     ],
@@ -132,13 +134,14 @@ class _DealFormDialogState extends ConsumerState<DealFormDialog> {
                   },
                   icon: const Icon(Icons.calendar_today, size: 16),
                   label: Text(_expectedCloseDate == null
-                      ? 'Set expected close date'
-                      : 'Closes ${_expectedCloseDate!.toLocal().toString().split(' ').first}'),
+                      ? l10n.setExpectedCloseDate
+                      : l10n.closesOnLabel(
+                          _expectedCloseDate!.toLocal().toString().split(' ').first)),
                 ),
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Text('Probability: ${_probability.round()}%'),
+                    Text(l10n.probabilityWithPercent(_probability.round())),
                   ],
                 ),
                 Slider(
@@ -152,7 +155,7 @@ class _DealFormDialogState extends ConsumerState<DealFormDialog> {
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _notes,
-                  decoration: const InputDecoration(labelText: 'Notes'),
+                  decoration: InputDecoration(labelText: l10n.notesLabel),
                   maxLines: 3,
                 ),
               ],
@@ -163,7 +166,7 @@ class _DealFormDialogState extends ConsumerState<DealFormDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text(l10n.cancel),
         ),
         FilledButton(
           onPressed: () {
@@ -179,7 +182,7 @@ class _DealFormDialogState extends ConsumerState<DealFormDialog> {
               if (widget.existing == null) 'stageId': widget.initialStageId,
             }));
           },
-          child: Text(widget.existing == null ? 'Create' : 'Save'),
+          child: Text(widget.existing == null ? l10n.create : l10n.save),
         ),
       ],
     );

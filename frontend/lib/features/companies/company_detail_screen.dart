@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../../core/providers/companies_provider.dart';
 import '../../core/providers/detail_providers.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../../widgets/confirm_dialog.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/initials_avatar.dart';
@@ -17,6 +18,7 @@ class CompanyDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final detailAsync = ref.watch(companyDetailProvider(id));
 
     return Scaffold(
@@ -85,7 +87,8 @@ class CompanyDetailScreen extends ConsumerWidget {
                         icon: const Icon(Icons.delete_outline),
                         onPressed: () async {
                           final confirmed = await confirmDialog(context,
-                              title: 'Delete company', message: 'Delete ${company.name}?');
+                              title: l10n.deleteCompanyTitle,
+                              message: l10n.deleteCompanyMessage(company.name));
                           if (!confirmed) return;
                           await ref
                               .read(companiesControllerProvider.notifier)
@@ -102,7 +105,7 @@ class CompanyDetailScreen extends ConsumerWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Company Info',
+                          Text(l10n.companyInfoTitle,
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium
@@ -117,7 +120,7 @@ class CompanyDetailScreen extends ConsumerWidget {
                                 icon: Icons.location_on_outlined, value: company.address!),
                           if (company.notes != null && company.notes!.isNotEmpty) ...[
                             const Divider(height: 24),
-                            Text('Notes', style: Theme.of(context).textTheme.labelLarge),
+                            Text(l10n.notesLabel, style: Theme.of(context).textTheme.labelLarge),
                             const SizedBox(height: 4),
                             Text(company.notes!),
                           ],
@@ -132,14 +135,14 @@ class CompanyDetailScreen extends ConsumerWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Contacts (${detail.contacts.length})',
+                          Text(l10n.contactsWithCount(detail.contacts.length),
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium
                                   ?.copyWith(fontWeight: FontWeight.w700)),
                           const SizedBox(height: 12),
                           if (detail.contacts.isEmpty)
-                            const Text('No contacts yet.')
+                            Text(l10n.noContactsYet)
                           else
                             for (final contact in detail.contacts)
                               ListTile(
@@ -161,14 +164,14 @@ class CompanyDetailScreen extends ConsumerWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Deals (${detail.deals.length})',
+                          Text(l10n.dealsWithCount(detail.deals.length),
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium
                                   ?.copyWith(fontWeight: FontWeight.w700)),
                           const SizedBox(height: 12),
                           if (detail.deals.isEmpty)
-                            const Text('No deals yet.')
+                            Text(l10n.noDealsYetPlain)
                           else
                             for (final deal in detail.deals)
                               Padding(

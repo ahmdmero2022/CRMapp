@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import '../../core/models/task.dart';
 import '../../core/providers/tasks_provider.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/utils/enum_labels.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../../widgets/confirm_dialog.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/section_header.dart';
@@ -21,25 +23,28 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
   String? _filter;
 
   Future<void> _create() async {
+    final l10n = AppLocalizations.of(context);
     final result = await showTaskFormDialog(context);
     if (result == null) return;
     try {
       await ref.read(tasksControllerProvider.notifier).create(result.body);
-      if (mounted) showSuccessSnackBar(context, 'Task created');
+      if (mounted) showSuccessSnackBar(context, l10n.taskCreatedMessage);
     } catch (e) {
       if (mounted) showErrorSnackBar(context, e.toString());
     }
   }
 
   Future<void> _delete(CrmTask task) async {
+    final l10n = AppLocalizations.of(context);
     final confirmed = await confirmDialog(context,
-        title: 'Delete task', message: 'Delete "${task.title}"?');
+        title: l10n.deleteTaskTitle, message: l10n.deleteTaskMessage(task.title));
     if (!confirmed) return;
     await ref.read(tasksControllerProvider.notifier).delete(task.id);
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final tasksAsync = ref.watch(tasksControllerProvider);
 
     return Padding(
@@ -48,13 +53,13 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionHeader(
-            title: 'Tasks',
-            subtitle: 'Stay on top of your follow-ups.',
+            title: l10n.tasksTitle,
+            subtitle: l10n.tasksSubtitle,
             actions: [
               FilledButton.icon(
                 onPressed: _create,
                 icon: const Icon(Icons.add),
-                label: const Text('Add Task'),
+                label: Text(l10n.addTask),
               ),
             ],
           ),
@@ -63,7 +68,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
             spacing: 8,
             children: [
               ChoiceChip(
-                label: const Text('All'),
+                label: Text(l10n.allFilterLabel),
                 selected: _filter == null,
                 onSelected: (_) {
                   setState(() => _filter = null);
@@ -71,7 +76,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
                 },
               ),
               ChoiceChip(
-                label: const Text('Pending'),
+                label: Text(l10n.pendingFilterLabel),
                 selected: _filter == 'pending',
                 onSelected: (_) {
                   setState(() => _filter = 'pending');
@@ -79,7 +84,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
                 },
               ),
               ChoiceChip(
-                label: const Text('Completed'),
+                label: Text(l10n.completedFilterLabel),
                 selected: _filter == 'completed',
                 onSelected: (_) {
                   setState(() => _filter = 'completed');
@@ -100,8 +105,8 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
               ),
               data: (tasks) {
                 if (tasks.isEmpty) {
-                  return const EmptyState(
-                      icon: Icons.task_alt, title: 'No tasks found');
+                  return EmptyState(
+                      icon: Icons.task_alt, title: l10n.noTasksFoundTitle);
                 }
                 return ListView.separated(
                   itemCount: tasks.length,
@@ -140,7 +145,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
-                                task.priority,
+                                taskPriorityLabel(l10n, task.priority),
                                 style: TextStyle(
                                   color: AppTheme.priorityColor(task.priority),
                                   fontWeight: FontWeight.w600,

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:dotenv/dotenv.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_router/shelf_router.dart';
@@ -23,11 +24,13 @@ import 'package:backend/src/middleware/cors_middleware.dart';
 import 'package:backend/src/utils/responses.dart';
 
 Future<void> main(List<String> args) async {
-  final port = int.tryParse(Platform.environment['PORT'] ?? '8080') ?? 8080;
-  final dbPath = Platform.environment['DB_PATH'] ?? 'data/crm.db';
-  final webRoot = Platform.environment['WEB_ROOT'] ?? '../frontend/build/web';
+  final env = DotEnv(includePlatformEnvironment: true)..load();
 
-  final envSecret = Platform.environment['JWT_SECRET'];
+  final port = int.tryParse(env['PORT'] ?? '8080') ?? 8080;
+  final dbPath = env['DB_PATH'] ?? 'data/crm.db';
+  final webRoot = env['WEB_ROOT'] ?? '../frontend/build/web';
+
+  final envSecret = env['JWT_SECRET'];
   final jwtSecret = (envSecret == null || envSecret.isEmpty)
       ? _generateRandomSecret()
       : envSecret;

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../core/theme/app_theme.dart';
+import '../l10n/generated/app_localizations.dart';
+
 class EmptyState extends StatelessWidget {
   const EmptyState({
     super.key,
@@ -23,8 +26,8 @@ class EmptyState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 56, color: theme.colorScheme.outline),
-            const SizedBox(height: 16),
+            _EmptyStateArt(icon: icon),
+            const SizedBox(height: 20),
             Text(title,
                 style: theme.textTheme.titleMedium
                     ?.copyWith(fontWeight: FontWeight.w600)),
@@ -54,17 +57,82 @@ class ErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return EmptyState(
       icon: Icons.error_outline,
-      title: 'Something went wrong',
+      title: l10n.somethingWentWrong,
       subtitle: message,
       action: onRetry == null
           ? null
           : FilledButton.icon(
               onPressed: onRetry,
               icon: const Icon(Icons.refresh),
-              label: const Text('Retry'),
+              label: Text(l10n.retry),
             ),
     );
   }
+}
+
+/// A small decorative badge — a soft gradient circle with scattered dots
+/// behind the resource icon — standing in for a bespoke illustration on
+/// every empty/error screen without shipping an image asset.
+class _EmptyStateArt extends StatelessWidget {
+  const _EmptyStateArt({required this.icon});
+
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    final isLight = Theme.of(context).brightness == Brightness.light;
+    final backdrop = isLight ? AppTheme.blue50 : AppTheme.blue900.withOpacity(0.4);
+    final dotA = isLight ? AppTheme.blue200 : AppTheme.blue700.withOpacity(0.6);
+    final dotB = isLight ? AppTheme.blue100 : AppTheme.blue800.withOpacity(0.5);
+    final dotC = isLight
+        ? AppTheme.blue300.withOpacity(0.6)
+        : AppTheme.blue600.withOpacity(0.35);
+
+    return SizedBox(
+      width: 128,
+      height: 128,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            width: 116,
+            height: 116,
+            decoration: BoxDecoration(shape: BoxShape.circle, color: backdrop),
+          ),
+          PositionedDirectional(top: 10, start: 6, child: _dot(16, dotA)),
+          PositionedDirectional(bottom: 14, end: 4, child: _dot(22, dotB)),
+          PositionedDirectional(top: 18, end: 20, child: _dot(10, dotC)),
+          Container(
+            width: 72,
+            height: 72,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [AppTheme.blue500, AppTheme.blue700],
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: AppTheme.blue600.withOpacity(0.28),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
+            child: Icon(icon, size: 32, color: Colors.white),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _dot(double size, Color color) => Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(shape: BoxShape.circle, color: color),
+      );
 }

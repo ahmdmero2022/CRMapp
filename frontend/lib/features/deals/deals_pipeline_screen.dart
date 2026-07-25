@@ -6,6 +6,7 @@ import '../../core/models/deal.dart';
 import '../../core/models/pipeline_stage.dart';
 import '../../core/providers/deals_provider.dart';
 import '../../core/theme/app_theme.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../../widgets/confirm_dialog.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/section_header.dart';
@@ -19,6 +20,7 @@ class DealsPipelineScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final stagesAsync = ref.watch(pipelineStagesProvider);
     final dealsAsync = ref.watch(dealsControllerProvider);
 
@@ -27,9 +29,9 @@ class DealsPipelineScreen extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SectionHeader(
-            title: 'Deals Pipeline',
-            subtitle: 'Drag cards between stages to update progress.',
+          SectionHeader(
+            title: l10n.dealsPipelineTitle,
+            subtitle: l10n.dealsPipelineSubtitle,
           ),
           const SizedBox(height: 20),
           Expanded(
@@ -85,6 +87,7 @@ class _StageColumn extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final color = AppTheme.stageColor(stage.color);
     final totalValue = deals.fold<double>(0, (sum, d) => sum + d.value);
 
@@ -103,7 +106,7 @@ class _StageColumn extends ConsumerWidget {
         final isHovering = candidateData.isNotEmpty;
         return Container(
           width: 300,
-          margin: const EdgeInsets.only(right: 16),
+          margin: const EdgeInsetsDirectional.only(end: 16),
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: isHovering
@@ -135,7 +138,7 @@ class _StageColumn extends ConsumerWidget {
                           color: Theme.of(context).colorScheme.onSurfaceVariant)),
                   IconButton(
                     icon: const Icon(Icons.add, size: 18),
-                    tooltip: 'Add deal',
+                    tooltip: l10n.addDeal,
                     onPressed: () async {
                       final result =
                           await showDealFormDialog(context, initialStageId: stage.id);
@@ -161,7 +164,7 @@ class _StageColumn extends ConsumerWidget {
                     ? Center(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 24),
-                          child: Text('No deals',
+                          child: Text(l10n.noDealsShort,
                               style: TextStyle(
                                   color: Theme.of(context).colorScheme.outline)),
                         ),
@@ -187,6 +190,7 @@ class _DealCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final card = Card(
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
@@ -225,7 +229,7 @@ class _DealCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 4),
-              Text('${deal.probability}% probability',
+              Text(l10n.probabilityPercentSuffix(deal.probability),
                   style: Theme.of(context).textTheme.bodySmall),
             ],
           ),

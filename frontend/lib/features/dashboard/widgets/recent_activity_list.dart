@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/models/activity.dart';
+import '../../../l10n/generated/app_localizations.dart';
 import '../../../widgets/empty_state.dart';
 
 IconData _iconForType(String type) {
@@ -26,10 +27,11 @@ class RecentActivityList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     if (activities.isEmpty) {
-      return const SizedBox(
+      return SizedBox(
         height: 160,
-        child: EmptyState(icon: Icons.history, title: 'No activity yet'),
+        child: EmptyState(icon: Icons.history, title: l10n.noActivityYetTitle),
       );
     }
     return Column(
@@ -56,7 +58,7 @@ class RecentActivityList extends StatelessWidget {
                           style: Theme.of(context).textTheme.bodyMedium),
                       const SizedBox(height: 2),
                       Text(
-                        '${activity.ownerName ?? 'Someone'} · ${_relativeTime(activity.createdAt)}',
+                        '${activity.ownerName ?? l10n.someoneFallback} · ${_relativeTime(l10n, activity.createdAt)}',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: Theme.of(context).colorScheme.onSurfaceVariant),
                       ),
@@ -71,13 +73,13 @@ class RecentActivityList extends StatelessWidget {
   }
 }
 
-String _relativeTime(String iso) {
+String _relativeTime(AppLocalizations l10n, String iso) {
   final date = DateTime.tryParse(iso);
   if (date == null) return '';
   final diff = DateTime.now().difference(date);
-  if (diff.inMinutes < 1) return 'just now';
-  if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
-  if (diff.inHours < 24) return '${diff.inHours}h ago';
-  if (diff.inDays < 7) return '${diff.inDays}d ago';
+  if (diff.inMinutes < 1) return l10n.justNowLabel;
+  if (diff.inMinutes < 60) return l10n.minutesAgoLabel(diff.inMinutes);
+  if (diff.inHours < 24) return l10n.hoursAgoLabel(diff.inHours);
+  if (diff.inDays < 7) return l10n.daysAgoLabel(diff.inDays);
   return DateFormat.yMMMd().format(date);
 }

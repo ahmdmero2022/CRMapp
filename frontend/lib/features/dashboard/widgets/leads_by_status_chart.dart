@@ -2,11 +2,13 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_theme.dart';
+import '../../../core/utils/enum_labels.dart';
+import '../../../l10n/generated/app_localizations.dart';
 import '../../../widgets/empty_state.dart';
 
 const _statusColors = {
-  'new': AppTheme.info,
-  'contacted': AppTheme.seed,
+  'new': AppTheme.blue400,
+  'contacted': AppTheme.blue700,
   'qualified': AppTheme.success,
   'unqualified': AppTheme.danger,
   'converted': AppTheme.warning,
@@ -19,13 +21,14 @@ class LeadsByStatusChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final total = leadsByStatus.values.fold<int>(0, (a, b) => a + b);
     if (total == 0) {
-      return const SizedBox(
+      return SizedBox(
         height: 220,
         child: EmptyState(
           icon: Icons.pie_chart_outline,
-          title: 'No leads yet',
+          title: l10n.noLeadsYetTitle,
         ),
       );
     }
@@ -73,7 +76,8 @@ class LeadsByStatusChart extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 6),
-                  Text(e.key, style: Theme.of(context).textTheme.bodySmall),
+                  Text(leadStatusLabel(l10n, e.key),
+                      style: Theme.of(context).textTheme.bodySmall),
                 ],
               ),
           ],

@@ -83,8 +83,8 @@ class _DashboardBody extends StatelessWidget {
               StatCard(
                 label: l10n.statOpenDeals,
                 value: '${stats.openDeals}',
-                subtitle:
-                    l10n.pipelineValueSubtitle(_currencyFormat.format(stats.openDealsValue)),
+                subtitle: l10n.pipelineValueSubtitle(
+                    _currencyFormat.format(stats.openDealsValue)),
                 icon: Icons.trending_up,
                 color: AppTheme.warning,
               ),
@@ -121,7 +121,8 @@ class _DashboardBody extends StatelessWidget {
                 label: l10n.statOverdueTasks,
                 value: '${stats.overdueTasks}',
                 icon: Icons.warning_amber,
-                color: stats.overdueTasks > 0 ? AppTheme.danger : AppTheme.success,
+                color:
+                    stats.overdueTasks > 0 ? AppTheme.danger : AppTheme.success,
               ),
             ],
           ),
@@ -208,7 +209,7 @@ class _ChartCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

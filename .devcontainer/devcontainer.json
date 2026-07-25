@@ -1,6 +1,6 @@
 {
   "name": "CRM App (Flutter + Dart)",
-  "image": "ghcr.io/cirruslabs/flutter:stable",
+  
   "forwardPorts": [8080],
   "portsAttributes": {
     "8080": {

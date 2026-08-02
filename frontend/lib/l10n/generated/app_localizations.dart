@@ -899,6 +899,18 @@ abstract class AppLocalizations {
   /// **'Overdue Tasks'**
   String get statOverdueTasks;
 
+  /// No description provided for @statConversionRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Lead Conversion'**
+  String get statConversionRate;
+
+  /// No description provided for @deltaVsLastMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'vs last month'**
+  String get deltaVsLastMonth;
+
   /// No description provided for @pipelineByStageTitle.
   ///
   /// In en, this message translates to:
@@ -910,6 +922,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Leads by Status'**
   String get leadsByStatusTitle;
+
+  /// No description provided for @revenueTrendTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue Trend'**
+  String get revenueTrendTitle;
+
+  /// No description provided for @teamPerformanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Team Performance'**
+  String get teamPerformanceTitle;
+
+  /// No description provided for @teamPerformanceColumnMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Team member'**
+  String get teamPerformanceColumnMember;
+
+  /// No description provided for @teamPerformanceColumnOpenDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get teamPerformanceColumnOpenDeals;
+
+  /// No description provided for @teamPerformanceColumnWonDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Won'**
+  String get teamPerformanceColumnWonDeals;
+
+  /// No description provided for @teamPerformanceColumnWonValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Won value'**
+  String get teamPerformanceColumnWonValue;
+
+  /// No description provided for @collapseSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse section'**
+  String get collapseSection;
+
+  /// No description provided for @expandSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand section'**
+  String get expandSection;
 
   /// No description provided for @recentActivityTitle.
   ///
@@ -940,6 +1000,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Deals will appear here once you create some.'**
   String get noDealsYetSubtitle;
+
+  /// No description provided for @noRevenueYetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No revenue yet'**
+  String get noRevenueYetTitle;
+
+  /// No description provided for @noRevenueYetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Won deals will appear here once you close some.'**
+  String get noRevenueYetSubtitle;
 
   /// No description provided for @noLeadsYetTitle.
   ///

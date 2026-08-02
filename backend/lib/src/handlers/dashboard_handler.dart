@@ -74,6 +74,75 @@ class DashboardHandler {
     final upcomingTasks =
         upcomingTasksRows.map((r) => Task.fromRow(r).toJson()).toList();
 
+    final convertedLeads = db
+        .select("SELECT COUNT(*) c FROM leads WHERE status = 'converted'")
+        .first['c'] as int;
+    final conversionRate =
+        totalLeads > 0 ? (convertedLeads / totalLeads) * 100 : 0.0;
+
+    // Last 6 calendar months of won-deal revenue, zero-filled for months with
+    // no wins. `updated_at` is used as a "won at" proxy since deals have no
+    // dedicated won-date column — it's refreshed whenever a deal's stage (and
+    // therefore status) changes, see DealsHandler._updateStage.
+    String monthKey(DateTime d) =>
+        '${d.year.toString().padLeft(4, '0')}-${d.month.toString().padLeft(2, '0')}';
+    final sixMonthsAgo = DateTime(today.year, today.month - 5, 1);
+    final revenueRows = db.select(
+      "SELECT strftime('%Y-%m', updated_at) as month, COALESCE(SUM(value), 0) as total FROM deals WHERE status = 'won' AND updated_at >= ? GROUP BY month",
+      [sixMonthsAgo.toIso8601String()],
+    );
+    final revenueByMonth = {
+      for (final r in revenueRows)
+        r['month'] as String: (r['total'] as num).toDouble()
+    };
+    final revenueTrend = [
+      for (var i = 5; i >= 0; i--)
+        () {
+          final month = monthKey(DateTime(today.year, today.month - i, 1));
+          return {'month': month, 'value': revenueByMonth[month] ?? 0.0};
+        }(),
+    ];
+    final revenueDeltaPercent = revenueTrend.length >= 2 &&
+            (revenueTrend[revenueTrend.length - 2]['value'] as double) > 0
+        ? ((revenueTrend.last['value'] as double) -
+                (revenueTrend[revenueTrend.length - 2]['value'] as double)) /
+            (revenueTrend[revenueTrend.length - 2]['value'] as double) *
+            100
+        : null;
+
+    final thisMonthStart = DateTime(today.year, today.month, 1).toIso8601String();
+    final lastMonthStart =
+        DateTime(today.year, today.month - 1, 1).toIso8601String();
+    final newLeadsThisMonth = db.select(
+        'SELECT COUNT(*) c FROM leads WHERE created_at >= ?',
+        [thisMonthStart]).first['c'] as int;
+    final newLeadsLastMonth = db.select(
+        'SELECT COUNT(*) c FROM leads WHERE created_at >= ? AND created_at < ?',
+        [lastMonthStart, thisMonthStart]).first['c'] as int;
+    final leadsDeltaPercent = newLeadsLastMonth > 0
+        ? (newLeadsThisMonth - newLeadsLastMonth) / newLeadsLastMonth * 100
+        : null;
+
+    final teamRows = db.select('''
+      SELECT u.id, u.name,
+        COUNT(CASE WHEN d.status = 'open' THEN 1 END) as open_count,
+        COUNT(CASE WHEN d.status = 'won' THEN 1 END) as won_count,
+        COALESCE(SUM(CASE WHEN d.status = 'won' THEN d.value ELSE 0 END), 0) as won_value
+      FROM users u
+      LEFT JOIN deals d ON d.owner_id = u.id
+      GROUP BY u.id, u.name
+      ORDER BY won_value DESC, open_count DESC
+    ''');
+    final teamPerformance = teamRows
+        .map((r) => {
+              'userId': r['id'],
+              'name': r['name'],
+              'openDeals': r['open_count'],
+              'wonDeals': r['won_count'],
+              'wonValue': (r['won_value'] as num).toDouble(),
+            })
+        .toList();
+
     return jsonResponse({
       'totalContacts': totalContacts,
       'totalCompanies': totalCompanies,
@@ -87,6 +156,11 @@ class DashboardHandler {
       'leadsByStatus': leadsByStatus,
       'recentActivities': recentActivities,
       'upcomingTasks': upcomingTasks,
+      'conversionRate': conversionRate,
+      'revenueTrend': revenueTrend,
+      'teamPerformance': teamPerformance,
+      'revenueDeltaPercent': revenueDeltaPercent,
+      'leadsDeltaPercent': leadsDeltaPercent,
     });
   }
 }

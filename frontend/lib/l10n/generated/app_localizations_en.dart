@@ -427,10 +427,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statOverdueTasks => 'Overdue Tasks';
 
   @override
+  String get statConversionRate => 'Lead Conversion';
+
+  @override
+  String get deltaVsLastMonth => 'vs last month';
+
+  @override
   String get pipelineByStageTitle => 'Pipeline by Stage';
 
   @override
   String get leadsByStatusTitle => 'Leads by Status';
+
+  @override
+  String get revenueTrendTitle => 'Revenue Trend';
+
+  @override
+  String get teamPerformanceTitle => 'Team Performance';
+
+  @override
+  String get teamPerformanceColumnMember => 'Team member';
+
+  @override
+  String get teamPerformanceColumnOpenDeals => 'Open';
+
+  @override
+  String get teamPerformanceColumnWonDeals => 'Won';
+
+  @override
+  String get teamPerformanceColumnWonValue => 'Won value';
+
+  @override
+  String get collapseSection => 'Collapse section';
+
+  @override
+  String get expandSection => 'Expand section';
 
   @override
   String get recentActivityTitle => 'Recent Activity';
@@ -446,6 +476,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noDealsYetSubtitle => 'Deals will appear here once you create some.';
+
+  @override
+  String get noRevenueYetTitle => 'No revenue yet';
+
+  @override
+  String get noRevenueYetSubtitle => 'Won deals will appear here once you close some.';
 
   @override
   String get noLeadsYetTitle => 'No leads yet';

@@ -14,6 +14,8 @@ import '../../widgets/stat_card.dart';
 import 'widgets/deals_by_stage_chart.dart';
 import 'widgets/leads_by_status_chart.dart';
 import 'widgets/recent_activity_list.dart';
+import 'widgets/revenue_trend_chart.dart';
+import 'widgets/team_performance_table.dart';
 import 'widgets/upcoming_tasks_list.dart';
 
 final _currencyFormat = NumberFormat.currency(symbol: '\$', decimalDigits: 0);
@@ -105,6 +107,9 @@ class _DashboardBody extends StatelessWidget {
                   value: _currencyFormat.format(stats.wonDealsValue),
                   icon: Icons.emoji_events,
                   color: AppTheme.success,
+                  deltaPercent: stats.revenueDeltaPercent,
+                  deltaLabel:
+                      stats.revenueDeltaPercent != null ? l10n.deltaVsLastMonth : null,
                 ),
               ),
             ],
@@ -125,10 +130,22 @@ class _DashboardBody extends StatelessWidget {
                   value: '${stats.totalLeads}',
                   icon: Icons.filter_alt,
                   color: AppTheme.seed,
+                  deltaPercent: stats.leadsDeltaPercent,
+                  deltaLabel:
+                      stats.leadsDeltaPercent != null ? l10n.deltaVsLastMonth : null,
                 ),
               ),
               FadeSlideIn(
                 delay: FadeSlideIn.staggerDelay(5),
+                child: StatCard(
+                  label: l10n.statConversionRate,
+                  value: '${stats.conversionRate.toStringAsFixed(0)}%',
+                  icon: Icons.swap_horiz,
+                  color: AppTheme.info,
+                ),
+              ),
+              FadeSlideIn(
+                delay: FadeSlideIn.staggerDelay(6),
                 child: StatCard(
                   label: l10n.statTasksDueToday,
                   value: '${stats.tasksDueToday}',
@@ -137,7 +154,7 @@ class _DashboardBody extends StatelessWidget {
                 ),
               ),
               FadeSlideIn(
-                delay: FadeSlideIn.staggerDelay(6),
+                delay: FadeSlideIn.staggerDelay(7),
                 child: StatCard(
                   label: l10n.statOverdueTasks,
                   value: '${stats.overdueTasks}',
@@ -215,6 +232,37 @@ class _DashboardBody extends StatelessWidget {
               );
             },
           ),
+          const SizedBox(height: 16),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final isWide = constraints.maxWidth > 900;
+              final revenueCard = _CollapsibleChartCard(
+                title: l10n.revenueTrendTitle,
+                child: RevenueTrendChart(points: stats.revenueTrend),
+              );
+              final teamCard = _CollapsibleChartCard(
+                title: l10n.teamPerformanceTitle,
+                child: TeamPerformanceTable(rows: stats.teamPerformance),
+              );
+              if (isWide) {
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(flex: 3, child: revenueCard),
+                    const SizedBox(width: 16),
+                    Expanded(flex: 2, child: teamCard),
+                  ],
+                );
+              }
+              return Column(
+                children: [
+                  revenueCard,
+                  const SizedBox(height: 16),
+                  teamCard,
+                ],
+              );
+            },
+          ),
         ],
       ),
     );
@@ -250,6 +298,65 @@ class _ChartCard extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             child,
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Like [_ChartCard] but collapsible — used for the newer, more
+/// data-dense secondary sections (revenue trend, team performance) so the
+/// dashboard doesn't feel overloaded on first load.
+class _CollapsibleChartCard extends StatefulWidget {
+  const _CollapsibleChartCard({required this.title, required this.child});
+
+  final String title;
+  final Widget child;
+
+  @override
+  State<_CollapsibleChartCard> createState() => _CollapsibleChartCardState();
+}
+
+class _CollapsibleChartCardState extends State<_CollapsibleChartCard> {
+  bool _expanded = true;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(widget.title,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium
+                          ?.copyWith(fontWeight: FontWeight.w700)),
+                ),
+                IconButton(
+                  tooltip: _expanded ? l10n.collapseSection : l10n.expandSection,
+                  icon: Icon(_expanded ? Icons.expand_less : Icons.expand_more),
+                  onPressed: () => setState(() => _expanded = !_expanded),
+                ),
+              ],
+            ),
+            AnimatedSize(
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeOut,
+              alignment: Alignment.topCenter,
+              child: _expanded
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: widget.child,
+                    )
+                  : const SizedBox(width: double.infinity),
+            ),
           ],
         ),
       ),

@@ -427,10 +427,40 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statOverdueTasks => 'مهام متأخرة';
 
   @override
+  String get statConversionRate => 'معدل تحويل العملاء المحتملين';
+
+  @override
+  String get deltaVsLastMonth => 'مقارنة بالشهر الماضي';
+
+  @override
   String get pipelineByStageTitle => 'خط الأنابيب حسب المرحلة';
 
   @override
   String get leadsByStatusTitle => 'العملاء المحتملون حسب الحالة';
+
+  @override
+  String get revenueTrendTitle => 'اتجاه الإيرادات';
+
+  @override
+  String get teamPerformanceTitle => 'أداء الفريق';
+
+  @override
+  String get teamPerformanceColumnMember => 'عضو الفريق';
+
+  @override
+  String get teamPerformanceColumnOpenDeals => 'مفتوحة';
+
+  @override
+  String get teamPerformanceColumnWonDeals => 'مكتسبة';
+
+  @override
+  String get teamPerformanceColumnWonValue => 'قيمة الصفقات المكتسبة';
+
+  @override
+  String get collapseSection => 'طي القسم';
+
+  @override
+  String get expandSection => 'توسيع القسم';
 
   @override
   String get recentActivityTitle => 'النشاط الأخير';
@@ -446,6 +476,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noDealsYetSubtitle => 'ستظهر الصفقات هنا بمجرد إنشائها.';
+
+  @override
+  String get noRevenueYetTitle => 'لا توجد إيرادات بعد';
+
+  @override
+  String get noRevenueYetSubtitle => 'ستظهر الصفقات المكتسبة هنا بمجرد إغلاقها.';
 
   @override
   String get noLeadsYetTitle => 'لا يوجد عملاء محتملون بعد';

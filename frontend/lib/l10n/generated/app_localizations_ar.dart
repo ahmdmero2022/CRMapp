@@ -66,6 +66,57 @@ class AppLocalizationsAr extends AppLocalizations {
   String get signOut => 'تسجيل الخروج';
 
   @override
+  String get navGroupOverview => 'نظرة عامة';
+
+  @override
+  String get navGroupSales => 'المبيعات';
+
+  @override
+  String get navGroupPeople => 'الأشخاص';
+
+  @override
+  String get navGroupWork => 'العمل';
+
+  @override
+  String get breadcrumbDetails => 'التفاصيل';
+
+  @override
+  String get sidebarCollapse => 'طي الشريط الجانبي';
+
+  @override
+  String get sidebarExpand => 'توسيع الشريط الجانبي';
+
+  @override
+  String get quickCreateTooltip => 'إنشاء سريع';
+
+  @override
+  String get quickCreateLead => 'عميل محتمل جديد';
+
+  @override
+  String get quickCreateCompany => 'شركة جديدة';
+
+  @override
+  String get quickCreateContact => 'جهة اتصال جديدة';
+
+  @override
+  String get quickCreateDeal => 'صفقة جديدة';
+
+  @override
+  String get quickCreateTask => 'مهمة جديدة';
+
+  @override
+  String get dealCreatedMessage => 'تم إنشاء الصفقة';
+
+  @override
+  String get notificationsTooltip => 'الإشعارات';
+
+  @override
+  String get notificationsEmptyTitle => 'لا توجد إشعارات بعد';
+
+  @override
+  String get notificationsEmptySubtitle => 'أنت على اطلاع بكل شيء.';
+
+  @override
   String get loginTitle => 'مرحبًا بعودتك';
 
   @override

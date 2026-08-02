@@ -8,6 +8,7 @@ import '../../core/providers/dashboard_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../../widgets/empty_state.dart';
+import '../../widgets/fade_slide_in.dart';
 import '../../widgets/section_header.dart';
 import '../../widgets/stat_card.dart';
 import 'widgets/deals_by_stage_chart.dart';
@@ -68,31 +69,43 @@ class _DashboardBody extends StatelessWidget {
             crossAxisSpacing: 16,
             childAspectRatio: 1.6,
             children: [
-              StatCard(
-                label: l10n.statContacts,
-                value: '${stats.totalContacts}',
-                icon: Icons.people,
-                color: AppTheme.info,
+              FadeSlideIn(
+                delay: FadeSlideIn.staggerDelay(0),
+                child: StatCard(
+                  label: l10n.statContacts,
+                  value: '${stats.totalContacts}',
+                  icon: Icons.people,
+                  color: AppTheme.info,
+                ),
               ),
-              StatCard(
-                label: l10n.statCompanies,
-                value: '${stats.totalCompanies}',
-                icon: Icons.apartment,
-                color: AppTheme.seed,
+              FadeSlideIn(
+                delay: FadeSlideIn.staggerDelay(1),
+                child: StatCard(
+                  label: l10n.statCompanies,
+                  value: '${stats.totalCompanies}',
+                  icon: Icons.apartment,
+                  color: AppTheme.seed,
+                ),
               ),
-              StatCard(
-                label: l10n.statOpenDeals,
-                value: '${stats.openDeals}',
-                subtitle: l10n.pipelineValueSubtitle(
-                    _currencyFormat.format(stats.openDealsValue)),
-                icon: Icons.trending_up,
-                color: AppTheme.warning,
+              FadeSlideIn(
+                delay: FadeSlideIn.staggerDelay(2),
+                child: StatCard(
+                  label: l10n.statOpenDeals,
+                  value: '${stats.openDeals}',
+                  subtitle: l10n.pipelineValueSubtitle(
+                      _currencyFormat.format(stats.openDealsValue)),
+                  icon: Icons.trending_up,
+                  color: AppTheme.warning,
+                ),
               ),
-              StatCard(
-                label: l10n.statWonRevenue,
-                value: _currencyFormat.format(stats.wonDealsValue),
-                icon: Icons.emoji_events,
-                color: AppTheme.success,
+              FadeSlideIn(
+                delay: FadeSlideIn.staggerDelay(3),
+                child: StatCard(
+                  label: l10n.statWonRevenue,
+                  value: _currencyFormat.format(stats.wonDealsValue),
+                  icon: Icons.emoji_events,
+                  color: AppTheme.success,
+                ),
               ),
             ],
           ),
@@ -105,24 +118,34 @@ class _DashboardBody extends StatelessWidget {
             crossAxisSpacing: 16,
             childAspectRatio: 1.6,
             children: [
-              StatCard(
-                label: l10n.statTotalLeads,
-                value: '${stats.totalLeads}',
-                icon: Icons.filter_alt,
-                color: AppTheme.seed,
+              FadeSlideIn(
+                delay: FadeSlideIn.staggerDelay(4),
+                child: StatCard(
+                  label: l10n.statTotalLeads,
+                  value: '${stats.totalLeads}',
+                  icon: Icons.filter_alt,
+                  color: AppTheme.seed,
+                ),
               ),
-              StatCard(
-                label: l10n.statTasksDueToday,
-                value: '${stats.tasksDueToday}',
-                icon: Icons.today,
-                color: AppTheme.info,
+              FadeSlideIn(
+                delay: FadeSlideIn.staggerDelay(5),
+                child: StatCard(
+                  label: l10n.statTasksDueToday,
+                  value: '${stats.tasksDueToday}',
+                  icon: Icons.today,
+                  color: AppTheme.info,
+                ),
               ),
-              StatCard(
-                label: l10n.statOverdueTasks,
-                value: '${stats.overdueTasks}',
-                icon: Icons.warning_amber,
-                color:
-                    stats.overdueTasks > 0 ? AppTheme.danger : AppTheme.success,
+              FadeSlideIn(
+                delay: FadeSlideIn.staggerDelay(6),
+                child: StatCard(
+                  label: l10n.statOverdueTasks,
+                  value: '${stats.overdueTasks}',
+                  icon: Icons.warning_amber,
+                  color: stats.overdueTasks > 0
+                      ? AppTheme.danger
+                      : AppTheme.success,
+                ),
               ),
             ],
           ),

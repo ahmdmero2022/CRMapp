@@ -20,6 +20,7 @@ import 'package:backend/src/handlers/leads_handler.dart';
 import 'package:backend/src/handlers/pipeline_stages_handler.dart';
 import 'package:backend/src/handlers/search_handler.dart';
 import 'package:backend/src/handlers/tasks_handler.dart';
+import 'package:backend/src/handlers/users_handler.dart';
 import 'package:backend/src/middleware/auth_middleware.dart';
 import 'package:backend/src/middleware/cors_middleware.dart';
 import 'package:backend/src/utils/responses.dart';
@@ -68,6 +69,8 @@ Future<void> main(List<String> args) async {
       protected.addHandler(DashboardHandler(appDb).router.call));
   apiRouter.mount(
       '/api/search', protected.addHandler(SearchHandler(appDb).router.call));
+  apiRouter.mount(
+      '/api/users', protected.addHandler(UsersHandler(appDb).router.call));
 
   apiRouter.get('/api/health', (Request request) => jsonResponse({'status': 'ok'}));
 

@@ -7,6 +7,7 @@ import '../../core/providers/leads_provider.dart';
 import '../../core/utils/enum_labels.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../../widgets/confirm_dialog.dart';
+import '../../widgets/hover_lift.dart';
 import 'lead_form_dialog.dart';
 
 const leadStatusColors = {
@@ -242,7 +243,7 @@ class _LeadCard extends ConsumerWidget {
         child: SizedBox(width: 256, child: card),
       ),
       childWhenDragging: Opacity(opacity: 0.3, child: card),
-      child: card,
+      child: HoverLift(child: card),
     );
   }
 }

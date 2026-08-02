@@ -12,6 +12,8 @@ import '../../core/utils/enum_labels.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../../widgets/confirm_dialog.dart';
 import '../../widgets/empty_state.dart';
+import '../../widgets/fade_slide_in.dart';
+import '../../widgets/hover_lift.dart';
 import '../../widgets/pagination_footer.dart';
 import '../../widgets/section_header.dart';
 import '../../widgets/sort_control.dart';
@@ -213,61 +215,71 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
                   separatorBuilder: (_, __) => const SizedBox(height: 8),
                   itemBuilder: (context, index) {
                     final task = tasks[index];
-                    return Card(
-                      child: ListTile(
-                        leading: Checkbox(
-                          value: task.isCompleted,
-                          onChanged: (value) => ref
-                              .read(tasksControllerProvider.notifier)
-                              .setComplete(task.id, value ?? false),
-                        ),
-                        title: Text(
-                          task.title,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            decoration:
-                                task.isCompleted ? TextDecoration.lineThrough : null,
+                    return FadeSlideIn(
+                      delay: FadeSlideIn.staggerDelay(index),
+                      child: HoverLift(
+                        clickable: false,
+                        child: Card(
+                          child: ListTile(
+                            leading: Checkbox(
+                              value: task.isCompleted,
+                              onChanged: (value) => ref
+                                  .read(tasksControllerProvider.notifier)
+                                  .setComplete(task.id, value ?? false),
+                            ),
+                            title: Text(
+                              task.title,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                decoration: task.isCompleted
+                                    ? TextDecoration.lineThrough
+                                    : null,
+                              ),
+                            ),
+                            subtitle: Text([
+                              if (task.relatedLabel != null) task.relatedLabel,
+                              if (task.description != null) task.description,
+                            ].whereType<String>().join(' · ')),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.priorityColor(task.priority)
+                                        .withOpacity(0.15),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    taskPriorityLabel(l10n, task.priority),
+                                    style: TextStyle(
+                                      color: AppTheme.priorityColor(task.priority),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                if (task.dueDate != null)
+                                  Text(
+                                    DateFormat.MMMd()
+                                        .format(DateTime.parse(task.dueDate!)),
+                                    style: TextStyle(
+                                      color: task.isOverdue
+                                          ? AppTheme.danger
+                                          : Theme.of(context)
+                                              .colorScheme
+                                              .onSurfaceVariant,
+                                    ),
+                                  ),
+                                IconButton(
+                                  icon: const Icon(Icons.delete_outline),
+                                  onPressed: () => _delete(task),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        subtitle: Text([
-                          if (task.relatedLabel != null) task.relatedLabel,
-                          if (task.description != null) task.description,
-                        ].whereType<String>().join(' · ')),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: AppTheme.priorityColor(task.priority)
-                                    .withOpacity(0.15),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                taskPriorityLabel(l10n, task.priority),
-                                style: TextStyle(
-                                  color: AppTheme.priorityColor(task.priority),
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            if (task.dueDate != null)
-                              Text(
-                                DateFormat.MMMd().format(DateTime.parse(task.dueDate!)),
-                                style: TextStyle(
-                                  color: task.isOverdue
-                                      ? AppTheme.danger
-                                      : Theme.of(context).colorScheme.onSurfaceVariant,
-                                ),
-                              ),
-                            IconButton(
-                              icon: const Icon(Icons.delete_outline),
-                              onPressed: () => _delete(task),
-                            ),
-                          ],
                         ),
                       ),
                     );

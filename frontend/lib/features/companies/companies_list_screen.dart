@@ -9,6 +9,8 @@ import '../../core/providers/companies_provider.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../../widgets/confirm_dialog.dart';
 import '../../widgets/empty_state.dart';
+import '../../widgets/fade_slide_in.dart';
+import '../../widgets/hover_lift.dart';
 import '../../widgets/pagination_footer.dart';
 import '../../widgets/section_header.dart';
 import '../../widgets/sort_control.dart';
@@ -163,33 +165,39 @@ class _CompaniesListScreenState extends ConsumerState<CompaniesListScreen> {
                   separatorBuilder: (_, __) => const SizedBox(height: 8),
                   itemBuilder: (context, index) {
                     final company = companies[index];
-                    return Card(
-                      child: ListTile(
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        leading: CircleAvatar(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primaryContainer,
-                          child: Icon(Icons.apartment,
-                              color: Theme.of(context).colorScheme.primary),
-                        ),
-                        title: Text(company.name,
-                            style: const TextStyle(fontWeight: FontWeight.w600)),
-                        subtitle: Text([
-                          if (company.industry != null) company.industry,
-                          l10n.contactsCountShort(company.contactCount),
-                          l10n.dealsCountShort(company.dealCount),
-                        ].whereType<String>().join(' · ')),
-                        onTap: () => context.go('/companies/${company.id}'),
-                        trailing: PopupMenuButton<String>(
-                          onSelected: (value) {
-                            if (value == 'edit') _edit(company);
-                            if (value == 'delete') _delete(company);
-                          },
-                          itemBuilder: (context) => [
-                            PopupMenuItem(value: 'edit', child: Text(l10n.edit)),
-                            PopupMenuItem(value: 'delete', child: Text(l10n.delete)),
-                          ],
+                    return FadeSlideIn(
+                      delay: FadeSlideIn.staggerDelay(index),
+                      child: HoverLift(
+                        child: Card(
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            leading: CircleAvatar(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primaryContainer,
+                              child: Icon(Icons.apartment,
+                                  color: Theme.of(context).colorScheme.primary),
+                            ),
+                            title: Text(company.name,
+                                style: const TextStyle(fontWeight: FontWeight.w600)),
+                            subtitle: Text([
+                              if (company.industry != null) company.industry,
+                              l10n.contactsCountShort(company.contactCount),
+                              l10n.dealsCountShort(company.dealCount),
+                            ].whereType<String>().join(' · ')),
+                            onTap: () => context.go('/companies/${company.id}'),
+                            trailing: PopupMenuButton<String>(
+                              onSelected: (value) {
+                                if (value == 'edit') _edit(company);
+                                if (value == 'delete') _delete(company);
+                              },
+                              itemBuilder: (context) => [
+                                PopupMenuItem(value: 'edit', child: Text(l10n.edit)),
+                                PopupMenuItem(
+                                    value: 'delete', child: Text(l10n.delete)),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     );

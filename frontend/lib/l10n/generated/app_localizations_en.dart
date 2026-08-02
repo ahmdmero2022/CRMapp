@@ -66,6 +66,57 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signOut => 'Sign out';
 
   @override
+  String get navGroupOverview => 'Overview';
+
+  @override
+  String get navGroupSales => 'Sales';
+
+  @override
+  String get navGroupPeople => 'People';
+
+  @override
+  String get navGroupWork => 'Work';
+
+  @override
+  String get breadcrumbDetails => 'Details';
+
+  @override
+  String get sidebarCollapse => 'Collapse sidebar';
+
+  @override
+  String get sidebarExpand => 'Expand sidebar';
+
+  @override
+  String get quickCreateTooltip => 'Quick create';
+
+  @override
+  String get quickCreateLead => 'New lead';
+
+  @override
+  String get quickCreateCompany => 'New company';
+
+  @override
+  String get quickCreateContact => 'New contact';
+
+  @override
+  String get quickCreateDeal => 'New deal';
+
+  @override
+  String get quickCreateTask => 'New task';
+
+  @override
+  String get dealCreatedMessage => 'Deal created';
+
+  @override
+  String get notificationsTooltip => 'Notifications';
+
+  @override
+  String get notificationsEmptyTitle => 'No notifications yet';
+
+  @override
+  String get notificationsEmptySubtitle => 'You\'re all caught up.';
+
+  @override
   String get loginTitle => 'Welcome back';
 
   @override

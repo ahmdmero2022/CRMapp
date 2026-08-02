@@ -209,6 +209,108 @@ abstract class AppLocalizations {
   /// **'Sign out'**
   String get signOut;
 
+  /// No description provided for @navGroupOverview.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get navGroupOverview;
+
+  /// No description provided for @navGroupSales.
+  ///
+  /// In en, this message translates to:
+  /// **'Sales'**
+  String get navGroupSales;
+
+  /// No description provided for @navGroupPeople.
+  ///
+  /// In en, this message translates to:
+  /// **'People'**
+  String get navGroupPeople;
+
+  /// No description provided for @navGroupWork.
+  ///
+  /// In en, this message translates to:
+  /// **'Work'**
+  String get navGroupWork;
+
+  /// No description provided for @breadcrumbDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get breadcrumbDetails;
+
+  /// No description provided for @sidebarCollapse.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse sidebar'**
+  String get sidebarCollapse;
+
+  /// No description provided for @sidebarExpand.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand sidebar'**
+  String get sidebarExpand;
+
+  /// No description provided for @quickCreateTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick create'**
+  String get quickCreateTooltip;
+
+  /// No description provided for @quickCreateLead.
+  ///
+  /// In en, this message translates to:
+  /// **'New lead'**
+  String get quickCreateLead;
+
+  /// No description provided for @quickCreateCompany.
+  ///
+  /// In en, this message translates to:
+  /// **'New company'**
+  String get quickCreateCompany;
+
+  /// No description provided for @quickCreateContact.
+  ///
+  /// In en, this message translates to:
+  /// **'New contact'**
+  String get quickCreateContact;
+
+  /// No description provided for @quickCreateDeal.
+  ///
+  /// In en, this message translates to:
+  /// **'New deal'**
+  String get quickCreateDeal;
+
+  /// No description provided for @quickCreateTask.
+  ///
+  /// In en, this message translates to:
+  /// **'New task'**
+  String get quickCreateTask;
+
+  /// No description provided for @dealCreatedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal created'**
+  String get dealCreatedMessage;
+
+  /// No description provided for @notificationsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsTooltip;
+
+  /// No description provided for @notificationsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet'**
+  String get notificationsEmptyTitle;
+
+  /// No description provided for @notificationsEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re all caught up.'**
+  String get notificationsEmptySubtitle;
+
   /// No description provided for @loginTitle.
   ///
   /// In en, this message translates to:

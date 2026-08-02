@@ -9,6 +9,7 @@ import '../../core/theme/app_theme.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../../widgets/confirm_dialog.dart';
 import '../../widgets/empty_state.dart';
+import '../../widgets/hover_lift.dart';
 import '../../widgets/section_header.dart';
 import 'deal_detail_dialog.dart';
 import 'deal_form_dialog.dart';
@@ -244,7 +245,7 @@ class _DealCard extends StatelessWidget {
         child: SizedBox(width: 276, child: card),
       ),
       childWhenDragging: Opacity(opacity: 0.3, child: card),
-      child: card,
+      child: HoverLift(child: card),
     );
   }
 }

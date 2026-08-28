@@ -42,6 +42,66 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authTagline => 'تتبّع العملاء المحتملين، وأدر خط أنابيب مبيعاتك، وأغلق المزيد من الصفقات — كل ذلك في مكان واحد.';
 
   @override
+  String get welcomeNavCta => 'ابدأ الآن';
+
+  @override
+  String get welcomeEyebrow => 'مصمّم لفرق المبيعات السريعة';
+
+  @override
+  String get welcomeHeroTitle => 'حوّل كل عميل محتمل إلى صفقة تُغلقها فعلًا.';
+
+  @override
+  String get welcomeHeroSubtitle => 'مساحة عمل واحدة أنيقة لجهات الاتصال وخط الأنابيب والمتابعات — مرّر للأسفل لترى كيف يجتمع كل ذلك.';
+
+  @override
+  String get welcomeHeroCtaPrimary => 'ابدأ مجانًا — بلا بطاقة ائتمان';
+
+  @override
+  String get welcomeHeroCtaSecondary => 'لدي حساب بالفعل';
+
+  @override
+  String get welcomeScrollHint => 'شاهد كيف يعمل';
+
+  @override
+  String get welcomeFeaturesTitle => 'كل ما يحتاجه خط أنابيبك، ولا شيء زائد';
+
+  @override
+  String get welcomeFeaturesSubtitle => 'جهات الاتصال والشركات والعملاء المحتملون والصفقات والمهام — كلها مترابطة وفي الوقت الفعلي.';
+
+  @override
+  String get welcomeFeature1Title => 'اعرف كل جهة اتصال';
+
+  @override
+  String get welcomeFeature1Body => 'كل شخص وشركة ومحادثة في مكان واحد قابل للبحث — وداعًا لجداول البيانات المتناثرة.';
+
+  @override
+  String get welcomeFeature2Title => 'حرّك صفقاتك للأمام';
+
+  @override
+  String get welcomeFeature2Body => 'خط أنابيب مرئي بالسحب والإفلات، بحيث لا تتوقف أي صفقة بين "جديد" و"مربوحة".';
+
+  @override
+  String get welcomeFeature3Title => 'لا تفوّت أي متابعة';
+
+  @override
+  String get welcomeFeature3Body => 'مهام مرتبطة بالصفقة أو جهة الاتصال التي تخصها، مع مواعيد استحقاق تُبقي يومك منظمًا.';
+
+  @override
+  String get welcomeFeature4Title => 'شاهد الصورة الأكبر';
+
+  @override
+  String get welcomeFeature4Body => 'لوحات بيانات حية للإيرادات ومعدل التحويل وأداء الفريق — دون الحاجة لأي تصدير.';
+
+  @override
+  String get welcomeFinalCtaTitle => 'جاهز لإغلاق المزيد من الصفقات؟';
+
+  @override
+  String get welcomeFinalCtaSubtitle => 'أنشئ مساحة عملك في أقل من دقيقة وابدأ بتتبّع خط أنابيبك اليوم.';
+
+  @override
+  String get welcomeFinalCtaButton => 'أنشئ حسابك المجاني';
+
+  @override
   String get navDashboard => 'الرئيسية';
 
   @override

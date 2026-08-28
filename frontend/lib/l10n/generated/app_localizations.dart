@@ -161,6 +161,126 @@ abstract class AppLocalizations {
   /// **'Track leads, manage your pipeline, and close more deals — all in one place.'**
   String get authTagline;
 
+  /// No description provided for @welcomeNavCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Get started'**
+  String get welcomeNavCta;
+
+  /// No description provided for @welcomeEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Built for fast-moving sales teams'**
+  String get welcomeEyebrow;
+
+  /// No description provided for @welcomeHeroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn every lead into a deal you actually close.'**
+  String get welcomeHeroTitle;
+
+  /// No description provided for @welcomeHeroSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'One clean workspace for contacts, pipeline, and follow-ups — see how it comes together below.'**
+  String get welcomeHeroSubtitle;
+
+  /// No description provided for @welcomeHeroCtaPrimary.
+  ///
+  /// In en, this message translates to:
+  /// **'Start free — no credit card'**
+  String get welcomeHeroCtaPrimary;
+
+  /// No description provided for @welcomeHeroCtaSecondary.
+  ///
+  /// In en, this message translates to:
+  /// **'I already have an account'**
+  String get welcomeHeroCtaSecondary;
+
+  /// No description provided for @welcomeScrollHint.
+  ///
+  /// In en, this message translates to:
+  /// **'See how it works'**
+  String get welcomeScrollHint;
+
+  /// No description provided for @welcomeFeaturesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything your pipeline needs, nothing it doesn't'**
+  String get welcomeFeaturesTitle;
+
+  /// No description provided for @welcomeFeaturesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts, companies, leads, deals, and tasks — all connected, all in real time.'**
+  String get welcomeFeaturesSubtitle;
+
+  /// No description provided for @welcomeFeature1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Know every contact'**
+  String get welcomeFeature1Title;
+
+  /// No description provided for @welcomeFeature1Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Every person, company, and conversation in one searchable place — no more scattered spreadsheets.'**
+  String get welcomeFeature1Body;
+
+  /// No description provided for @welcomeFeature2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Move deals forward'**
+  String get welcomeFeature2Title;
+
+  /// No description provided for @welcomeFeature2Body.
+  ///
+  /// In en, this message translates to:
+  /// **'A visual pipeline you can drag and drop, so nothing stalls between "New" and "Won".'**
+  String get welcomeFeature2Body;
+
+  /// No description provided for @welcomeFeature3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Never drop a follow-up'**
+  String get welcomeFeature3Title;
+
+  /// No description provided for @welcomeFeature3Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks tied to the deal or contact they belong to, with due dates that keep your day honest.'**
+  String get welcomeFeature3Body;
+
+  /// No description provided for @welcomeFeature4Title.
+  ///
+  /// In en, this message translates to:
+  /// **'See the bigger picture'**
+  String get welcomeFeature4Title;
+
+  /// No description provided for @welcomeFeature4Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Live dashboards on revenue, conversion, and team performance — no exports required.'**
+  String get welcomeFeature4Body;
+
+  /// No description provided for @welcomeFinalCtaTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to close more deals?'**
+  String get welcomeFinalCtaTitle;
+
+  /// No description provided for @welcomeFinalCtaSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up your workspace in under a minute and start tracking your pipeline today.'**
+  String get welcomeFinalCtaSubtitle;
+
+  /// No description provided for @welcomeFinalCtaButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your free account'**
+  String get welcomeFinalCtaButton;
+
   /// No description provided for @navDashboard.
   ///
   /// In en, this message translates to:

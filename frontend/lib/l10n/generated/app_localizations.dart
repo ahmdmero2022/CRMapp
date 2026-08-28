@@ -161,6 +161,126 @@ abstract class AppLocalizations {
   /// **'Track leads, manage your pipeline, and close more deals — all in one place.'**
   String get authTagline;
 
+  /// No description provided for @welcomeNavCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Get started'**
+  String get welcomeNavCta;
+
+  /// No description provided for @welcomeEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Built for fast-moving sales teams'**
+  String get welcomeEyebrow;
+
+  /// No description provided for @welcomeHeroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn every lead into a deal you actually close.'**
+  String get welcomeHeroTitle;
+
+  /// No description provided for @welcomeHeroSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'One clean workspace for contacts, pipeline, and follow-ups — see how it comes together below.'**
+  String get welcomeHeroSubtitle;
+
+  /// No description provided for @welcomeHeroCtaPrimary.
+  ///
+  /// In en, this message translates to:
+  /// **'Start free — no credit card'**
+  String get welcomeHeroCtaPrimary;
+
+  /// No description provided for @welcomeHeroCtaSecondary.
+  ///
+  /// In en, this message translates to:
+  /// **'I already have an account'**
+  String get welcomeHeroCtaSecondary;
+
+  /// No description provided for @welcomeScrollHint.
+  ///
+  /// In en, this message translates to:
+  /// **'See how it works'**
+  String get welcomeScrollHint;
+
+  /// No description provided for @welcomeFeaturesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything your pipeline needs, nothing it doesn't'**
+  String get welcomeFeaturesTitle;
+
+  /// No description provided for @welcomeFeaturesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts, companies, leads, deals, and tasks — all connected, all in real time.'**
+  String get welcomeFeaturesSubtitle;
+
+  /// No description provided for @welcomeFeature1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Know every contact'**
+  String get welcomeFeature1Title;
+
+  /// No description provided for @welcomeFeature1Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Every person, company, and conversation in one searchable place — no more scattered spreadsheets.'**
+  String get welcomeFeature1Body;
+
+  /// No description provided for @welcomeFeature2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Move deals forward'**
+  String get welcomeFeature2Title;
+
+  /// No description provided for @welcomeFeature2Body.
+  ///
+  /// In en, this message translates to:
+  /// **'A visual pipeline you can drag and drop, so nothing stalls between "New" and "Won".'**
+  String get welcomeFeature2Body;
+
+  /// No description provided for @welcomeFeature3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Never drop a follow-up'**
+  String get welcomeFeature3Title;
+
+  /// No description provided for @welcomeFeature3Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks tied to the deal or contact they belong to, with due dates that keep your day honest.'**
+  String get welcomeFeature3Body;
+
+  /// No description provided for @welcomeFeature4Title.
+  ///
+  /// In en, this message translates to:
+  /// **'See the bigger picture'**
+  String get welcomeFeature4Title;
+
+  /// No description provided for @welcomeFeature4Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Live dashboards on revenue, conversion, and team performance — no exports required.'**
+  String get welcomeFeature4Body;
+
+  /// No description provided for @welcomeFinalCtaTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to close more deals?'**
+  String get welcomeFinalCtaTitle;
+
+  /// No description provided for @welcomeFinalCtaSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up your workspace in under a minute and start tracking your pipeline today.'**
+  String get welcomeFinalCtaSubtitle;
+
+  /// No description provided for @welcomeFinalCtaButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your free account'**
+  String get welcomeFinalCtaButton;
+
   /// No description provided for @navDashboard.
   ///
   /// In en, this message translates to:
@@ -208,6 +328,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign out'**
   String get signOut;
+
+  /// No description provided for @navGroupOverview.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get navGroupOverview;
+
+  /// No description provided for @navGroupSales.
+  ///
+  /// In en, this message translates to:
+  /// **'Sales'**
+  String get navGroupSales;
+
+  /// No description provided for @navGroupPeople.
+  ///
+  /// In en, this message translates to:
+  /// **'People'**
+  String get navGroupPeople;
+
+  /// No description provided for @navGroupWork.
+  ///
+  /// In en, this message translates to:
+  /// **'Work'**
+  String get navGroupWork;
+
+  /// No description provided for @breadcrumbDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get breadcrumbDetails;
+
+  /// No description provided for @sidebarCollapse.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse sidebar'**
+  String get sidebarCollapse;
+
+  /// No description provided for @sidebarExpand.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand sidebar'**
+  String get sidebarExpand;
+
+  /// No description provided for @quickCreateTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick create'**
+  String get quickCreateTooltip;
+
+  /// No description provided for @quickCreateLead.
+  ///
+  /// In en, this message translates to:
+  /// **'New lead'**
+  String get quickCreateLead;
+
+  /// No description provided for @quickCreateCompany.
+  ///
+  /// In en, this message translates to:
+  /// **'New company'**
+  String get quickCreateCompany;
+
+  /// No description provided for @quickCreateContact.
+  ///
+  /// In en, this message translates to:
+  /// **'New contact'**
+  String get quickCreateContact;
+
+  /// No description provided for @quickCreateDeal.
+  ///
+  /// In en, this message translates to:
+  /// **'New deal'**
+  String get quickCreateDeal;
+
+  /// No description provided for @quickCreateTask.
+  ///
+  /// In en, this message translates to:
+  /// **'New task'**
+  String get quickCreateTask;
+
+  /// No description provided for @dealCreatedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal created'**
+  String get dealCreatedMessage;
+
+  /// No description provided for @notificationsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsTooltip;
+
+  /// No description provided for @notificationsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet'**
+  String get notificationsEmptyTitle;
+
+  /// No description provided for @notificationsEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re all caught up.'**
+  String get notificationsEmptySubtitle;
 
   /// No description provided for @loginTitle.
   ///
@@ -797,6 +1019,18 @@ abstract class AppLocalizations {
   /// **'Overdue Tasks'**
   String get statOverdueTasks;
 
+  /// No description provided for @statConversionRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Lead Conversion'**
+  String get statConversionRate;
+
+  /// No description provided for @deltaVsLastMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'vs last month'**
+  String get deltaVsLastMonth;
+
   /// No description provided for @pipelineByStageTitle.
   ///
   /// In en, this message translates to:
@@ -808,6 +1042,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Leads by Status'**
   String get leadsByStatusTitle;
+
+  /// No description provided for @revenueTrendTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue Trend'**
+  String get revenueTrendTitle;
+
+  /// No description provided for @teamPerformanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Team Performance'**
+  String get teamPerformanceTitle;
+
+  /// No description provided for @teamPerformanceColumnMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Team member'**
+  String get teamPerformanceColumnMember;
+
+  /// No description provided for @teamPerformanceColumnOpenDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get teamPerformanceColumnOpenDeals;
+
+  /// No description provided for @teamPerformanceColumnWonDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Won'**
+  String get teamPerformanceColumnWonDeals;
+
+  /// No description provided for @teamPerformanceColumnWonValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Won value'**
+  String get teamPerformanceColumnWonValue;
+
+  /// No description provided for @collapseSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse section'**
+  String get collapseSection;
+
+  /// No description provided for @expandSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand section'**
+  String get expandSection;
 
   /// No description provided for @recentActivityTitle.
   ///
@@ -838,6 +1120,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Deals will appear here once you create some.'**
   String get noDealsYetSubtitle;
+
+  /// No description provided for @noRevenueYetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No revenue yet'**
+  String get noRevenueYetTitle;
+
+  /// No description provided for @noRevenueYetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Won deals will appear here once you close some.'**
+  String get noRevenueYetSubtitle;
 
   /// No description provided for @noLeadsYetTitle.
   ///

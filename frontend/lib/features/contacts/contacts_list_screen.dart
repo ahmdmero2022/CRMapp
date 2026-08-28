@@ -9,6 +9,8 @@ import '../../core/providers/contacts_provider.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../../widgets/confirm_dialog.dart';
 import '../../widgets/empty_state.dart';
+import '../../widgets/fade_slide_in.dart';
+import '../../widgets/hover_lift.dart';
 import '../../widgets/initials_avatar.dart';
 import '../../widgets/pagination_footer.dart';
 import '../../widgets/section_header.dart';
@@ -170,31 +172,38 @@ class _ContactsListScreenState extends ConsumerState<ContactsListScreen> {
                     separatorBuilder: (_, __) => const SizedBox(height: 8),
                     itemBuilder: (context, index) {
                       final contact = contacts[index];
-                      return Card(
-                        child: ListTile(
-                          contentPadding:
-                              const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          leading: InitialsAvatar(
-                            text: contact.initials,
-                            colorHex: contact.avatarColor,
-                          ),
-                          title: Text(contact.fullName,
-                              style: const TextStyle(fontWeight: FontWeight.w600)),
-                          subtitle: Text([
-                            if (contact.jobTitle != null) contact.jobTitle,
-                            if (contact.companyName != null) contact.companyName,
-                            if (contact.email != null) contact.email,
-                          ].whereType<String>().join(' · ')),
-                          onTap: () => context.go('/contacts/${contact.id}'),
-                          trailing: PopupMenuButton<String>(
-                            onSelected: (value) {
-                              if (value == 'edit') _edit(contact);
-                              if (value == 'delete') _delete(contact);
-                            },
-                            itemBuilder: (context) => [
-                              PopupMenuItem(value: 'edit', child: Text(l10n.edit)),
-                              PopupMenuItem(value: 'delete', child: Text(l10n.delete)),
-                            ],
+                      return FadeSlideIn(
+                        delay: FadeSlideIn.staggerDelay(index),
+                        child: HoverLift(
+                          child: Card(
+                            child: ListTile(
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                              leading: InitialsAvatar(
+                                text: contact.initials,
+                                colorHex: contact.avatarColor,
+                              ),
+                              title: Text(contact.fullName,
+                                  style:
+                                      const TextStyle(fontWeight: FontWeight.w600)),
+                              subtitle: Text([
+                                if (contact.jobTitle != null) contact.jobTitle,
+                                if (contact.companyName != null) contact.companyName,
+                                if (contact.email != null) contact.email,
+                              ].whereType<String>().join(' · ')),
+                              onTap: () => context.go('/contacts/${contact.id}'),
+                              trailing: PopupMenuButton<String>(
+                                onSelected: (value) {
+                                  if (value == 'edit') _edit(contact);
+                                  if (value == 'delete') _delete(contact);
+                                },
+                                itemBuilder: (context) => [
+                                  PopupMenuItem(value: 'edit', child: Text(l10n.edit)),
+                                  PopupMenuItem(
+                                      value: 'delete', child: Text(l10n.delete)),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       );

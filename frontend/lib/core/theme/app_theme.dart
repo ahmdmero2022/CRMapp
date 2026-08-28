@@ -1,5 +1,27 @@
 import 'package:flutter/material.dart';
 
+/// Spacing scale used across the app instead of ad-hoc [EdgeInsets] values —
+/// screen padding is [lg], card padding [md], gaps between related elements
+/// [sm]/[md].
+class AppSpacing {
+  const AppSpacing._();
+  static const xs = 4.0;
+  static const sm = 8.0;
+  static const md = 16.0;
+  static const lg = 24.0;
+  static const xl = 32.0;
+}
+
+/// Corner-radius scale mirroring the values already hardcoded in [AppTheme]'s
+/// component themes (cards, dialogs, inputs) so new widgets can match them.
+class AppRadius {
+  const AppRadius._();
+  static const sm = 8.0;
+  static const md = 12.0;
+  static const lg = 18.0;
+  static const xl = 20.0;
+}
+
 /// Central design tokens + ThemeData for the CRM. Material 3 built on a
 /// single-hue blue ramp for a calm, elegant, data-heavy business look
 /// (tighter paddings, card-based surfaces) rather than a typical mobile app.

@@ -10,6 +10,7 @@ import '../models/lead.dart';
 import '../models/pipeline_stage.dart';
 import '../models/search_result.dart';
 import '../models/task.dart';
+import '../models/user.dart';
 import 'auth_provider.dart';
 import 'list_notifier.dart';
 
@@ -285,6 +286,16 @@ class DashboardRepository {
   }
 }
 
+class UsersRepository {
+  UsersRepository(this._api);
+  final ApiClient _api;
+
+  Future<List<AppUser>> list() async {
+    final res = await _api.get('/users');
+    return (res as List).map((e) => AppUser.fromJson(e)).toList();
+  }
+}
+
 class SearchRepository {
   SearchRepository(this._api);
   final ApiClient _api;
@@ -328,3 +339,5 @@ final dashboardRepositoryProvider = Provider(
     (ref) => DashboardRepository(ref.watch(apiClientProvider)));
 final searchRepositoryProvider =
     Provider((ref) => SearchRepository(ref.watch(apiClientProvider)));
+final usersRepositoryProvider =
+    Provider((ref) => UsersRepository(ref.watch(apiClientProvider)));

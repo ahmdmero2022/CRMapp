@@ -6,6 +6,7 @@ import '../providers/auth_provider.dart';
 import '../../features/auth/login_screen.dart';
 import '../../features/auth/register_screen.dart';
 import '../../features/auth/splash_screen.dart';
+import '../../features/landing/welcome_screen.dart';
 import '../../features/shell/app_shell.dart';
 import '../../features/dashboard/dashboard_screen.dart';
 import '../../features/contacts/contacts_list_screen.dart';
@@ -38,20 +39,22 @@ final routerProvider = Provider<GoRouter>((ref) {
     redirect: (context, state) {
       final auth = ref.read(authProvider);
       final loc = state.matchedLocation;
-      final loggingIn = loc == '/login' || loc == '/register';
+      final isPublicUnauthRoute =
+          loc == '/welcome' || loc == '/login' || loc == '/register';
 
       if (auth.initializing) {
         return loc == '/splash' ? null : '/splash';
       }
       if (loc == '/splash') {
-        return auth.isAuthenticated ? '/dashboard' : '/login';
+        return auth.isAuthenticated ? '/dashboard' : '/welcome';
       }
-      if (!auth.isAuthenticated && !loggingIn) return '/login';
-      if (auth.isAuthenticated && loggingIn) return '/dashboard';
+      if (!auth.isAuthenticated && !isPublicUnauthRoute) return '/welcome';
+      if (auth.isAuthenticated && isPublicUnauthRoute) return '/dashboard';
       return null;
     },
     routes: [
       GoRoute(path: '/splash', builder: (context, state) => const SplashScreen()),
+      GoRoute(path: '/welcome', builder: (context, state) => const WelcomeScreen()),
       GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
       GoRoute(path: '/register', builder: (context, state) => const RegisterScreen()),
       ShellRoute(

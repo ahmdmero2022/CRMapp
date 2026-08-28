@@ -42,6 +42,66 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authTagline => 'تتبّع العملاء المحتملين، وأدر خط أنابيب مبيعاتك، وأغلق المزيد من الصفقات — كل ذلك في مكان واحد.';
 
   @override
+  String get welcomeNavCta => 'ابدأ الآن';
+
+  @override
+  String get welcomeEyebrow => 'مصمّم لفرق المبيعات السريعة';
+
+  @override
+  String get welcomeHeroTitle => 'حوّل كل عميل محتمل إلى صفقة تُغلقها فعلًا.';
+
+  @override
+  String get welcomeHeroSubtitle => 'مساحة عمل واحدة أنيقة لجهات الاتصال وخط الأنابيب والمتابعات — مرّر للأسفل لترى كيف يجتمع كل ذلك.';
+
+  @override
+  String get welcomeHeroCtaPrimary => 'ابدأ مجانًا — بلا بطاقة ائتمان';
+
+  @override
+  String get welcomeHeroCtaSecondary => 'لدي حساب بالفعل';
+
+  @override
+  String get welcomeScrollHint => 'شاهد كيف يعمل';
+
+  @override
+  String get welcomeFeaturesTitle => 'كل ما يحتاجه خط أنابيبك، ولا شيء زائد';
+
+  @override
+  String get welcomeFeaturesSubtitle => 'جهات الاتصال والشركات والعملاء المحتملون والصفقات والمهام — كلها مترابطة وفي الوقت الفعلي.';
+
+  @override
+  String get welcomeFeature1Title => 'اعرف كل جهة اتصال';
+
+  @override
+  String get welcomeFeature1Body => 'كل شخص وشركة ومحادثة في مكان واحد قابل للبحث — وداعًا لجداول البيانات المتناثرة.';
+
+  @override
+  String get welcomeFeature2Title => 'حرّك صفقاتك للأمام';
+
+  @override
+  String get welcomeFeature2Body => 'خط أنابيب مرئي بالسحب والإفلات، بحيث لا تتوقف أي صفقة بين "جديد" و"مربوحة".';
+
+  @override
+  String get welcomeFeature3Title => 'لا تفوّت أي متابعة';
+
+  @override
+  String get welcomeFeature3Body => 'مهام مرتبطة بالصفقة أو جهة الاتصال التي تخصها، مع مواعيد استحقاق تُبقي يومك منظمًا.';
+
+  @override
+  String get welcomeFeature4Title => 'شاهد الصورة الأكبر';
+
+  @override
+  String get welcomeFeature4Body => 'لوحات بيانات حية للإيرادات ومعدل التحويل وأداء الفريق — دون الحاجة لأي تصدير.';
+
+  @override
+  String get welcomeFinalCtaTitle => 'جاهز لإغلاق المزيد من الصفقات؟';
+
+  @override
+  String get welcomeFinalCtaSubtitle => 'أنشئ مساحة عملك في أقل من دقيقة وابدأ بتتبّع خط أنابيبك اليوم.';
+
+  @override
+  String get welcomeFinalCtaButton => 'أنشئ حسابك المجاني';
+
+  @override
   String get navDashboard => 'الرئيسية';
 
   @override
@@ -64,6 +124,57 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get signOut => 'تسجيل الخروج';
+
+  @override
+  String get navGroupOverview => 'نظرة عامة';
+
+  @override
+  String get navGroupSales => 'المبيعات';
+
+  @override
+  String get navGroupPeople => 'الأشخاص';
+
+  @override
+  String get navGroupWork => 'العمل';
+
+  @override
+  String get breadcrumbDetails => 'التفاصيل';
+
+  @override
+  String get sidebarCollapse => 'طي الشريط الجانبي';
+
+  @override
+  String get sidebarExpand => 'توسيع الشريط الجانبي';
+
+  @override
+  String get quickCreateTooltip => 'إنشاء سريع';
+
+  @override
+  String get quickCreateLead => 'عميل محتمل جديد';
+
+  @override
+  String get quickCreateCompany => 'شركة جديدة';
+
+  @override
+  String get quickCreateContact => 'جهة اتصال جديدة';
+
+  @override
+  String get quickCreateDeal => 'صفقة جديدة';
+
+  @override
+  String get quickCreateTask => 'مهمة جديدة';
+
+  @override
+  String get dealCreatedMessage => 'تم إنشاء الصفقة';
+
+  @override
+  String get notificationsTooltip => 'الإشعارات';
+
+  @override
+  String get notificationsEmptyTitle => 'لا توجد إشعارات بعد';
+
+  @override
+  String get notificationsEmptySubtitle => 'أنت على اطلاع بكل شيء.';
 
   @override
   String get loginTitle => 'مرحبًا بعودتك';
@@ -376,10 +487,40 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statOverdueTasks => 'مهام متأخرة';
 
   @override
+  String get statConversionRate => 'معدل تحويل العملاء المحتملين';
+
+  @override
+  String get deltaVsLastMonth => 'مقارنة بالشهر الماضي';
+
+  @override
   String get pipelineByStageTitle => 'خط الأنابيب حسب المرحلة';
 
   @override
   String get leadsByStatusTitle => 'العملاء المحتملون حسب الحالة';
+
+  @override
+  String get revenueTrendTitle => 'اتجاه الإيرادات';
+
+  @override
+  String get teamPerformanceTitle => 'أداء الفريق';
+
+  @override
+  String get teamPerformanceColumnMember => 'عضو الفريق';
+
+  @override
+  String get teamPerformanceColumnOpenDeals => 'مفتوحة';
+
+  @override
+  String get teamPerformanceColumnWonDeals => 'مكتسبة';
+
+  @override
+  String get teamPerformanceColumnWonValue => 'قيمة الصفقات المكتسبة';
+
+  @override
+  String get collapseSection => 'طي القسم';
+
+  @override
+  String get expandSection => 'توسيع القسم';
 
   @override
   String get recentActivityTitle => 'النشاط الأخير';
@@ -395,6 +536,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noDealsYetSubtitle => 'ستظهر الصفقات هنا بمجرد إنشائها.';
+
+  @override
+  String get noRevenueYetTitle => 'لا توجد إيرادات بعد';
+
+  @override
+  String get noRevenueYetSubtitle => 'ستظهر الصفقات المكتسبة هنا بمجرد إغلاقها.';
 
   @override
   String get noLeadsYetTitle => 'لا يوجد عملاء محتملون بعد';

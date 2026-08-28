@@ -42,6 +42,66 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authTagline => 'Track leads, manage your pipeline, and close more deals — all in one place.';
 
   @override
+  String get welcomeNavCta => 'Get started';
+
+  @override
+  String get welcomeEyebrow => 'Built for fast-moving sales teams';
+
+  @override
+  String get welcomeHeroTitle => 'Turn every lead into a deal you actually close.';
+
+  @override
+  String get welcomeHeroSubtitle => 'One clean workspace for contacts, pipeline, and follow-ups — see how it comes together below.';
+
+  @override
+  String get welcomeHeroCtaPrimary => 'Start free — no credit card';
+
+  @override
+  String get welcomeHeroCtaSecondary => 'I already have an account';
+
+  @override
+  String get welcomeScrollHint => 'See how it works';
+
+  @override
+  String get welcomeFeaturesTitle => 'Everything your pipeline needs, nothing it doesn\'t';
+
+  @override
+  String get welcomeFeaturesSubtitle => 'Contacts, companies, leads, deals, and tasks — all connected, all in real time.';
+
+  @override
+  String get welcomeFeature1Title => 'Know every contact';
+
+  @override
+  String get welcomeFeature1Body => 'Every person, company, and conversation in one searchable place — no more scattered spreadsheets.';
+
+  @override
+  String get welcomeFeature2Title => 'Move deals forward';
+
+  @override
+  String get welcomeFeature2Body => 'A visual pipeline you can drag and drop, so nothing stalls between "New" and "Won".';
+
+  @override
+  String get welcomeFeature3Title => 'Never drop a follow-up';
+
+  @override
+  String get welcomeFeature3Body => 'Tasks tied to the deal or contact they belong to, with due dates that keep your day honest.';
+
+  @override
+  String get welcomeFeature4Title => 'See the bigger picture';
+
+  @override
+  String get welcomeFeature4Body => 'Live dashboards on revenue, conversion, and team performance — no exports required.';
+
+  @override
+  String get welcomeFinalCtaTitle => 'Ready to close more deals?';
+
+  @override
+  String get welcomeFinalCtaSubtitle => 'Set up your workspace in under a minute and start tracking your pipeline today.';
+
+  @override
+  String get welcomeFinalCtaButton => 'Create your free account';
+
+  @override
   String get navDashboard => 'Dashboard';
 
   @override
@@ -64,6 +124,57 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signOut => 'Sign out';
+
+  @override
+  String get navGroupOverview => 'Overview';
+
+  @override
+  String get navGroupSales => 'Sales';
+
+  @override
+  String get navGroupPeople => 'People';
+
+  @override
+  String get navGroupWork => 'Work';
+
+  @override
+  String get breadcrumbDetails => 'Details';
+
+  @override
+  String get sidebarCollapse => 'Collapse sidebar';
+
+  @override
+  String get sidebarExpand => 'Expand sidebar';
+
+  @override
+  String get quickCreateTooltip => 'Quick create';
+
+  @override
+  String get quickCreateLead => 'New lead';
+
+  @override
+  String get quickCreateCompany => 'New company';
+
+  @override
+  String get quickCreateContact => 'New contact';
+
+  @override
+  String get quickCreateDeal => 'New deal';
+
+  @override
+  String get quickCreateTask => 'New task';
+
+  @override
+  String get dealCreatedMessage => 'Deal created';
+
+  @override
+  String get notificationsTooltip => 'Notifications';
+
+  @override
+  String get notificationsEmptyTitle => 'No notifications yet';
+
+  @override
+  String get notificationsEmptySubtitle => 'You\'re all caught up.';
 
   @override
   String get loginTitle => 'Welcome back';
@@ -376,10 +487,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statOverdueTasks => 'Overdue Tasks';
 
   @override
+  String get statConversionRate => 'Lead Conversion';
+
+  @override
+  String get deltaVsLastMonth => 'vs last month';
+
+  @override
   String get pipelineByStageTitle => 'Pipeline by Stage';
 
   @override
   String get leadsByStatusTitle => 'Leads by Status';
+
+  @override
+  String get revenueTrendTitle => 'Revenue Trend';
+
+  @override
+  String get teamPerformanceTitle => 'Team Performance';
+
+  @override
+  String get teamPerformanceColumnMember => 'Team member';
+
+  @override
+  String get teamPerformanceColumnOpenDeals => 'Open';
+
+  @override
+  String get teamPerformanceColumnWonDeals => 'Won';
+
+  @override
+  String get teamPerformanceColumnWonValue => 'Won value';
+
+  @override
+  String get collapseSection => 'Collapse section';
+
+  @override
+  String get expandSection => 'Expand section';
 
   @override
   String get recentActivityTitle => 'Recent Activity';
@@ -395,6 +536,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noDealsYetSubtitle => 'Deals will appear here once you create some.';
+
+  @override
+  String get noRevenueYetTitle => 'No revenue yet';
+
+  @override
+  String get noRevenueYetSubtitle => 'Won deals will appear here once you close some.';
 
   @override
   String get noLeadsYetTitle => 'No leads yet';

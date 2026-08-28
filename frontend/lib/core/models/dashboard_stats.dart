@@ -25,6 +25,44 @@ class DealsByStage {
       );
 }
 
+class RevenueTrendPoint {
+  RevenueTrendPoint({required this.month, required this.value});
+
+  final String month;
+  final double value;
+
+  factory RevenueTrendPoint.fromJson(Map<String, dynamic> json) =>
+      RevenueTrendPoint(
+        month: json['month'] as String,
+        value: (json['value'] as num).toDouble(),
+      );
+}
+
+class TeamPerformanceRow {
+  TeamPerformanceRow({
+    required this.userId,
+    required this.name,
+    required this.openDeals,
+    required this.wonDeals,
+    required this.wonValue,
+  });
+
+  final String userId;
+  final String name;
+  final int openDeals;
+  final int wonDeals;
+  final double wonValue;
+
+  factory TeamPerformanceRow.fromJson(Map<String, dynamic> json) =>
+      TeamPerformanceRow(
+        userId: json['userId'] as String,
+        name: json['name'] as String,
+        openDeals: (json['openDeals'] as num).toInt(),
+        wonDeals: (json['wonDeals'] as num).toInt(),
+        wonValue: (json['wonValue'] as num).toDouble(),
+      );
+}
+
 class DashboardStats {
   DashboardStats({
     required this.totalContacts,
@@ -39,6 +77,11 @@ class DashboardStats {
     required this.leadsByStatus,
     required this.recentActivities,
     required this.upcomingTasks,
+    required this.conversionRate,
+    required this.revenueTrend,
+    required this.teamPerformance,
+    this.revenueDeltaPercent,
+    this.leadsDeltaPercent,
   });
 
   final int totalContacts;
@@ -53,6 +96,11 @@ class DashboardStats {
   final Map<String, int> leadsByStatus;
   final List<Activity> recentActivities;
   final List<CrmTask> upcomingTasks;
+  final double conversionRate;
+  final List<RevenueTrendPoint> revenueTrend;
+  final List<TeamPerformanceRow> teamPerformance;
+  final double? revenueDeltaPercent;
+  final double? leadsDeltaPercent;
 
   factory DashboardStats.fromJson(Map<String, dynamic> json) => DashboardStats(
         totalContacts: (json['totalContacts'] as num).toInt(),
@@ -74,5 +122,14 @@ class DashboardStats {
         upcomingTasks: (json['upcomingTasks'] as List)
             .map((e) => CrmTask.fromJson(e as Map<String, dynamic>))
             .toList(),
+        conversionRate: (json['conversionRate'] as num?)?.toDouble() ?? 0.0,
+        revenueTrend: (json['revenueTrend'] as List? ?? [])
+            .map((e) => RevenueTrendPoint.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        teamPerformance: (json['teamPerformance'] as List? ?? [])
+            .map((e) => TeamPerformanceRow.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        revenueDeltaPercent: (json['revenueDeltaPercent'] as num?)?.toDouble(),
+        leadsDeltaPercent: (json['leadsDeltaPercent'] as num?)?.toDouble(),
       );
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_theme.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../../widgets/fade_slide_in.dart';
 
 /// Shared centered-card layout for login/register: a brand panel on wide
 /// screens, collapsing to a single column on narrow/mobile widths.
@@ -28,28 +29,31 @@ class AuthScaffold extends StatelessWidget {
         padding: const EdgeInsets.all(32),
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 420),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (!isWide) ...[
-                Icon(Icons.hub_rounded, color: scheme.primary, size: 40),
-                const SizedBox(height: 16),
+          child: FadeSlideIn(
+            offset: 16,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (!isWide) ...[
+                  Icon(Icons.hub_rounded, color: scheme.primary, size: 40),
+                  const SizedBox(height: 16),
+                ],
+                Text(title,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineMedium
+                        ?.copyWith(fontWeight: FontWeight.w700)),
+                const SizedBox(height: 8),
+                Text(subtitle,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: scheme.onSurfaceVariant)),
+                const SizedBox(height: 28),
+                child,
               ],
-              Text(title,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineMedium
-                      ?.copyWith(fontWeight: FontWeight.w700)),
-              const SizedBox(height: 8),
-              Text(subtitle,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(color: scheme.onSurfaceVariant)),
-              const SizedBox(height: 28),
-              child,
-            ],
+            ),
           ),
         ),
       ),
